@@ -9,7 +9,6 @@
 
 class Rotation: public CommandBase {
 private:
-	OI oi;
 	Lights lights;
 	Accelerometer2 acc;
 	Launcher launcher;

@@ -1,7 +1,6 @@
 #include "Rotation.h"
 
 Rotation::Rotation():
-	oi(),
 	lights(),
 	acc(1),
 	launcher()
@@ -21,7 +20,7 @@ void Rotation::Initialize() {
 void Rotation::Execute() {
 	double deg = acc.GetArmDegree();
 	printf("%.10f\n",deg);
-	if(oi.GetRawButton(2,3)){
+	if(oi->GetRawButton(2,3)){
 		if( deg > -134 && deg < 0){
 			launcher.SetArm(-.3);
 		} else if(deg < -136 || deg > 140){
@@ -29,7 +28,7 @@ void Rotation::Execute() {
 		} else {
 			launcher.SetArm(0);
 		}
-	} else if(oi.GetRawButton(2,4) && !oi.GetRawButton(2,5)){
+	} else if(oi->GetRawButton(2,4) && !oi->GetRawButton(2,5)){
 		if( deg > -89 && deg < 0){
 			launcher.SetArm(-.45);
 		} else if(deg < -91 || deg > 140){
@@ -37,7 +36,7 @@ void Rotation::Execute() {
 		} else {
 			launcher.SetArm(0);
 		}
-	} else if(oi.GetRawButton(2,5) && !oi.GetRawButton(2,4)){
+	} else if(oi->GetRawButton(2,5) && !oi->GetRawButton(2,4)){
 		if( deg > -178 && deg < 0){
 			launcher.SetArm(-.45);
 		} else if(deg > 140){
@@ -46,7 +45,7 @@ void Rotation::Execute() {
 			launcher.SetArm(0);
 		}
 	} else {
-		launcher.SetArm(oi.GetY(2));
+		launcher.SetArm(oi->GetY(2));
 	}
 	printf("Rexec");
 	if(i==0){
