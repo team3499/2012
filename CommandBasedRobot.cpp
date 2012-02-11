@@ -9,19 +9,23 @@
 #include "Commands/Rotation.h"
 #include "Commands/ExampleCommand.h"
 #include "CommandBase.h"
+#include "Subsystems/Launcher.h"
 
 class Robot : public IterativeRobot {
 private:
 	Command *autonomousCommand;
 	Command *rotation;
+	Launcher *launcher;
 	
 	virtual void RobotInit()
 	{
+		//init subsystems first, then commands
+		launcher = new Launcher();
 		//SmartDashboard::init();
 		CommandBase::init();
 //		SmartDashboard sd = SmartDashboard::GetInstance();
 		autonomousCommand = new ExampleCommand();
-		rotation = new Rotation();
+		rotation = new Rotation(launcher);
 	}
 	
 	virtual void AutonomousInit() {

@@ -11,15 +11,15 @@ class Rotation: public CommandBase {
 private:
 	Lights lights;
 	Accelerometer2 acc;
-	Launcher launcher;
 	int i;
 public:
-	Rotation();
+	Rotation(Launcher *launcher);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	Launcher *launcher;
 };
 
 #endif

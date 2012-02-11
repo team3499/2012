@@ -1,11 +1,13 @@
 #include "Rotation.h"
+#include "WPILib.h"
 
-Rotation::Rotation():
+Rotation::Rotation(Launcher *launch):
 	lights(),
-	acc(1),
-	launcher()
+	acc(1)
 {
 	i = 0;
+	Requires(launch);
+	launcher = launch;
 	// Use requires() here to declare subsystem dependencies
 	// eg. requires(chassis);
 	//requires(accJ);
@@ -22,30 +24,30 @@ void Rotation::Execute() {
 	printf("%.10f\n",deg);
 	if(oi->GetRawButton(2,3)){
 		if( deg > -134 && deg < 0){
-			launcher.SetArm(-.3);
+			launcher->SetArm(-.3);
 		} else if(deg < -136 || deg > 140){
-			launcher.SetArm(.3);
+			launcher->SetArm(.3);
 		} else {
-			launcher.SetArm(0);
+			launcher->SetArm(0);
 		}
 	} else if(oi->GetRawButton(2,4) && !oi->GetRawButton(2,5)){
 		if( deg > -89 && deg < 0){
-			launcher.SetArm(-.45);
+			launcher->SetArm(-.45);
 		} else if(deg < -91 || deg > 140){
-			launcher.SetArm(.45);
+			launcher->SetArm(.45);
 		} else {
-			launcher.SetArm(0);
+			launcher->SetArm(0);
 		}
 	} else if(oi->GetRawButton(2,5) && !oi->GetRawButton(2,4)){
 		if( deg > -178 && deg < 0){
-			launcher.SetArm(-.45);
+			launcher->SetArm(-.45);
 		} else if(deg > 140){
-			launcher.SetArm(.45);
+			launcher->SetArm(.45);
 		} else {
-			launcher.SetArm(0);
+			launcher->SetArm(0);
 		}
 	} else {
-		launcher.SetArm(oi->GetY(2));
+		launcher->SetArm(oi->GetY(2));
 	}
 	printf("Rexec");
 	if(i==0){
