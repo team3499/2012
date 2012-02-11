@@ -2,12 +2,19 @@
 #define OI_H
 
 #include "WPILib.h"
+#include "Joystick.h"
 
 class OI {
-private:
-
+public:
+	Joystick js1;
+	Joystick js2;
 public:
 	OI();
+	bool GetRawButton(int num, UINT32 button);
+	float GetY(int num);
+	float GetX(int num);
+	float GetZ(int num);
+public:
 };
 
 #endif

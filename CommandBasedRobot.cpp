@@ -1,19 +1,32 @@
+/* Include Standerd C Libs */
+
+/* Include WPILib Headers */
 #include "WPILib.h"
+#include "DigitalOutput.h"
+
+/* Include Custom Headers */
 #include "Commands/Command.h"
+#include "Commands/Rotation.h"
 #include "Commands/ExampleCommand.h"
 #include "CommandBase.h"
 
-class CommandBasedRobot : public IterativeRobot {
+class Robot : public IterativeRobot {
 private:
 	Command *autonomousCommand;
+	Command *rotation;
 	
-	virtual void RobotInit() {
+	virtual void RobotInit()
+	{
+		//SmartDashboard::init();
 		CommandBase::init();
+//		SmartDashboard sd = SmartDashboard::GetInstance();
 		autonomousCommand = new ExampleCommand();
+		rotation = new Rotation();
 	}
 	
 	virtual void AutonomousInit() {
 		autonomousCommand->Start();
+		//autonomousCommand->Start();
 	}
 	
 	virtual void AutonomousPeriodic() {
@@ -21,17 +34,14 @@ private:
 	}
 	
 	virtual void TeleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to 
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		autonomousCommand->Cancel();
+		rotation->Start();
 	}
 	
-	virtual void TeleopPeriodic() {
+	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
 	}
 };
 
-START_ROBOT_CLASS(CommandBasedRobot);
+START_ROBOT_CLASS(Robot);
 

@@ -1,4 +1,5 @@
 #include "ExampleCommand.h"
+#include "C:\WindRiver\vxworks-6.3\target\h\WPIlib\DigitalOutput.h"
 
 ExampleCommand::ExampleCommand() {
 	// Use requires() here to declare subsystem dependencies
@@ -7,7 +8,6 @@ ExampleCommand::ExampleCommand() {
 
 // Called just before this Command runs the first time
 void ExampleCommand::Initialize() {
-	
 }
 
 // Called repeatedly when this Command is scheduled to run
