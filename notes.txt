@@ -1,4 +1,0 @@
-clean up the autonomus.
-have a stopping thing so if there is an error the loop exits
-have the if statements set values to be given the TankDrive() 
-	not call it there. this will make it alot easier to understand.
