@@ -2,7 +2,7 @@
 #include "../Robotmap.h"
 
 Launcher::Launcher() : Subsystem("Launcher"),
-	arm(5)
+	arm(8)
 {
 	
 }

@@ -15,6 +15,11 @@ void UserDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void UserDrive::Execute() {
+	if (oi->GetRawButton(1,3)){
+		chassis->TankDrive(1.0,1.0);
+		printf("2");
+	}
+	printf("1");
 	chassis->ArcadeDrive(oi->js1);
 }
 

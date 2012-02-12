@@ -8,13 +8,14 @@ class Chassis: public Subsystem {
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
-	RobotDrive drive;
+	Jaguar left, right;
 public:
 	Chassis();
 	void Init();
-	void ArcadeDrive(Joystick *joystick);
 	void ArcadeDrive(Joystick &joystick);
-public:
+	void TankDrive(float leftOut, float rightOut);
+private:
+	void Drive(float moveValue,float rotateValue);
 };
 
 #endif
