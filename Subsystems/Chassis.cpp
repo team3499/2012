@@ -2,8 +2,8 @@
 #include "../Robotmap.h"
 
 Chassis::Chassis() : Subsystem("Chassis"),
-	left(2,3),
-	right(2,4)
+	left(1,3),
+	right(1,4)
 {
 	
 }
