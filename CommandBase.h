@@ -2,8 +2,9 @@
 #define COMMAND_BASE_H
 
 #include "Commands/Command.h"
-#include "Subsystems/ExampleSubsystem.h"
-#include "Subsystems/Launcher.h"
+//#include "Subsystems/ExampleSubsystem.h"
+#include "Subsystems/Arm.h"
+#include "Subsystems/Chassis.h"
 #include "OI.h"
 #include "SmartDashboard.h"
 
@@ -19,7 +20,8 @@ public:
 	CommandBase();
 	static void init();
 	// Create a single static instance of all of your subsystems
-	static ExampleSubsystem *examplesubsystem;
+	static Arm *arm;
+	static Chassis *chassis;
 	static SmartDashboard *smartDashboard;
 	static OI *oi;
 };

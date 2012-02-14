@@ -7,13 +7,12 @@
 class UserDrive: public CommandBase {
 private:
 public:
-	UserDrive(Chassis *chas);
+	UserDrive();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
-	Chassis *chassis;
 };
 
 #endif

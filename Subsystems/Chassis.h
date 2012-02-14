@@ -3,7 +3,6 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 
-
 class Chassis: public Subsystem {
 private:
 	// It's desirable that everything possible under private except
@@ -11,7 +10,7 @@ private:
 	Jaguar left, right;
 public:
 	Chassis();
-	void Init();
+	void InitDefaultCommand();
 	void ArcadeDrive(Joystick &joystick);
 	void TankDrive(float leftOut, float rightOut);
 private:

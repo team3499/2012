@@ -1,10 +1,9 @@
 #include "UserDrive.h"
 #include "WPILib.h"
 
-UserDrive::UserDrive(Chassis *chas)
+UserDrive::UserDrive()
 {
-	Requires(chas);
-	chassis = chas;
+	Requires(chassis);
 	// Use requires() here to declare subsystem dependencies
 	// eg. requires(chassis);
 }

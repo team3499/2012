@@ -4,7 +4,6 @@
 #include "../CommandBase.h"
 #include "../Sensors/Lights.h"
 #include "../Sensors/Accelerometer2.h"
-#include "../Subsystems/Launcher.h"
 
 class Rotation: public CommandBase {
 private:
@@ -12,13 +11,12 @@ private:
 	Accelerometer2 acc;
 	int i;
 public:
-	Rotation(Launcher *launcher);
+	Rotation();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
-	Launcher *launcher;
 };
 
 #endif

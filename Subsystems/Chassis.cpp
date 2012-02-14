@@ -1,16 +1,16 @@
 #include "Chassis.h"
 #include "../Robotmap.h"
+#include "../Commands/UserDrive.h"
 
 Chassis::Chassis() : Subsystem("Chassis"),
 	left(1,3),
 	right(1,4)
 {
-	
 }
     
-void Chassis::Init() {
+void Chassis::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
-	//SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new UserDrive());
 }
 
 void Chassis::ArcadeDrive(Joystick &joystick){
