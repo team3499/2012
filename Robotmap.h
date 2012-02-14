@@ -19,4 +19,6 @@
 // #define RANGE_FINDER_PORT 1
 // #define RANGE_FINDER_MODULE 1
 
+#define CHASSIS_GYRO_CHANNEL 2
+
 #endif
