@@ -14,6 +14,12 @@ void ArmLevel::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ArmLevel::Execute() {
+	double deg = accelerometer->GetArmDegree();
+	if(deg > -88 && deg < 45){
+		arm->Move(true);
+	} else if (deg < -92 || deg >= 45){
+		arm->Move(0);
+	} else {arm->Stop();}
 	
 }
 
