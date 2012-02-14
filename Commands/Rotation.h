@@ -3,12 +3,10 @@
 
 #include "../CommandBase.h"
 #include "../Sensors/Lights.h"
-//#include "/Accelerometer2.h"
 
 class Rotation: public CommandBase {
 private:
 	Lights lights;
-	Accelerometer2 acc;
 	int i;
 public:
 	Rotation();

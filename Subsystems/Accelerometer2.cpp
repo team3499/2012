@@ -13,10 +13,10 @@ void  InitDefaultCommand(){
 }
 
 ADXL345_I2C::AllAxes Accelerometer2::GetAllAxes(){
-	return acc.GetAccelerations();
+	return acc->GetAccelerations();
 }
 
 double Accelerometer2::GetArmDegree(){
-	ADXL345_I2C::AllAxes axes = GetAll();
+	ADXL345_I2C::AllAxes axes = GetAllAxes();
 	return (180*atan2(axes.XAxis,axes.YAxis))/PI;
 }

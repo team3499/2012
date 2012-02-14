@@ -2,8 +2,7 @@
 #include "WPILib.h"
 
 Rotation::Rotation():
-	lights(),
-	acc(1)
+	lights()
 {
 	i = 0;
 	//Requires();
@@ -19,7 +18,7 @@ void Rotation::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Rotation::Execute() {
-	double deg = acc.GetArmDegree();
+/*	double deg = acc.GetArmDegree();
 	printf("%.10f\n",deg);
 	if(oi->GetRawButton(2,3)){
 		if( deg > -134 && deg < 0){
@@ -47,7 +46,7 @@ void Rotation::Execute() {
 		}
 	} else {
 		;//launcher->SetArm(oi->GetY(2));
-	}
+	}*/
 	printf("Rexec");
 	if(i==0){
 		lights.All(0);

@@ -1,6 +1,8 @@
 #include "ArmLevel.h"
+#include "WPILib.h"
 
-ArmLevel::ArmLevel() {
+ArmLevel::ArmLevel()
+{
 	// Use requires() here to declare subsystem dependencies
 	Requires(accelerometer);
 	Requires(arm);

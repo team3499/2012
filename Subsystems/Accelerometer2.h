@@ -2,6 +2,7 @@
 #define __ACCELEROMETER2_H__
 
 #include "Commands/Subsystem.h"
+#include "RobotMap.h"
 #include "ADXL345_I2C.h"
 
 class Accelerometer2 : public Subsystem {

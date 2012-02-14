@@ -2,7 +2,6 @@
 #define __SUBSYSTEM_CHASSIS_GYRO_H__
 
 #include "Commands/Subsystem.h"
-#include "Commands/ArmLevel.h"
 #include "WPILib.h"
 
 class ChassisGyro : public Subsystem {

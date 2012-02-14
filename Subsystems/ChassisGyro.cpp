@@ -1,12 +1,11 @@
 #include "Subsystems/ChassisGyro.h"
 #include "Robotmap.h"
 
-ChassisGyro::ChassisGyro() : Subsystem("Chassis Gyro") {
+ChassisGyro::ChassisGyro() : Subsystem("ChassisGyro") {
   gyro = new Gyro(CHASSIS_GYRO_CHANNEL);
 }
 
 void ChassisGyro::InitDefaultCommand() {
-  SetDefaultCommand(new Arm90());
 }
 
 //
