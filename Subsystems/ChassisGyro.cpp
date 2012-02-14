@@ -6,7 +6,7 @@ ChassisGyro::ChassisGyro() : Subsystem("Chassis Gyro") {
 }
 
 void ChassisGyro::InitDefaultCommand() {
-  //SetDefaultCommand(new MySpecialCommand());
+  SetDefaultCommand(new Arm90());
 }
 
 //

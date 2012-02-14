@@ -3,19 +3,16 @@
 
 #define PI 3.1415926535897932384626433832795
 
-
-
-
-Accelerometer2::Accelerometer2(UINT32 channel):
-	acc(channel)
+Accelerometer2::Accelerometer2() : Subsystem("Acceleromter2")
 {
+	acc = new ADXL345_I2C(ARM_ACCELEROMETER_CHANNEL);
 }
-Accelerometer2::~Accelerometer2(){}
 
-double Accelerometer2::Get(ADXL345_I2C::Axes axis){
-	return acc.GetAcceleration(axis);
+void  InitDefaultCommand(){
+	//SetDefaultCommand();
 }
-ADXL345_I2C::AllAxes Accelerometer2::GetAll(){
+
+ADXL345_I2C::AllAxes Accelerometer2::GetAllAxes(){
 	return acc.GetAccelerations();
 }
 

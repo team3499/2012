@@ -1,12 +1,14 @@
 #ifndef COMMAND_BASE_H
 #define COMMAND_BASE_H
-
+/* Include WPILib files */
 #include "Commands/Command.h"
-//#include "Subsystems/ExampleSubsystem.h"
-#include "Subsystems/Arm.h"
-#include "Subsystems/Chassis.h"
 #include "OI.h"
 #include "SmartDashboard.h"
+/* Include Subsystems*/
+#include "Subsystems/Arm.h"
+#include "Subsystems/Chassis.h"
+#include "Subsystems/ChassisGyro.h"
+#include "Subsystems/Accelerometer2.h"
 
 
 /**
@@ -22,6 +24,8 @@ public:
 	// Create a single static instance of all of your subsystems
 	static Arm *arm;
 	static Chassis *chassis;
+	static ChassisGyro *chassisGyro;
+	static Accelerometer2 *accelerometer;
 	static SmartDashboard *smartDashboard;
 	static OI *oi;
 };

@@ -3,7 +3,7 @@
 
 #include "../CommandBase.h"
 #include "../Sensors/Lights.h"
-#include "../Sensors/Accelerometer2.h"
+//#include "/Accelerometer2.h"
 
 class Rotation: public CommandBase {
 private:
