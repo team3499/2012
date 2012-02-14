@@ -3,11 +3,7 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 
-/**
- *
- *
- * @author ExampleAuthor
- */
+
 class Camera: public Subsystem {
 public:
 	struct AngleData{

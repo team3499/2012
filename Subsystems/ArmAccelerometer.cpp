@@ -1,22 +1,22 @@
-#include "Accelerometer2.h"
+#include "ArmAccelerometer.h"
 #include "math.h"
 
 #define PI 3.1415926535897932384626433832795
 
-Accelerometer2::Accelerometer2() : Subsystem("Acceleromter2")
+ArmAccelerometer::ArmAccelerometer() : Subsystem("Acceleromter2")
 {
 	acc = new ADXL345_I2C(ARM_ACCELEROMETER_CHANNEL);
 }
 
-void  InitDefaultCommand(){
+void  ArmAccelerometer::InitDefaultCommand(){
 	//SetDefaultCommand();
 }
 
-ADXL345_I2C::AllAxes Accelerometer2::GetAllAxes(){
+ADXL345_I2C::AllAxes ArmAccelerometer::GetAllAxes(){
 	return acc->GetAccelerations();
 }
 
-double Accelerometer2::GetArmDegree(){
+double ArmAccelerometer::GetArmDegree(){
 	ADXL345_I2C::AllAxes axes = GetAllAxes();
 	return (180*atan2(axes.XAxis,axes.YAxis))/PI;
 }

@@ -20,7 +20,6 @@ void ArmLevel::Execute() {
 	} else if (deg < -92 || deg >= 45){
 		arm->Move(0);
 	} else {arm->Stop();}
-	
 }
 
 // Make this return true when this Command no longer needs to run execute()

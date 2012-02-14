@@ -8,7 +8,8 @@
 #include "Subsystems/Arm.h"
 #include "Subsystems/Chassis.h"
 #include "Subsystems/ChassisGyro.h"
-#include "Subsystems/Accelerometer2.h"
+#include "Subsystems/ArmAccelerometer.h"
+#include "Subsystems/Camera.h"
 
 
 /**
@@ -25,7 +26,8 @@ public:
 	static Arm *arm;
 	static Chassis *chassis;
 	static ChassisGyro *chassisGyro;
-	static Accelerometer2 *accelerometer;
+	static ArmAccelerometer *accelerometer;
+	static Camera *camera;
 	static SmartDashboard *smartDashboard;
 	static OI *oi;
 };

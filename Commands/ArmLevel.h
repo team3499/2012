@@ -3,7 +3,7 @@
 
 #include "CommandBase.h"
 #include "Subsystems/Arm.h"
-#include "Subsystems/Accelerometer2.h"
+#include "Subsystems/ArmAccelerometer.h"
 
 class ArmLevel: public CommandBase {
 private:

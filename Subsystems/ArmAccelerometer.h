@@ -5,12 +5,12 @@
 #include "RobotMap.h"
 #include "ADXL345_I2C.h"
 
-class Accelerometer2 : public Subsystem {
+class ArmAccelerometer : public Subsystem {
 private:
 	ADXL345_I2C *acc;
 	
 public:
-	Accelerometer2();
+	ArmAccelerometer();
 	
 	void  InitDefaultCommand();
 	double GetArmDegree();
