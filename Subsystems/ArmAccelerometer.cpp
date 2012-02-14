@@ -3,7 +3,7 @@
 
 #define PI 3.1415926535897932384626433832795
 
-ArmAccelerometer::ArmAccelerometer() : Subsystem("Acceleromter2")
+ArmAccelerometer::ArmAccelerometer() : Subsystem("Arm Accelerometer")
 {
 	acc = new ADXL345_I2C(ARM_ACCELEROMETER_CHANNEL);
 }
