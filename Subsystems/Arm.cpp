@@ -10,8 +10,17 @@ void Arm::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	//SetDefaultCommand(new MySpecialCommand());
 }
-
-
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-
+void Arm::Move(bool direction){
+	if (direction == true){
+		spike.Set(Relay::kForward);
+	}
+	else if (direction == false){
+		spike.Set(Relay::kReverse);
+	}
+	else{
+		;//ERROR : unset variable (null)
+	}
+}
+void Arm::Stop(){
+	spike.Set(Relay::kOff);
+}
