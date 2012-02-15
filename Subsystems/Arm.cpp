@@ -3,7 +3,7 @@
 #include "Commands/ArmLevel.h"
 
 Arm::Arm() : Subsystem("Arm"),
-	spike((UINT8)1, 1)
+	spike((UINT8)1, ARM_MOVEMENT_CHANNEL)
 {	
 }
     

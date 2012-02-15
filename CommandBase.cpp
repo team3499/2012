@@ -12,8 +12,10 @@ CommandBase::CommandBase() : Command() {
 Arm *CommandBase::arm = NULL;
 ChassisGyro *CommandBase::chassisGyro = NULL;
 Chassis *CommandBase::chassis = NULL;
-Camera *camera = NULL;
+Camera *CommandBase::camera = NULL;
 ArmAccelerometer *CommandBase::accelerometer;
+Shooter *CommandBase::shooter = NULL;
+Magazine *CommandBase::magazine = NULL;
 OI *CommandBase::oi = NULL;
 
 void CommandBase::init() {
@@ -25,6 +27,8 @@ void CommandBase::init() {
 	chassisGyro = new ChassisGyro();
 	accelerometer = new ArmAccelerometer();
 	camera = new Camera();
+	shooter = new Shooter();
+	magazine = new Magazine();
 //	smartDashboard = new SmartDashboard();
 	oi = new OI();
 }

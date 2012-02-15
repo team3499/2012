@@ -7,8 +7,7 @@
 class Magazine : public Subsystem {
 
 private:
-  Victor *          beltLeft;
-  Victor *          beltRight;
+  Victor          * belt;
   DigitalIOButton * buttonFront;
   DigitalIOButton * buttonMiddle;
   DigitalIOButton * buttonBack;

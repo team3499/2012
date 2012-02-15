@@ -2,8 +2,7 @@
 #include "Robotmap.h"
 
 Magazine::Magazine() : Subsystem("Magazine") {
-  beltLeft  = new Victor(MAGAZINE_BELT_LEFT_CHANNEL);
-  beltRight = new Victor(MAGAZINE_BELT_RIGHT_CHANNEL);
+  belt  = new Victor(MAGAZINE_BELT_CHANNEL);
 
   buttonFront  = new DigitalIOButton(MAGAZINE_BUTTON_FRONT_CHANNEL);
   buttonMiddle = new DigitalIOButton(MAGAZINE_BUTTON_MIDDLE_CHANNEL);

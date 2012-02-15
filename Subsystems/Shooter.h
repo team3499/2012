@@ -17,7 +17,6 @@ private:
 public:
   Shooter();
   void InitDefaultCommand();
-
   bool IsShooting();              // Is the shooter shooting?
   bool IsLoading();               // Is the shooter loading?
   bool IsStopped();               // Is the shooter stopped?
