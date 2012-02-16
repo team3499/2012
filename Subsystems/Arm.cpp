@@ -1,6 +1,6 @@
 #include "Arm.h"
 #include "Robotmap.h"
-#include "Commands/ArmLevel.h"
+#include "Commands/ArmDefault.h"
 
 Arm::Arm() : Subsystem("Arm"),
 	spike((UINT8)1, ARM_MOVEMENT_CHANNEL)
@@ -10,7 +10,7 @@ Arm::Arm() : Subsystem("Arm"),
 void Arm::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	//SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new ArmLevel());
+	SetDefaultCommand(new ArmDefault());
 }
 void Arm::Move(bool direction){
 	if (direction == true){

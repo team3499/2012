@@ -1,4 +1,5 @@
 #include "Subsystems/Shooter.h"
+#include "Commands/ShooterDefault.h"
 #include "Robotmap.h"
 
 Shooter::Shooter() : Subsystem("Shooter") {
@@ -7,7 +8,7 @@ Shooter::Shooter() : Subsystem("Shooter") {
 }
 
 void Shooter::InitDefaultCommand() {
-  // SetDefaultCommand(new MySpecialCommand());
+  SetDefaultCommand(new ShooterDefault());
 }
 
 // Make sure the value passed for speed is between 0.0 and 1.0

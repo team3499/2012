@@ -1,4 +1,5 @@
 #include "Subsystems/Magazine.h"
+#include "Commands/MagazineDefault.h"
 #include "Robotmap.h"
 
 Magazine::Magazine() : Subsystem("Magazine") {
@@ -10,7 +11,7 @@ Magazine::Magazine() : Subsystem("Magazine") {
 }
 
 void Magazine::InitDefaultCommand() {
-  // SetDefaultCommand(new MySpecialCommand());
+  SetDefaultCommand(new MagazineDefault());
 }
 
 //
@@ -44,4 +45,12 @@ Magazine::LoadStatus Magazine::GetLoadStatus() {
                         buttonMiddle->Get(),
                         buttonBack->Get() };
   return status;
+}
+
+void Magazine::Move(bool direction){
+	belt->Set(direction);
+}
+
+void Magazine::Stop(){
+	belt->Set(0);
 }

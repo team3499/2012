@@ -25,6 +25,8 @@ public:
   bool IsReadyToFire();       // Is a ball in the front magazine position
   int BallCount();            // Number of balls loaded in magazine (0 - 3)
   LoadStatus GetLoadStatus(); // Load status of magazine
+  void Move(bool direction);
+  void Stop();
 
 };
 

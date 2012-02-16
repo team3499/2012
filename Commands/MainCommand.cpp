@@ -12,8 +12,13 @@ void MainCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void MainCommand::Execute() {
-	//oi->GetRawButton(2,4);
-	
+	if (oi->GetRawButton(1,3)){
+		//turn and shoot
+	} else if(oi->GetRawButton(2,3)){
+		//raise the arm
+	} else if(oi->GetRawButton(2,2)){
+		
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
