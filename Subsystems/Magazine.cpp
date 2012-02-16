@@ -4,7 +4,7 @@
 
 Magazine::Magazine() : Subsystem("Magazine") {
   belt  = new Victor(MAGAZINE_BELT_CHANNEL);
-
+  status = stopped;
   buttonFront  = new DigitalIOButton(MAGAZINE_BUTTON_FRONT_CHANNEL);
   buttonMiddle = new DigitalIOButton(MAGAZINE_BUTTON_MIDDLE_CHANNEL);
   buttonBack   = new DigitalIOButton(MAGAZINE_BUTTON_BACK_CHANNEL);
@@ -49,8 +49,32 @@ Magazine::LoadStatus Magazine::GetLoadStatus() {
 
 void Magazine::Move(bool direction){
 	belt->Set(direction);
+	if(direction > 0){
+		status = readying;
+	} else if (direction < 0 ){
+		status = loading;
+	} else {
+		status = stopped;
+	}
 }
 
 void Magazine::Stop(){
 	belt->Set(0);
+	status = stopped;
+}
+
+void Magazine::Set(float speed){
+	belt->Set(speed);
+}
+
+Magazine::StatusEnum Magazine::Status(){
+	return status;
+}
+
+void Magazine::SetShooting(bool in){
+	if (in == 0){
+		status = stopped;
+	} else {
+		status = shooting;
+	}
 }

@@ -13,11 +13,18 @@ private:
   DigitalIOButton * buttonBack;
 
 public:
+  enum StatusEnum {
+	  stopped = 0x00 , shooting = 0x02, readying = 0x04 , loading = 0x08
+  };
+  
   struct LoadStatus {
     bool front;
     bool middle;
     bool back;
   };
+private:
+  static StatusEnum status;
+public:
 
   Magazine();
   void InitDefaultCommand();
@@ -26,7 +33,10 @@ public:
   int BallCount();            // Number of balls loaded in magazine (0 - 3)
   LoadStatus GetLoadStatus(); // Load status of magazine
   void Move(bool direction);
+  void Set(float speed);
   void Stop();
+  void SetShooting(bool in);
+  StatusEnum Status();
 
 };
 

@@ -8,18 +8,18 @@
 #include "Commands/Command.h"
 #include "Commands/Rotation.h"
 //#include "Commands/ExampleCommand.h"
-#include "Commands/UserDrive.h"
+#include "Commands/Turn.h"
 
 class Robot : public IterativeRobot {
 private:
-	//Command *autonomousCommand;
+	Command *turn;
 	
 	virtual void RobotInit()
 	{
 		//SmartDashboard::init();
 		CommandBase::init();
 		//SmartDashboard sd = SmartDashboard::GetInstance();
-		//autonomousCommand = new ExampleCommand();
+		turn = new Turn();
 	}
 	
 	virtual void AutonomousInit() {

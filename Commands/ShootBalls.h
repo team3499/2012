@@ -1,14 +1,15 @@
-#ifndef __ARM_LEVEL_H__
-#define __ARM_LEVEL_H__
+#ifndef __SHOOT_BALLS_H__
+#define __SHOOT_BALLS_H__
 
 #include "CommandBase.h"
-#include "Subsystems/Arm.h"
-#include "Subsystems/ArmAccelerometer.h"
+#include "Subsystems/Shooter.h"
+#include "Subsystems/Magazine.h"
 
-class ArmLevel: public CommandBase {
+class ShootBalls: public CommandBase {
 private:
+	int stat;
 public:
-	ArmLevel();
+	ShootBalls();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

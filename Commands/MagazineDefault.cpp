@@ -13,11 +13,12 @@ void MagazineDefault::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void MagazineDefault::Execute() {
-	if(oi->GetRawButton(2,4)){
-		magazine->Move(true);
-	} else if (oi->GetRawButton(2,5)){
-		magazine->Move(false);
-	} else {magazine->Stop();}
+	//if(oi->GetRawButton(2,4)){
+		//magazine->Move(true);
+	//} else if (oi->GetRawButton(2,5)){
+		//magazine->Move(false);
+	magazine->Set(oi->GetY(2));
+	//} else {magazine->Stop();}
 }
 
 // Make this return true when this Command no longer needs to run execute()
