@@ -1,4 +1,5 @@
 #include "UserDrive.h"
+#include "ShootBalls.h"
 #include "WPILib.h"
 #include "Turn.h"
 
@@ -19,6 +20,8 @@ void UserDrive::Execute() {
 	if (oi->GetRawButton(1,3)){
 		Command *turn = new Turn();
 		turn->Start();
+		Command *shootBalls = new ShootBalls();
+		shootBalls->Start();
 	}
 }
 

@@ -35,8 +35,6 @@ void Turn::Execute() {
 // Make this return true when this Command no longer needs to run execute()
 bool Turn::IsFinished() {
 	if( camera->GetAngleData().xAxisTurn < 1 || camera->GetAngleData().xAxisTurn > -1){
-		Command *shootBalls = new ShootBalls();
-		shootBalls->Start();
 		return true;
 	}
 	return false;

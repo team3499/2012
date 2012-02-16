@@ -1,4 +1,5 @@
 #include "ShootBalls.h"
+#include "ArmLevel.h"
 #include "WPILib.h"
 
 ShootBalls::ShootBalls()
@@ -21,6 +22,12 @@ void ShootBalls::Execute() {
 		stat = 0;
 	} else if (stat > 10 && stat < 50){
 		stat++;
+	} else if (stat == 8){
+		Command *armLevel = new ArmLevel(45);
+		armLevel->Start();
+		if(!armLevel->IsRunning()){
+			stat = 10;
+		}
 	} else if (status == Magazine::shooting && !magazine->BallCount()){
 		magazine->Stop();
 		stat = 10;
@@ -31,7 +38,6 @@ void ShootBalls::Execute() {
 	} else {
 		magazine->Move(.5);
 	}
-	;
 }
 
 // Make this return true when this Command no longer needs to run execute()
