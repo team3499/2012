@@ -7,7 +7,7 @@
 
 class ArmAccelerometer : public Subsystem {
 private:
-	ADXL345_I2C *acc;
+	ADXL345_I2C acc;
 	
 public:
 	ArmAccelerometer();

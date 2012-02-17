@@ -27,14 +27,14 @@ public:
 	static void init();
 	// Create a single static instance of all of your subsystems
 	static Arm *arm;
-	static Chassis *chassis;
-	static ChassisGyro *chassisGyro;
 	static ArmAccelerometer *accelerometer;
 	static Camera *camera;
-	static SmartDashboard *smartDashboard;
-	static Shooter *shooter;
-	static Magazine *magazine;
+	static Chassis *chassis;
+	static ChassisGyro *chassisGyro;
 	static Lights *lights;
+	static Magazine *magazine;
+	static Shooter *shooter;
+	static SmartDashboard *smartDashboard;
 	static OI *oi;
 };
 

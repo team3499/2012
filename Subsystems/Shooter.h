@@ -7,7 +7,7 @@
 class Shooter : public Subsystem {
 
 private:
-  static const float minimumSpeed = 0.05;
+  const float minimumSpeed;
 
   Victor * beltTop;
   Victor * beltBottom;

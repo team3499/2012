@@ -50,17 +50,17 @@ Magazine::LoadStatus Magazine::GetLoadStatus() {
 void Magazine::Move(bool direction){
 	belt->Set(direction);
 	if(direction > 0){
-		status = readying;
+		 status = readying;
 	} else if (direction < 0 ){
-		status = loading;
+		 status = loading;
 	} else {
-		status = stopped;
+		 status = stopped;
 	}
 }
 
 void Magazine::Stop(){
 	belt->Set(0);
-	status = stopped;
+	 status = stopped;
 }
 
 void Magazine::Set(float speed){
@@ -68,13 +68,13 @@ void Magazine::Set(float speed){
 }
 
 Magazine::StatusEnum Magazine::Status(){
-	return status;
+	return  status;
 }
 
 void Magazine::SetShooting(bool in){
 	if (in == 0){
-		status = stopped;
+		 status = stopped;
 	} else {
-		status = shooting;
+		 status = shooting;
 	}
 }

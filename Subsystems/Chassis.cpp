@@ -3,8 +3,8 @@
 #include "Commands/UserDrive.h"
 
 Chassis::Chassis() : Subsystem("Chassis"),
-	left(1,3),
-	right(1,4)
+	left(1,DRIVE_LEFT),
+	right(1,DRIVE_RIGHT)
 {
 }
     
@@ -60,5 +60,4 @@ void Chassis::Drive(float moveValue, float rotateValue)
 	if(rightOut > 1.0){rightOut = 1.0;} else if(rightOut < -1.0){rightOut = -1.0;}
 	left.Set(leftOut, 0x80);
 	right.Set(-rightOut, 0x80);
-	printf("drive");
 }

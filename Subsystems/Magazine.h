@@ -14,7 +14,7 @@ private:
 
 public:
   enum StatusEnum {
-	  stopped = 0x00 , shooting = 0x02, readying = 0x04 , loading = 0x08
+	  stopped = 0x01 , shooting = 0x02, readying = 0x04 , loading = 0x08
   };
   
   struct LoadStatus {
@@ -23,7 +23,7 @@ public:
     bool back;
   };
 private:
-  static StatusEnum status;
+  StatusEnum status;
 public:
 
   Magazine();

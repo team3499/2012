@@ -10,13 +10,13 @@ CommandBase::CommandBase() : Command() {
 // Initialize a single static instance of all of your subsystems to NULL
 //ExampleSubsystem* CommandBase::examplesubsystem = NULL;
 Arm *CommandBase::arm = NULL;
-ChassisGyro *CommandBase::chassisGyro = NULL;
-Chassis *CommandBase::chassis = NULL;
-Camera *CommandBase::camera = NULL;
 ArmAccelerometer *CommandBase::accelerometer;
-Shooter *CommandBase::shooter = NULL;
-Magazine *CommandBase::magazine = NULL;
+Camera *CommandBase::camera = NULL;
+Chassis *CommandBase::chassis = NULL;
+ChassisGyro *CommandBase::chassisGyro = NULL;
 Lights *CommandBase::lights = NULL;
+Magazine *CommandBase::magazine = NULL;
+Shooter *CommandBase::shooter = NULL;
 OI *CommandBase::oi = NULL;
 
 void CommandBase::init() {
@@ -24,13 +24,13 @@ void CommandBase::init() {
 	// line should be repeated for each subsystem in the project.
 	//examplesubsystem = new ExampleSubsystem();
 	arm = new Arm();
-	chassis = new Chassis();
-	chassisGyro = new ChassisGyro();
 	accelerometer = new ArmAccelerometer();
 	camera = new Camera();
-	shooter = new Shooter();
-	magazine = new Magazine();
+	chassis = new Chassis();
+	chassisGyro = new ChassisGyro();
 	lights = new Lights();
+	magazine = new Magazine();
+	shooter = new Shooter();
 //	smartDashboard = new SmartDashboard();
 	oi = new OI();
 }

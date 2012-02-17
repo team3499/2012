@@ -44,7 +44,7 @@ Camera::AngleData Camera::GetAngleData(){
 	vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
 	
 	float halfview = 22.5;
-	printf("\nParticles: %d\n", reports->size());
+	//printf("\nParticles: %d\n", reports->size());
 	
 	double turnanglex;
 	double turnangley;

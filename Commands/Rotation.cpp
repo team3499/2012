@@ -46,7 +46,6 @@ void Rotation::Execute() {
 	} else {
 		;//launcher->SetArm(oi->GetY(2));
 	}*/
-	printf("Rexec");
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -59,7 +58,6 @@ bool Rotation::IsFinished() {
 
 // Called once after isFinished returns true
 void Rotation::End() {
-	printf("Rend");
 }
 
 // Called when another command which requires one or more of the same
