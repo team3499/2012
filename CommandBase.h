@@ -36,6 +36,7 @@ public:
 	static Shooter *shooter;
 	static SmartDashboard *smartDashboard;
 	static OI *oi;
+	static OI *GetIOInstance();
 };
 
 #endif

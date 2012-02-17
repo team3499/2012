@@ -34,3 +34,8 @@ void CommandBase::init() {
 //	smartDashboard = new SmartDashboard();
 	oi = new OI();
 }
+
+OI* CommandBase::GetIOInstance(){
+	return oi;
+}
+

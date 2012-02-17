@@ -23,11 +23,7 @@ void ShootBalls::Execute() {
 	} else if (stat > 10 && stat < 50){
 		stat++;
 	} else if (stat == 8){
-		Command *armLevel = new ArmLevel(45);
-		armLevel->Start();
-		if(!armLevel->IsRunning()){
 			stat = 10;
-		}
 	} else if (status == Magazine::shooting && !magazine->BallCount()){
 		magazine->Stop();
 		stat = 10;

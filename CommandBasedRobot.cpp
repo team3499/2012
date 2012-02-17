@@ -8,18 +8,16 @@
 #include "Commands/Command.h"
 #include "Commands/Rotation.h"
 //#include "Commands/ExampleCommand.h"
-#include "Commands/Turn.h"
+#include "Commands/ShootGroup.h"
 
 class Robot : public IterativeRobot {
 private:
-	Command *turn;
 	
 	virtual void RobotInit()
 	{
 		//SmartDashboard::init();
 		CommandBase::init();
 		//SmartDashboard sd = SmartDashboard::GetInstance();
-		turn = new Turn();
 	}
 	
 	virtual void AutonomousInit() {
@@ -37,6 +35,9 @@ private:
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
+		if (CommandBase::GetIOInstance()->GetRawButton(1,3)){
+			new ShootGroup();
+		}
 	}
 };
 
