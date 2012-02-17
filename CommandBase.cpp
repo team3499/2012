@@ -16,6 +16,7 @@ Camera *CommandBase::camera = NULL;
 ArmAccelerometer *CommandBase::accelerometer;
 Shooter *CommandBase::shooter = NULL;
 Magazine *CommandBase::magazine = NULL;
+Lights *CommandBase::lights = NULL;
 OI *CommandBase::oi = NULL;
 
 void CommandBase::init() {
@@ -29,6 +30,7 @@ void CommandBase::init() {
 	camera = new Camera();
 	shooter = new Shooter();
 	magazine = new Magazine();
+	lights = new Lights();
 //	smartDashboard = new SmartDashboard();
 	oi = new OI();
 }

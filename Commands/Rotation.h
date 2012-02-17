@@ -2,7 +2,6 @@
 #define ROTATION_H
 
 #include "../CommandBase.h"
-#include "../Sensors/Lights.h"
 
 class Rotation: public CommandBase {
 private:

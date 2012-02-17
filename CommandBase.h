@@ -12,6 +12,7 @@
 #include "Subsystems/Shooter.h"
 #include "Subsystems/Magazine.h"
 #include "Subsystems/Camera.h"
+#include "Subsystems/Lights.h"
 
 
 /**
@@ -33,6 +34,7 @@ public:
 	static SmartDashboard *smartDashboard;
 	static Shooter *shooter;
 	static Magazine *magazine;
+	static Lights *lights;
 	static OI *oi;
 };
 

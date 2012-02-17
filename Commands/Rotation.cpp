@@ -13,7 +13,6 @@ Rotation::Rotation():
 
 // Called just before this Command runs the first time
 void Rotation::Initialize() {
-	lights.Red(1);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -48,13 +47,6 @@ void Rotation::Execute() {
 		;//launcher->SetArm(oi->GetY(2));
 	}*/
 	printf("Rexec");
-	if(i==0){
-		lights.All(0);
-	}
-	if (!(i%10)){
-		lights.Toggle2();
-	}
-	i++;
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -68,7 +60,6 @@ bool Rotation::IsFinished() {
 // Called once after isFinished returns true
 void Rotation::End() {
 	printf("Rend");
-	lights.All(0);
 }
 
 // Called when another command which requires one or more of the same
