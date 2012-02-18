@@ -1,5 +1,7 @@
 #include "Commands/CrossBridge.h"
 #include "Commands/TipBridge.h"
+#include "Commands/DriveForward.h"
+#include "Commands/ArmLevel.h"
 
 //
 // Command Group to cross a tilting bridge in neutral position.
@@ -9,5 +11,8 @@
 //
 
 CrossBridge::CrossBridge() {
-  AddSequential(new TipBridge());
+  AddSequential(new TipBridge);
+  AddSequential(new DriveForward(2.0));
+  AddParallel(new DriveForward(6.0));
+  AddParallel(new ArmLevel(0.0));
 }
