@@ -35,5 +35,10 @@
 #define MAGAZINE_BUTTON_BACK_CHANNEL 9
 //relays
 #define ARM_MOVEMENT_CHANNEL 1
+// lights
+#define LEDS_BLUE_CHANNEL 1
+#define LEDS_RED_CHANNEL 2
+#define LEDS_WHITE_1_CHANNEL 3
+#define LEDS_WHITE_2_CHANNEL 4
 
 #endif

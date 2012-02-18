@@ -1,14 +1,15 @@
 #include "Lights.h"
 #include "Commands/LightsCommand.h"
+#include "Robotmap.h"
 #include "WPILib.h"
 
 Lights::Lights(): Subsystem("Lights")
 {
 	// Use requires() here to declare subsystem dependencies
-	w1 = new DigitalOutput(3);
-	w2 = new DigitalOutput(4);
-	r = new DigitalOutput(2);
-	b = new DigitalOutput(1);
+	w1 = new DigitalOutput(LEDS_WHITE_1_CHANNEL);
+	w2 = new DigitalOutput(LEDS_WHITE_2_CHANNEL);
+	r = new DigitalOutput(LEDS_RED_CHANNEL);
+	b = new DigitalOutput(LEDS_BLUE_CHANNEL);
 	on = 0;
 	on2 = 1;
 }
