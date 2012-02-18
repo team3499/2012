@@ -12,7 +12,7 @@
 
 CrossBridge::CrossBridge() {
   AddSequential(new TipBridge);
-  AddSequential(new DriveForward(2.0));
-  AddParallel(new DriveForward(6.0));
+  AddSequential(new DriveForward(2.0, 0.3, true));
+  AddParallel(new DriveForward(6.0, 0.5));
   AddParallel(new ArmLevel(0.0));
 }

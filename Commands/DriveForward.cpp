@@ -1,7 +1,10 @@
 #include "Commands/DriveForward.h"
 
-DriveForward::DriveForward(double duration) {
-  this->duration = duration;
+DriveForward::DriveForward(double duration, float speed, bool keepGoing) {
+  this->duration  = duration;
+  this->speed     = speed;
+  this->keepGoing = keepGoing;
+
   timer = new Timer;
 
   Requires(chassis);
@@ -9,7 +12,7 @@ DriveForward::DriveForward(double duration) {
 
 void DriveForward::Initialize() {
   timer->Start();
-  chassis->TankDrive(0.2, 0.2);
+  chassis->TankDrive(speed, speed);
 }
 
 void DriveForward::Execute() {
@@ -21,7 +24,7 @@ bool DriveForward::IsFinished() {
 }
 
 void DriveForward::End() {
-  chassis->TankDrive(0.0, 0.0);
+  if (!keepGoing) { chassis->TankDrive(0.0, 0.0); }
 }
 
 void DriveForward::Interrupted() {

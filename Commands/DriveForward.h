@@ -4,12 +4,17 @@
 #include "CommandBase.h"
 #include "Timer.h"
 
+//
+// Drive the robot forward for *duration* seconds at *speed* (0.0-1.0)
+//
 class DriveForward : public CommandBase {
 
 private:
 
   Timer * timer;
-  double duration;
+  double  duration;
+  float   speed;
+  bool    keepGoing;
 
   void Initialize();
   void Execute();
@@ -18,7 +23,7 @@ private:
   void Interrupted();
 
 public:
-  DriveForward(double duration = 1.0);      // Extend Arm forward enough to tip bridge to ground
+  DriveForward(double duration, float speed, bool keepGoing = false);
 };
 
 #endif /* __DRIVE_FORWARD_H__ */
