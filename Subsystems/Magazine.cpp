@@ -3,7 +3,7 @@
 #include "Robotmap.h"
 
 Magazine::Magazine() : Subsystem("Magazine") {
-  belt  = new Victor(MAGAZINE_BELT_CHANNEL);
+  belt  = new Jaguar(MAGAZINE_BELT_CHANNEL);
   status = stopped;
   buttonFront  = new DigitalIOButton(MAGAZINE_BUTTON_FRONT_CHANNEL);
   buttonMiddle = new DigitalIOButton(MAGAZINE_BUTTON_MIDDLE_CHANNEL);
@@ -47,7 +47,7 @@ Magazine::LoadStatus Magazine::GetLoadStatus() {
   return status;
 }
 
-void Magazine::Move(bool direction){
+void Magazine::Move(float direction){
 	belt->Set(direction);
 	if(direction > 0){
 		 status = readying;
@@ -65,6 +65,13 @@ void Magazine::Stop(){
 
 void Magazine::Set(float speed){
 	belt->Set(speed);
+	if(speed > 0){
+		status = readying;
+	} else if (speed < 0 ){
+		status = loading;
+	} else {
+		status = stopped;
+	}
 }
 
 Magazine::StatusEnum Magazine::Status(){

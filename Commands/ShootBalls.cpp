@@ -23,12 +23,12 @@ void ShootBalls::Execute() {
 	} else if (stat > 10 && stat < 50){
 		stat++;
 	} else if (stat == 8){
-			stat = 10;
+		stat = 10;
 	} else if (status == Magazine::shooting && !magazine->BallCount()){
 		magazine->Stop();
 		stat = 10;
 	} else if (magazine->IsReadyToFire()){
-		shooter->Shoot(true);
+		shooter->Shoot(1.0);
 		magazine->Move(0.5);
 		magazine->SetShooting(1);
 	} else {

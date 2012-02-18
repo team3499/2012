@@ -7,7 +7,7 @@
 class Magazine : public Subsystem {
 
 private:
-  Victor          * belt;
+  Jaguar          * belt;
   DigitalIOButton * buttonFront;
   DigitalIOButton * buttonMiddle;
   DigitalIOButton * buttonBack;
@@ -32,7 +32,7 @@ public:
   bool IsReadyToFire();       // Is a ball in the front magazine position
   int BallCount();            // Number of balls loaded in magazine (0 - 3)
   LoadStatus GetLoadStatus(); // Load status of magazine
-  void Move(bool direction);
+  void Move(float direction);
   void Set(float speed);
   void Stop();
   void SetShooting(bool in);

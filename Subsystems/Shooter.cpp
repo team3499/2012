@@ -13,10 +13,10 @@ void Shooter::InitDefaultCommand() {
   SetDefaultCommand(new ShooterDefault());
 }
 
-// Make sure the value passed for speed is between 0.0 and 1.0
+// Make sure the value passed for speed is between -1.0 and 1.0
 float Shooter::RegulateSpeed(float speed) {
-  if (speed < 0.0) { speed = -speed; }
-  if (speed < Shooter::minimumSpeed) { speed = Shooter::minimumSpeed; }
+  if (speed < -1.0) { speed = -1.0; }
+  if (speed > -Shooter::minimumSpeed && speed < Shooter::minimumSpeed) { speed = Shooter::minimumSpeed; }
   if (speed > 1.0) { speed = 1.0; }
 
   return speed;

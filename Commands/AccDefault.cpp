@@ -14,7 +14,7 @@ void AccDefault::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void AccDefault::Execute() {
-	//printf("%f",accelerometer->GetArmDegree());
+	printf("%f",accelerometer->GetArmDegree());
 }
 
 // Make this return true when this Command no longer needs to run execute()

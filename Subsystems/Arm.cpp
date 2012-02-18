@@ -6,7 +6,7 @@ Arm::Arm() : Subsystem("Arm"),
 	spike((UINT8)1, ARM_MOVEMENT_CHANNEL)
 {	
 }
-    
+
 void Arm::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	//SetDefaultCommand(new MySpecialCommand());

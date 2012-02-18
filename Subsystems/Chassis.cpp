@@ -3,8 +3,8 @@
 #include "Commands/UserDrive.h"
 
 Chassis::Chassis() : Subsystem("Chassis"),
-	left(1,DRIVE_LEFT),
-	right(1,DRIVE_RIGHT)
+	left(DRIVE_LEFT),
+	right(DRIVE_RIGHT)
 {
 }
     
