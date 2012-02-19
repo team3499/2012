@@ -22,6 +22,7 @@
 //i2c
 #define ARM_ACCELEROMETER_CHANNEL 1
 //analog
+#define RANGEFINDER_CHANNEL 1
 #define CHASSIS_GYRO_CHANNEL 2
 //pwm
 #define DRIVE_LEFT 1,3
