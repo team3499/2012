@@ -1,5 +1,6 @@
 #include "Subsystems/Magazine.h"
 #include "Commands/MagazineDefault.h"
+#include "SmartDashboard/SmartDashboard.h"
 #include "Robotmap.h"
 
 Magazine::Magazine() : Subsystem("Magazine") {
@@ -19,7 +20,11 @@ void Magazine::InitDefaultCommand() {
 // of the magazine
 //
 bool Magazine::IsReadyToFire() {
-  return buttonFront->Get();
+  bool ready = buttonFront->Get();
+  if (ready) { SmartDashboard::Log("YES", "Magazine Ready to Fire"); }
+  else { SmartDashboard::Log("NO", "Magazine Ready to Fire"); }
+
+  return ready;
 }
 
 //
@@ -48,40 +53,43 @@ Magazine::LoadStatus Magazine::GetLoadStatus() {
 }
 
 void Magazine::Move(float direction){
-	belt->Set(direction);
-	if(direction > 0){
-		 status = readying;
-	} else if (direction < 0 ){
-		 status = loading;
-	} else {
-		 status = stopped;
-	}
+  UpdateStatus(direction);
+  belt->Set(direction);
 }
 
 void Magazine::Stop(){
-	belt->Set(0);
-	 status = stopped;
+  UpdateStatus(0);
+  belt->Set(0);
 }
 
 void Magazine::Set(float speed){
-	belt->Set(speed);
-	if(speed > 0){
-		status = readying;
-	} else if (speed < 0 ){
-		status = loading;
-	} else {
-		status = stopped;
-	}
+  UpdateStatus(speed);
+  belt->Set(speed);
 }
 
 Magazine::StatusEnum Magazine::Status(){
-	return  status;
+	return status;
 }
 
 void Magazine::SetShooting(bool in){
-	if (in == 0){
-		 status = stopped;
-	} else {
-		 status = shooting;
-	}
+  if (in == 0){
+    status = stopped;
+  } else {
+    status = shooting;
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void Magazine::UpdateStatus(float speed) {
+  if(speed > 0) {
+    SmartDashboard::Log("Readying", "Magazine Status");
+    status = readying;
+  } else if (speed < 0 ) {
+    SmartDashboard::Log("Loading", "Magazine Status");
+    status = loading;
+  } else {
+    SmartDashboard::Log("Stopped", "Magazine Status");
+    status = stopped;
+  }
 }
