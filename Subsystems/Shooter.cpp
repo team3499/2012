@@ -1,5 +1,6 @@
 #include "Subsystems/Shooter.h"
 #include "Commands/ShooterDefault.h"
+#include "SmartDashboard/SmartDashboard.h"
 #include "Robotmap.h"
 
 Shooter::Shooter() : Subsystem("Shooter"),
@@ -19,6 +20,8 @@ float Shooter::RegulateSpeed(float speed) {
   if (speed > -Shooter::minimumSpeed && speed < Shooter::minimumSpeed) { speed = Shooter::minimumSpeed; }
   if (speed > 1.0) { speed = 1.0; }
 
+  SmartDashboard::Log(speed, "Shooter Belt Speed");
+ 
   return speed;
 }
 
@@ -54,17 +57,19 @@ bool Shooter::IsStopped() {
 void Shooter::Shoot(float speed) {
   speed = RegulateSpeed(speed);
 
+  SmartDashboard::Log("Shooting", "Shooter Status");
   beltBottom->Set(speed);
   beltTop->Set(speed);
 }
 
 //
-// Run the belts in the shoot direction.  Pass *speed* as a positive
+// Run the belts in the load direction.  Pass *speed* as a positive
 // value between 0.0 and 1.0.
 //
 void Shooter::Load(float speed) {
   speed = RegulateSpeed(speed);
 
+  SmartDashboard::Log("Loading", "Shooter Status");
   beltBottom->Set(-speed);
   beltTop->Set(-speed);
 }
@@ -73,6 +78,7 @@ void Shooter::Load(float speed) {
 // Stop the belts
 //
 void Shooter::Stop() {
+  SmartDashboard::Log("Stopped", "Shooter Status");
   beltBottom->Disable();
   beltTop->Disable();
 }
