@@ -19,5 +19,5 @@ ADXL345_I2C::AllAxes ArmAccelerometer::GetAllAxes(){
 
 double ArmAccelerometer::GetArmDegree(){
 	ADXL345_I2C::AllAxes axes = GetAllAxes();
-	return (180*atan2(axes.XAxis,axes.YAxis))/PI;
+	return (180*atan2(-axes.XAxis,-axes.YAxis))/PI;
 }

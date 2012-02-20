@@ -73,6 +73,6 @@ void Shooter::Load(float speed) {
 // Stop the belts
 //
 void Shooter::Stop() {
-  beltBottom->Disable();
-  beltTop->Disable();
+  beltBottom->Set(0.0);
+  beltTop->Set(0.0);
 }

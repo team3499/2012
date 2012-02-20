@@ -6,9 +6,9 @@
 #include "CommandBase.h"
 /* Include Custom Commands */
 #include "Commands/Command.h"
-#include "Commands/Rotation.h"
+//#include "Commands/Rotation.h"
 //#include "Commands/ExampleCommand.h"
-#include "Commands/ShootGroup.h"
+//#include "Commands/ShootGroup.h"
 
 class Robot : public IterativeRobot {
 private:
@@ -35,9 +35,9 @@ private:
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
-		if (CommandBase::GetIOInstance()->GetRawButton(1,3)){
-			new ShootGroup();
-		}
+		//if (CommandBase::GetIOInstance()->GetRawButton(1,3)){
+		//	new ShootGroup();
+		//}
 	}
 };
 
