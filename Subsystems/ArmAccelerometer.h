@@ -1,5 +1,5 @@
-#ifndef __ACCELEROMETER2_H__
-#define __ACCELEROMETER2_H__
+#ifndef __ARM_ACCELEROMETER_H__
+#define __ARM_ACCELEROMETER_H__
 
 #include "Commands/Subsystem.h"
 #include "RobotMap.h"
@@ -16,9 +16,8 @@ public:
 	double GetArmDegree();
 	ADXL345_I2C::AllAxes GetAllAxes();
 	
-	
-private:
-	
+protected:
+  double ConvertVectorsToDegrees(double x, double y);
 };
 
-#endif //__ACCELEROMETER2_H__
+#endif //__ARM_ACCELEROMETER_H__

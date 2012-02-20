@@ -24,6 +24,8 @@ public:
   };
 private:
   StatusEnum status;
+  void UpdateStatus(float speed);
+
 public:
 
   Magazine();

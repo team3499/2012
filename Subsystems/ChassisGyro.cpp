@@ -1,5 +1,6 @@
 #include "Subsystems/ChassisGyro.h"
 #include "Robotmap.h"
+#include "SmartDashboard/SmartDashboard.h"
 
 ChassisGyro::ChassisGyro() : Subsystem("ChassisGyro") {
   gyro = new Gyro(CHASSIS_GYRO_CHANNEL);
@@ -12,6 +13,7 @@ void ChassisGyro::InitDefaultCommand() {
 // Reset the gyro to 0 degrees
 //
 void ChassisGyro::Reset() {
+  SmartDashboard::Log(0.0, "Chassis Gyro");
   gyro->Reset();
 }
 
@@ -21,7 +23,10 @@ void ChassisGyro::Reset() {
 float ChassisGyro::GetHeading() {
   float angle = GetAngle();
   float heading = angle - (float)((int)(angle / 360.0) * 360.0);
-  return heading < 0.0 ? heading + 360.0 : heading;
+  if (heading < 0.0) { heading += 360.0; }
+  SmartDashboard::Log(heading, "Chassis Heading");
+  
+  return heading;
 }
 
 //
@@ -29,7 +34,10 @@ float ChassisGyro::GetHeading() {
 // Does not wrap at 360 -> 0
 //
 float ChassisGyro::GetAngle() {
-  return gyro->GetAngle();
+  float angle = gyro->GetAngle();
+  SmartDashboard::Log(angle, "Chassis Gyro");
+
+  return angle;
 }
 
 //
