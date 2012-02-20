@@ -11,6 +11,8 @@ private:
   AnalogChannel *analog;
   int defaultSmoothCount;
 
+  double GetVoltage(int smoothCount = 0);    // Get voltage reading
+
 public:
   Rangefinder(int defaultSmoothCount = 5);
   virtual ~Rangefinder();
@@ -18,7 +20,6 @@ public:
   void InitDefaultCommand();
 
   double GetDistance(int smoothCount = 0);   // Get distance in inches
-  double GetVoltage(int smoothCount = 0);    // Get voltage reading
 };
 
 #endif /* __SUBSYSTEM_RANGEFINDER_H__ */
