@@ -1,15 +1,15 @@
-#ifndef __COMMAND_TURN_H__
-#define __COMMAND_TURN_H__
+#ifndef __COMMAND_TURN_TO_CAMERA_H__
+#define __COMMAND_TURN_TO_CAMERA_H__
 
 #include "CommandBase.h"
+#include "Commands/Turn.h"
 
 //
-//  Turns the chassis to a relative angle
+//  Turns the chassis to the angle specified by the camera
 //
-class Turn : public CommandBase {
+class TurnToCamera : public CommandBase {
 
 private:
-  float relativeAngle;
   float desiredAngle;
   float speed;
   int   iteration;
@@ -21,9 +21,11 @@ private:
   };
   Direction direction;
 
+  float GetAbsoluteCameraAngle();
+
 public:
 
-  Turn(float angle = 0.0, float speed = 0.2);
+  TurnToCamera(float speed = 0.2);
 
   virtual void Initialize();
   virtual void Execute();
@@ -32,4 +34,4 @@ public:
   virtual void Interrupted();
 };
 
-#endif /* __COMMAND_TURN_H__ */
+#endif /* __COMMAND_TURN_TO_CAMERA_H__ */

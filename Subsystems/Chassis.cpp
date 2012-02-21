@@ -30,6 +30,10 @@ void Chassis::TankDrive(float leftOut, float rightOut){
 	right.Set(rightOut, 0x80);
 }
 
+void Chassis::Stop() {
+  TankDrive(0.0, 0.0);
+}
+
 void Chassis::Drive(float moveValue, float rotateValue)
 {
 
