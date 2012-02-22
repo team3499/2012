@@ -4,8 +4,9 @@
 #include "SmartDashboard/SmartDashboard.h"
 
 Chassis::Chassis() : Subsystem("Chassis"),
-	left(DRIVE_LEFT),
-	right(DRIVE_RIGHT)
+	left_front(DRIVE_LEFT_FRONT),
+	left_rear(DRIVE_LEFT_REAR),
+	right(3)
 {
 }
     
@@ -26,7 +27,8 @@ void Chassis::TankDrive(float leftOut, float rightOut){
   SmartDashboard::Log("Tank", "Chassis Control");
   SmartDashboard::Log(leftOut, "Chassis Left Motor");
   SmartDashboard::Log(rightOut, "Chassis Right Motor");
-	left.Set(leftOut, 0x80);
+	left_front.Set(leftOut, 0x80);
+	left_rear.Set(leftOut, 0x80);
 	right.Set(rightOut, 0x80);
 }
 
@@ -66,6 +68,7 @@ void Chassis::Drive(float moveValue, float rotateValue)
 	if(rightOut > 1.0){rightOut = 1.0;} else if(rightOut < -1.0){rightOut = -1.0;}
   SmartDashboard::Log(leftOut, "Chassis Left Motor");
   SmartDashboard::Log(rightOut, "Chassis Right Motor");
-	left.Set(leftOut, 0x80);
+	left_rear.Set(leftOut, 0x80);
+	left_front.Set(leftOut, 0x80);
 	right.Set(-rightOut, 0x80);
 }

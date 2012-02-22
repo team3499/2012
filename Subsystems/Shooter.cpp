@@ -11,7 +11,7 @@ Shooter::Shooter() : Subsystem("Shooter"),
 }
 
 void Shooter::InitDefaultCommand() {
-  SetDefaultCommand(new ShooterDefault());
+  //SetDefaultCommand(new ShooterDefault());
 }
 
 // Make sure the value passed for speed is between -1.0 and 1.0
@@ -29,25 +29,25 @@ float Shooter::RegulateSpeed(float speed) {
 // Returns true if both belts are running forward
 //
 bool Shooter::IsShooting() {
-  return (beltBottom->Get() > minimumSpeed && beltTop->Get() > minimumSpeed);
+  return false;//(beltBottom->Get() > minimumSpeed && beltTop->Get() > minimumSpeed);
 }
 
 //
 // Returns true if both belts are running backward
 //
 bool Shooter::IsLoading() {
-  return (beltBottom->Get() < -minimumSpeed && beltTop->Get() < -minimumSpeed);
+  return false;// (beltBottom->Get() < -minimumSpeed && beltTop->Get() < -minimumSpeed);
 }
 
 //
 // Returns true if both belts are stopped
 //
 bool Shooter::IsStopped() {
-  float topSpeed    = beltTop->Get();
-  float bottomSpeed = beltBottom->Get();
+  //float topSpeed    = beltTop->Get();
+  //float bottomSpeed = beltBottom->Get();
 
-  return (bottomSpeed < minimumSpeed && bottomSpeed > -minimumSpeed &&
-          topSpeed    < minimumSpeed && topSpeed    > -minimumSpeed);
+  return false;// (bottomSpeed < minimumSpeed && bottomSpeed > -minimumSpeed &&
+          //topSpeed    < minimumSpeed && topSpeed    > -minimumSpeed);
 }
 
 //
@@ -81,6 +81,9 @@ void Shooter::Stop() {
   beltBottom->Set(0.0);
   beltTop->Set(0.0);
   SmartDashboard::Log("Stopped", "Shooter Status");
-  beltBottom->Disable();
-  beltTop->Disable();
+}
+
+void Shooter::Move(float speed){
+	speed = RegulateSpeed(speed);
+	
 }

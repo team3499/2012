@@ -7,7 +7,7 @@ class Chassis: public Subsystem {
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
-	Jaguar left, right;
+	Jaguar left_front, left_rear, right;
 public:
 	Chassis();
 	void InitDefaultCommand();

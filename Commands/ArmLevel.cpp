@@ -16,10 +16,10 @@ void ArmLevel::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ArmLevel::Execute() {
 	float angle = accelerometer->GetArmDegree();
-	if(angle > target && angle < 135){
-		arm->Move(-.60);
-	}else if(angle < target || angle >= 135){
-		arm->Move(.6);
+	if((angle < target && angle > -75)){
+		arm->Move(true);
+	}else if(angle > target && angle < 90 ){
+		arm->Move(true);
 	} else {
 		arm->Stop();
 	}

@@ -16,7 +16,7 @@ void ArmDefault::Execute() {
 	if(oi->GetRawButton(2,2)){
 		arm->Move(true);
 	} else if (oi->GetRawButton(2,3)){
-		arm->Move(0.5);
+		arm->Move(false);
 	} else {arm->Stop();}
 }
 

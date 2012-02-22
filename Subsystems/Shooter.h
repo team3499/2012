@@ -21,6 +21,7 @@ public:
   bool IsLoading();               // Is the shooter loading?
   bool IsStopped();               // Is the shooter stopped?
 
+  void Move(float speed);
   void Shoot(float speed = 1.0);  // Run the belts in the shoot direction
   void Load(float speed = 0.1);   // Run the belts in the load direction
   void Stop();                    // Stop the belts
