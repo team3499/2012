@@ -11,7 +11,7 @@ Shooter::Shooter() : Subsystem("Shooter"),
 }
 
 void Shooter::InitDefaultCommand() {
-  //SetDefaultCommand(new ShooterDefault());
+  SetDefaultCommand(new ShooterDefault());
 }
 
 // Make sure the value passed for speed is between -1.0 and 1.0
@@ -85,5 +85,8 @@ void Shooter::Stop() {
 
 void Shooter::Move(float speed){
 	speed = RegulateSpeed(speed);
+	
+	beltTop->Set(speed);
+	beltBottom->Set(speed);
 	
 }

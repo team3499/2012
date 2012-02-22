@@ -7,6 +7,6 @@
 ShootGroup::ShootGroup()
 {
 	AddParallel(new Turn());
-	AddParallel(new ArmLevel(45));
+	AddParallel(new ArmLevel(-35));
 	AddSequential(new ShootBalls());
 }

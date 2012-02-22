@@ -11,7 +11,7 @@ void Camera::InitDefaultCommand() {
 }
 
 Camera::AngleData Camera::GetAngleData(){
-	AxisCamera &camera = AxisCamera::GetInstance("10.34.99.90");
+	AxisCamera &camera = AxisCamera::GetInstance("10.34.99.80");
 	printf("Setting Camera Params\n");
 	camera.WriteResolution(AxisCamera::kResolution_640x480);
 	camera.WriteCompression(0);

@@ -10,11 +10,11 @@
 //#include "Commands/ExampleCommand.h"
 //#include "Commands/ShootGroup.h"
 #include "Commands/ArmLevel.h"
-#include "Commands/Turn.h"
+#include "Commands/ShootGroup.h"
 class Robot : public IterativeRobot {
 	private:
 	CommandBase *armLevel;
-	CommandBase *turn;
+	//CommandBase *turn;
 private:
 	
 	virtual void RobotInit()
@@ -48,11 +48,25 @@ private:
 		}
 		if (CommandBase::GetIOInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
 			armLevel->Cancel();
+			delete(armLevel);
 		}
 		if (CommandBase::GetIOInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
 			armLevel->Cancel();
+			delete(armLevel);
 		}
 		
+		if (CommandBase::GetIOInstance()->GetRawButton(1,4)){// && !turn->IsRunning()){
+			new ShootGroup();
+			//turn = new Turn();
+			//turn->Start();
+		} else if (CommandBase::GetIOInstance()->GetRawButton(1,5)){// && !turn->IsRunning()){
+			//turn = new Turn();
+			//turn->Start();
+		}
+		if (CommandBase::GetIOInstance()->GetRawButton(2,1)){// && turn->IsRunning()){
+			//turn->Cancel();
+			//delete(turn);
+		}
 		
 		
 	}

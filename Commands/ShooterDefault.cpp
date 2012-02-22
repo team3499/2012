@@ -14,9 +14,9 @@ void ShooterDefault::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ShooterDefault::Execute() {
 	if(oi->GetRawButton(2,4)){
-		shooter->Shoot(-1.0);
+		shooter->Move(-1.0);
 	} else if (oi->GetRawButton(2,5)){
-		shooter->Shoot(0.50);
+		shooter->Move(0.50);
 	} else {shooter->Stop();}
 }
 
