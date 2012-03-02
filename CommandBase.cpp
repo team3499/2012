@@ -20,19 +20,29 @@ Shooter *CommandBase::shooter = NULL;
 OI *CommandBase::oi = NULL;
 
 void CommandBase::init() {
+	printf("CommandBase init\n");
     // Create a single static instance of all of your subsystems. The following
 	// line should be repeated for each subsystem in the project.
 	//examplesubsystem = new ExampleSubsystem();
 	arm = new Arm();
+	printf("Arm");
 	accelerometer = new ArmAccelerometer();
+	printf("Acc");
 	camera = new Camera();
 	chassis = new Chassis();
+	printf("Chas");
 	chassisGyro = new ChassisGyro();
+	printf("Gyro");
 	lights = new Lights();
+	printf("Lights");
 	magazine = new Magazine();
+	printf("Mag");
 	shooter = new Shooter();
+	printf("Shooter");
 //	smartDashboard = new SmartDashboard();
 	oi = new OI();
+	printf("OI");
+	printf("End of CommandBase init");
 }
 
 OI* CommandBase::GetIOInstance(){

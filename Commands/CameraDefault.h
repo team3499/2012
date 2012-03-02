@@ -1,15 +1,14 @@
-#ifndef TURN_H
-#define TURN_H
+#ifndef CAMERA_DEFAULT_H
+#define CAMERA_DEFAULT_H
 
 #include "CommandBase.h"
-#include "Subsystems/Chassis.h"
+#include "Subsystems/Camera.h"
 
-class Turn: public CommandBase {
+class CameraDefault: public CommandBase {
 private:
+	int counter;
 public:
-	float turnAngle;
-	float turnTo;
-	Turn();
+	CameraDefault();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

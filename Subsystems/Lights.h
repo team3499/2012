@@ -13,6 +13,7 @@ public:
 	Lights();
 	void InitDefaultCommand();
 	void Toggle2();
+	void All(bool state);
 };
 
 #endif

@@ -13,7 +13,7 @@ void LightsCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LightsCommand::Execute() {
-	lights->Toggle2();
+	lights->All(1);
 }
 
 // Make this return true when this Command no longer needs to run execute()

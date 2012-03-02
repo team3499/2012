@@ -1,5 +1,6 @@
 /* Include Standerd C Libs */
 /* Include WPILib Headers */
+using namespace std;
 #include "WPILib.h"
 #include "DigitalOutput.h"
 /* Include Custom Headers */
@@ -19,9 +20,12 @@ private:
 	
 	virtual void RobotInit()
 	{
+		Wait(.2);
+		printf("Start ");
 		//SmartDashboard::init();
 		CommandBase::init();
 		//SmartDashboard sd = SmartDashboard::GetInstance();
+		printf("End");
 	}
 	
 	virtual void AutonomousInit() {
@@ -33,6 +37,7 @@ private:
 	}
 	
 	virtual void TeleopInit() {
+		printf("Teleop init.\n");
 		//autonomousCommand->Cancel();
 		//rotation->Start();
 	}
@@ -56,10 +61,13 @@ private:
 		}
 		
 		if (CommandBase::GetIOInstance()->GetRawButton(1,4)){// && !turn->IsRunning()){
+			printf("hit thing\n");
 			new ShootGroup();
 			//turn = new Turn();
 			//turn->Start();
 		} else if (CommandBase::GetIOInstance()->GetRawButton(1,5)){// && !turn->IsRunning()){
+			printf("hit thing\n");
+			new ShootGroup();
 			//turn = new Turn();
 			//turn->Start();
 		}

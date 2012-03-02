@@ -8,5 +8,6 @@ ShootGroup::ShootGroup()
 {
 	AddParallel(new Turn());
 	AddParallel(new ArmLevel(-35));
+	printf("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 	AddSequential(new ShootBalls());
 }

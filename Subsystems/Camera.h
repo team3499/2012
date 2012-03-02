@@ -1,6 +1,8 @@
 #ifndef CAMERA_SUBSYSTEM_H
 #define CAMERA_SUBSYSTEM_H
 #include "Commands/Subsystem.h"
+#include "Vision/RGBImage.h"
+#include "Vision/BinaryImage.h"
 #include "WPILib.h"
 
 
@@ -14,7 +16,7 @@ public:
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
-	AxisCamera *camera;
+	//AxisCamera *camera;
 public:
 	Camera();
 	void InitDefaultCommand();

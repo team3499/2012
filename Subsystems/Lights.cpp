@@ -57,3 +57,10 @@ void Lights::Toggle2() {
 		on2 = 0;
 	}
 }
+
+void Lights::All(bool state){
+	w1->Set(state);
+	w2->Set(state);
+	r->Set(state);
+	b->Set(state);
+}
