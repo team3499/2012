@@ -9,14 +9,30 @@ Target::~Target() {
 }
 
 //
-// Returns the target rim height in inches
+// Returns the target rim height in meters
 //
-float Target::GetHeight() {
+float Target::GetRimHeight() {
   switch (id) {
-    case Bottom : return 28.0;
-    case Left   : return 61.0;
-    case Right  : return 61.0;
-    case Top    : return 98.0;
+    case Bottom : return 0.711;
+    case Left   : return 1.559;
+    case Right  : return 1.559;
+    case Middle : return 1.559;
+    case Top    : return 2.489;
+  }
+
+  return 0.0;
+}
+
+//
+// Returns the arc height in meters
+//
+float Target::GetArcHeight() {
+  switch (id) {
+    case Bottom : return GetRimHeight() + 1.0;      // TODO - GUESSES! - tune this
+    case Left   : return GetRimHeight() + 1.0;      // TODO - GUESSES! - tune this
+    case Right  : return GetRimHeight() + 1.0;      // TODO - GUESSES! - tune this
+    case Middle : return GetRimHeight() + 1.0;      // TODO - GUESSES! - tune this
+    case Top    : return GetRimHeight() + 1.0;      // TODO - GUESSES! - tune this
   }
 
   return 0.0;
@@ -30,6 +46,7 @@ int Target::GetPointValue() {
     case Bottom : return 1;
     case Left   : return 2;
     case Right  : return 2;
+    case Middle : return 2;
     case Top    : return 3;
   }
 

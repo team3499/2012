@@ -3,6 +3,11 @@
 
 #include "target.h"
 
+//
+// Given information about the target (height and distance), calculate
+// the necessary arm angle for a swish or a bank shot assuming maximum
+// exit velocity on the shooter.
+//
 class FiringSolution {
 
 public:
@@ -11,22 +16,26 @@ public:
   FiringSolution(float distance, Target target);
   virtual ~FiringSolution();
 
-  void SetDistance(float distance);
-  void SetHeight(float height);            // Rim height in inches
-  void SetHeightFromAngle(float angle);    // Call SetDistance() first!
-  void SetHeightFromTarget(Target target);
+  void SetDistance(float distance);        // Rim center distance in meters
+  void SetHeight(float height);            // Rim height in meters
+  void SetHeightFromAngle(float angle);    // Must call SetDistance() first!
+  void SetHeightFromTarget(Target target); //
 
   bool IsValid();                          // Valid data will be returned
 
+  float GetDistance();
+  float GetHeight();
   float GetShooterAngle();
   float GetShooterVelocity();
 
 private:
-  float angle;
-  float velocity;
-  float distance;
-  float height;
+  float angle;         // shooter angle in degrees
+  float velocity;      // shooter exit velocity in meters/sec - defaulted
+  float distance;      // distance to backboard in meters
+  float height;        // height of rim in meters
+  float shooterHeight; // height of the shooter in meters
 
+  void Recalculate();
 };
 
 #endif /* __FIRING_SOLUTION_H__ */

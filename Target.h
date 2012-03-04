@@ -15,13 +15,15 @@ public:
     Bottom,
     Left,
     Right,
+    Middle,    // Either left or right
     Top
   };
 
   Target(ID id);
   virtual ~Target();
 
-  float GetHeight();      // Rim height in inches
+  float GetRimHeight();   // Rim height in meters
+  float GetArcHeight();   // Recommended shooting arc height in meters
   int GetPointValue();    // Point value for scoring on this target
   ID GetIdentifier();     // The target
 
