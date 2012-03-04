@@ -8,6 +8,13 @@
 
 class Camera: public Subsystem {
 public:
+	unsigned int particleCount;
+	struct Thresh{
+		Threshold *threshold;
+		int changeByUp;
+		int changeByDown;
+		int ranBy;
+	};
 	struct AngleData{
 		float xAxisTurn;
 		float yAxisTurn;

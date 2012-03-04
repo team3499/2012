@@ -20,7 +20,7 @@ private:
 	
 	virtual void RobotInit()
 	{
-		Wait(.2);
+		//Wait(.2);
 		printf("Start ");
 		//SmartDashboard::init();
 		CommandBase::init();

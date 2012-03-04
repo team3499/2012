@@ -3,6 +3,11 @@
 #include "Subsystems/Camera.h"
 #include "Commands/ShootBalls.h"
 
+float absolute(float x){
+	if(x < 0){return -x;}
+	else return x;
+}
+
 Turn::Turn()
 {
 	Requires(chassis);
@@ -17,26 +22,42 @@ Turn::Turn()
 void Turn::Initialize() {
 	turnAngle = camera->GetAngleData().xAxisTurn;
 	turnTo = chassisGyro->GetDesiredAngle(turnAngle);
-	/* SETUP (reset gyro angle to 0 during autonomus)*/
+	if(absolute(turnAngle-turnTo) >= 15){
+		turnSpeed = 0.75;
+	} else if(absolute(turnAngle-turnTo) >= 10){
+		turnSpeed = 0.50;
+	} else if(absolute(turnAngle-turnTo) >= 5){
+		turnSpeed = 0.35;
+	} else {
+		turnSpeed = 0.20;
+	}
+	if(turnTo < turnAngle){
+		turnSpeed *= -1;
+	}
+	chassis->TankDrive(turnSpeed,-turnSpeed);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Turn::Execute() {
-	printf("Turn Executing\n");
-	if(!IsFinished()){
-		double CA = chassisGyro->GetHeading();
-		if(turnTo < CA-180){
-			chassis->TankDrive(.4,-.4);
-		} else {
-			chassis->TankDrive(-.4,.4);
-		}
+	turnAngle = camera->GetAngleData().xAxisTurn;
+	if(absolute(turnAngle-turnTo) >= 15){
+		turnSpeed = 0.75;
+	} else if(absolute(turnAngle-turnTo) >= 10){
+		turnSpeed = 0.50;
+	} else if(absolute(turnAngle-turnTo) >= 5){
+		turnSpeed = 0.35;
+	} else {
+		turnSpeed = 0.20;
 	}
-	
+	if(turnTo < turnAngle){
+		turnSpeed *= -1;
+	}
+	chassis->TankDrive(turnSpeed,-turnSpeed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool Turn::IsFinished() {
-	if( turnTo < chassisGyro->GetAngle()){
+	if(chassisGyro->IsAtAngle(turnTo, 1.0)){
 		chassis->TankDrive(0.0,0.0);
 		return true;
 	}
