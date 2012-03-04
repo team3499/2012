@@ -17,16 +17,18 @@ public:
   virtual ~FiringSolution();
 
   void SetDistance(float distance);        // Rim center distance in meters
+  void SetVelocity(float velocity);        // Shooter exit velocity - defaults
   void SetHeight(float height);            // Rim height in meters
   void SetHeightFromAngle(float angle);    // Must call SetDistance() first!
   void SetHeightFromTarget(Target target); //
 
-  bool IsValid();                          // Valid data will be returned
-
   float GetDistance();
+  float GetVelocity();
   float GetHeight();
-  float GetShooterAngle();
-  float GetShooterVelocity();
+  float GetAngle();
+
+  bool IsValid();                          // Valid data can be returned
+  void Recalculate();                      // Calculate the shooter angle
 
 private:
   float angle;         // shooter angle in degrees
@@ -34,8 +36,10 @@ private:
   float distance;      // distance to backboard in meters
   float height;        // height of rim in meters
   float shooterHeight; // height of the shooter in meters
+  bool  dirty;         // shooter angle needs recalculation
 
-  void Recalculate();
+  void Init();
+
 };
 
 #endif /* __FIRING_SOLUTION_H__ */
