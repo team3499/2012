@@ -16,9 +16,9 @@ void Rangefinder::InitDefaultCommand() {
 
 }
 
-// Returns the distance in inches
+// Returns the distance in meters
 double Rangefinder::GetDistance(int smoothCount) {
-  double distance = GetVoltage(smoothCount)/0.0098;
+  double distance = GetVoltage(smoothCount) / 0.0098 / 39.37;
   SmartDashboard::Log(distance, "Rangefinder");
 
   return distance;
