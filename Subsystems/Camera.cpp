@@ -21,14 +21,17 @@ void Camera::InitDefaultCommand() {
 }
 
 Camera::AngleData Camera::GetAngleData(){
-	float halfviewx = 22.5;
-	float halfviewy = 16.875;
+	float halfViewX = 22.5;
+	float halfViewY = 16.875;
 	AxisCamera &camera = AxisCamera::GetInstance("10.34.99.90");
 	printf("Setting Camera Params\n");
 	camera.WriteResolution(AxisCamera::kResolution_640x480);
 	camera.WriteCompression(0);
 
-	Thresh thresh = {new Threshold(245, 255, 90, 255, 90, 255), 10 , 5 , 0};
+	Thresh thresh = {new Threshold(245, 255, 90,  255, 90,  255),//starting
+			         new Threshold(10,  5,   10,  5,   10,  5),//change by this much
+			         new Threshold(128, 255, 128, 255, 128, 255),//not more/less than this
+			         0};
 	Threshold threshold2(130, 180, 170, 225, 240, 255);
 	//Threshold threshold3(255, 255, 0, 0, 0, 0);
 	
@@ -63,17 +66,35 @@ Camera::AngleData Camera::GetAngleData(){
 	
 	//if r->area > 3000 && r->height > 80 && r->width > 90 {GOOD RECTANGLE!}
 	if(!reports->size()){
-		thresh.threshold->plane1Low -= thresh.changeByDown;
-		thresh.threshold->plane2Low -= thresh.changeByDown;
-		thresh.threshold->plane3Low -= thresh.changeByDown;
-		thresh.threshold->plane1High -= thresh.changeByUp;
-		thresh.threshold->plane2High -= thresh.changeByUp;
-		thresh.threshold->plane3High -= thresh.changeByUp;
-		if(thresh.ranBy < 3){
-			thresh.ranBy++;
+		if(thresh.counter < 3){
+			thresh.threshold->plane1Low -= thresh.changeBy->plane1Low;
+			thresh.threshold->plane2Low -= thresh.changeBy->plane2Low;
+			thresh.threshold->plane3Low -= thresh.changeBy->plane3Low;
+			thresh.threshold->plane1High += thresh.changeBy->plane1High;
+			thresh.threshold->plane2High += thresh.changeBy->plane2High;
+			thresh.threshold->plane3High += thresh.changeBy->plane3High;
+			if(thresh.threshold->plane1Low < thresh.limits->plane1Low){
+				thresh.threshold->plane1Low = thresh.limits->plane1Low;
+			}
+			if(thresh.threshold->plane2Low < thresh.limits->plane2Low){
+				thresh.threshold->plane2Low = thresh.limits->plane2Low;
+			}
+			if(thresh.threshold->plane3Low < thresh.limits->plane3Low){
+				thresh.threshold->plane3Low = thresh.limits->plane3Low;
+			}
+			if(thresh.threshold->plane1High < thresh.limits->plane1High){
+				thresh.threshold->plane1High = thresh.limits->plane1High;
+			}
+			if(thresh.threshold->plane2High < thresh.limits->plane2High){
+				thresh.threshold->plane2High = thresh.limits->plane2High;
+			}
+			if(thresh.threshold->plane3High < thresh.limits->plane3High){
+				thresh.threshold->plane3High = thresh.limits->plane3High;
+			}
+			thresh.counter++;
 			goto ThresholdRedo;
+			//rerun filtering with different specs.
 		}
-		//rerun filtering with different specs.
 	}
 	
 	ParticleAnalysisReport *keeper = NULL;
@@ -97,56 +118,44 @@ Camera::AngleData Camera::GetAngleData(){
 		}
 	}
 	if(keeper == NULL){
-		thresh.threshold->plane1Low -= thresh.changeByDown;
-		thresh.threshold->plane2Low -= thresh.changeByDown;
-		thresh.threshold->plane3Low -= thresh.changeByDown;
-		thresh.threshold->plane1High -= thresh.changeByUp;
-		thresh.threshold->plane2High -= thresh.changeByUp;
-		thresh.threshold->plane3High -= thresh.changeByUp;
-		if(thresh.ranBy < 3){
-			thresh.ranBy++;
+		if(thresh.counter < 3){
+		 thresh.threshold->plane1Low -= thresh.changeBy->plane1Low;
+		 thresh.threshold->plane2Low -= thresh.changeBy->plane2Low;
+		 thresh.threshold->plane3Low -= thresh.changeBy->plane3Low;
+		 thresh.threshold->plane1High += thresh.changeBy->plane1High;
+		 thresh.threshold->plane2High += thresh.changeBy->plane2High;
+		 thresh.threshold->plane3High += thresh.changeBy->plane3High;
+			if(thresh.threshold->plane1Low < thresh.limits->plane1Low){
+				thresh.threshold->plane1Low = thresh.limits->plane1Low;
+			}
+			if(thresh.threshold->plane2Low < thresh.limits->plane2Low){
+				thresh.threshold->plane2Low = thresh.limits->plane2Low;
+			}
+			if(thresh.threshold->plane3Low < thresh.limits->plane3Low){
+				thresh.threshold->plane3Low = thresh.limits->plane3Low;
+			}
+			if(thresh.threshold->plane1High < thresh.limits->plane1High){
+				thresh.threshold->plane1High = thresh.limits->plane1High;
+			}
+			if(thresh.threshold->plane2High < thresh.limits->plane2High){
+				thresh.threshold->plane2High = thresh.limits->plane2High;
+			}
+			if(thresh.threshold->plane3High < thresh.limits->plane3High){
+				thresh.threshold->plane3High = thresh.limits->plane3High;
+			}
+			thresh.counter++;
 			goto ThresholdRedo;
+			//rerun filtering with different specs.
 		}
-		//rerun filtering with different specs.
 	}
-	// get image.                                          
-	// process it.                                                   <--\
-	// filter rectangles w/ above specs.                                |
-	// while we have no rectangles, change threshhold.(autonomus only);-/
-	// pick the one close to the middle vertically.
-	// pick the one closest to the middle horizontally.
-	// GO!
-	
-
-	double turnanglex;
-	double turnangley;
-	//for (unsigned int i = 0; i < reports->size(); i++) {
-	//printf("\nParticle: %d\n  Center_Mass_x: %d\n  Center_Mass_y: %d\n  \n", i, r->center_mass_x, r->center_mass_y);
-	//printf("  Image Width: %d\n", keeper->imageWidth);
-	//printf("  Image Height: %d\n", keeper->imageHeight);
-	//printf("  Center Mass x: %d\n", keeper->center_mass_x);
-	//printf("  Center Mass y: %d\n", keeper->center_mass_y);
-	double normx = keeper->center_mass_x_normalized;		//percent of rect from center of image
-	double normy = keeper->center_mass_y_normalized;
-	//printf("  Center Mass (Norm) x: %f\n", normx);
-	//printf("  Center Mass (Norm) y: %f\n", normy);
-	//printf("  Particle Area: %f\n", keeper->particleArea);
-	//printf("  Particle to Image Percent: %f\n", keeper->particleToImagePercent);
-	//printf("  Particle Quality: %f\n", keeper->particleQuality);
-	Rect rectangle = keeper->boundingRect;
-	turnanglex = normx * halfviewx;
-	turnangley = normy * halfviewy;
-	
+	float x = keeper->center_mass_x_normalized * halfViewX;
+	float y = keeper->center_mass_y_normalized * halfViewY;
 	delete reports;
 	delete filteredImage;
 	delete convexHullImage;
 	delete bigObjectsImage;
 	delete thresholdImage;
 	delete image;
-	
-	AngleData angleData = {turnanglex, turnangley};
-	
-	return angleData;
+	AngleData a = {x,y};
+	return a;
 }
-// Put methods for controlling this subsystem
-// here. Call these from Commands.

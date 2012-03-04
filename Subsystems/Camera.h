@@ -11,9 +11,9 @@ public:
 	unsigned int particleCount;
 	struct Thresh{
 		Threshold *threshold;
-		int changeByUp;
-		int changeByDown;
-		int ranBy;
+		Threshold *changeBy;
+		Threshold *limits;
+		int counter;
 	};
 	struct AngleData{
 		float xAxisTurn;
