@@ -1,17 +1,29 @@
-#ifndef TURN_H
-#define TURN_H
+#ifndef __COMMAND_TURN_H__
+#define __COMMAND_TURN_H__
 
 #include "CommandBase.h" 
 #include "Subsystems/Chassis.h"
 
-class Turn: public CommandBase {
+//
+//  Turns the chassis to a relative angle
+//
+class Turn : public CommandBase {
+
 private:
+  float relativeAngle;
+  float desiredAngle;
+  float speed;
+  int   iteration;
+
+  enum Direction {
+    Unknown,
+    Right,
+    Left
+  };
+  Direction direction;
+
 public:
-	float turnAngle;
-	float turnTo;
-	float turnLimit;
-	float turnSpeed;
-	Turn();
+    Turn(float angle = 0.0, float speed = 0.2);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
@@ -19,4 +31,4 @@ public:
 	virtual void Interrupted();
 };
 
-#endif
+#endif /* __COMMAND_TURN_H__ */

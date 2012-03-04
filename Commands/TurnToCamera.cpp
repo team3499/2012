@@ -1,11 +1,9 @@
-#include "Turn.h"
+#include "TurnToCamera.h"
 #include "SmartDashboard/SmartDashboard.h"
 #include "WPILib.h"
 
-
-Turn::Turn(float angle, float speed)
+TurnToCamera::TurnToCamera(float speed)
 {
-  relativeAngle = angle;
   desiredAngle  = 0;
   direction     = Unknown;
   iteration     = 0;
@@ -15,15 +13,16 @@ Turn::Turn(float angle, float speed)
 
   Requires(chassis);
   Requires(chassisGyro);
+  Requires(camera);
 }
 
-void Turn::Initialize() {
-  desiredAngle = chassisGyro->GetDesiredAngle(relativeAngle);
-  if (relativeAngle > 0) { direction = Right; }
+void TurnToCamera::Initialize() {
+  desiredAngle = GetAbsoluteCameraAngle();
+  if (chassisGyro->GetAngle() < desiredAngle) { direction = Right; }
   else { direction = Left; }
 }
 
-void Turn::Execute() {
+void TurnToCamera::Execute() {
   float turnAngleRemaining = desiredAngle - chassisGyro->GetAngle();
   if (turnAngleRemaining > 0) {    // Right turn needed
     if (direction == Left) {       // Doh!  We're going left so that means
@@ -32,6 +31,7 @@ void Turn::Execute() {
       Wait(0.5);
       speed = speed / 2;
       iteration++;
+      desiredAngle = GetAbsoluteCameraAngle();
     } else {                       // AOK - keep going
       chassis->TankDrive(speed, -speed);
     }
@@ -42,22 +42,29 @@ void Turn::Execute() {
       Wait(0.5);
       speed = speed / 2;
       iteration++;
+      desiredAngle = GetAbsoluteCameraAngle();
     } else {                       // AOK - keep going
       chassis->TankDrive(-speed, speed);
     }
   }
 }
 
-bool Turn::IsFinished() {
+bool TurnToCamera::IsFinished() {
   if (iteration > 3) { return true; }
 
   return chassisGyro->IsAtAngle(desiredAngle);
 }
 
-void Turn::End() {
+void TurnToCamera::End() {
   chassis->Stop();
 }
 
-void Turn::Interrupted() {
+void TurnToCamera::Interrupted() {
   End();
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+float TurnToCamera::GetAbsoluteCameraAngle() {
+  return chassisGyro->GetDesiredAngle(camera->GetAngleData().xAxisTurn);
 }
