@@ -10,7 +10,7 @@ using namespace std;
 //#include "Commands/Rotation.h"
 //#include "Commands/ExampleCommand.h"
 //#include "Commands/ShootGroup.h"
-#include "Commands/ArmLevel.h"
+#include "Commands/ArmMove.h"
 #include "Commands/ShootGroup.h"
 class Robot : public IterativeRobot {
 	private:
@@ -45,10 +45,10 @@ private:
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
 		if (CommandBase::GetIOInstance()->GetRawButton(1,3) && !armLevel->IsRunning()){
-			armLevel = new ArmLevel((float)45.0);
+			armLevel = new ArmMove((float)45.0);
 			armLevel->Start();
 		} else if (CommandBase::GetIOInstance()->GetRawButton(1,2) && !armLevel->IsRunning()){
-			armLevel = new ArmLevel((float)-45.0);
+			armLevel = new ArmMove((float)-45.0);
 			armLevel->Start();
 		}
 		if (CommandBase::GetIOInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
