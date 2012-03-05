@@ -5,6 +5,17 @@
 #include "Vision/BinaryImage.h"
 #include "WPILib.h"
 
+#define ASPECT_RATIO (24.0/18.0)
+#define ASPECT_RATIO_TOLERANCE 0.15
+#define ASPECT_MIN ((1-ASPECT_RATIO_TOLERANCE)*ASPECT_RATIO)
+#define ASPECT_MAX ((1+ASPECT_RATIO_TOLERANCE)*ASPECT_RATIO)
+#define WIDTH_FRACTION_MIN 0.1
+
+#ifdef TEST_TARGET
+#define TEST_MSG(S,...) printf(S,##__VA_ARGS__)
+#else
+#define TEST_MSG(S,...)
+#endif
 
 class Camera: public Subsystem {
 public:
@@ -28,6 +39,8 @@ public:
 	Camera();
 	void InitDefaultCommand();
 	AngleData GetAngleData();
+	void FixThreshold(Camera::Thresh *thresh);
+	ParticleAnalysisReport* FindBottomRectangle(ParticleAnalysisReport *reports, unsigned int reportCount);
 };
 
 #endif /*CAMERA_SUBSYSTEM_H*/

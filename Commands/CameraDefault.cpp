@@ -12,14 +12,18 @@ CameraDefault::CameraDefault()
 
 // Called just before this Command runs the first time
 void CameraDefault::Initialize() {
-	counter = 0;
+	counter = 50;
 	/* SETUP (reset gyro angle to 0 during autonomus)*/
 }
 
 // Called repeatedly when this Command is scheduled to run
 void CameraDefault::Execute() {
-	printf("<>>%f<<>",camera->GetAngleData().xAxisTurn);
-	printf("\nOn 50th time\n");
+	if(!(counter%50)){
+		printf("<>>%f<<>",camera->GetAngleData().xAxisTurn);
+		printf("\nOn 50th time\n");
+		counter = 1;
+	}
+	//counter;
 }
 
 // Make this return true when this Command no longer needs to run execute()
