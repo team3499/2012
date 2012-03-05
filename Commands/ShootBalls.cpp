@@ -1,5 +1,4 @@
 #include "ShootBalls.h"
-#include "ArmLevel.h"
 #include "WPILib.h"
 
 ShootBalls::ShootBalls()
