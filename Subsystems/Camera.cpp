@@ -26,13 +26,15 @@ Camera::AngleData Camera::GetAngleData(){
 	camera.WriteResolution(AxisCamera::kResolution_640x480);
 	camera.WriteCompression(0);
 	
-	Thresh thresh = {new Threshold(245, 255, 180, 255, 180, 255),//starting
+	Thresh thresh = {new Threshold(240, 255, 160, 255, 160, 255),//starting
 			         new Threshold(10,  5,   10,  5,   10,  5),//change by this much
 			         new Threshold(128, 255, 128, 255, 128, 255),//not more/less than this
 			         0};
 	Threshold threshold2(130, 180, 170, 225, 240, 255);
 	//Threshold threshold3(255, 255, 0, 0, 0, 0);
-	
+	ColorImage *image;
+	image = camera.GetImage();
+	image->Write("/img/0picture.png");
 	ThresholdRedo:
 	
 	ParticleFilterCriteria2 criteria[] = {
@@ -45,9 +47,9 @@ Camera::AngleData Camera::GetAngleData(){
 	sprintf(filenames[2],"/img/%dimg3.png",thresh.counter);
 	sprintf(filenames[3],"/img/%dimg4.png",thresh.counter);
 	sprintf(filenames[4],"/img/%dimg5.png",thresh.counter);
-	ColorImage *image;
-	image = camera.GetImage()/*new RGBImage("/img/testImage2.bmp")*/;	// get the sample image from the cRIO flash
-	image->Write(filenames[0]);
+	
+	/*new RGBImage("/img/testImage2.bmp")*/;	// get the sample image from the cRIO flash
+
 	printf("Start Image Loaded\n");
 	BinaryImage *thresholdImage = image->ThresholdRGB(*(thresh.threshold));	// get just the red target pixels
 	thresholdImage -> Write(filenames[1]);
@@ -62,7 +64,10 @@ Camera::AngleData Camera::GetAngleData(){
 	filteredImage -> Write(filenames[4]);
 	printf("Filtered Image Written\n");
 	vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
-	
+	delete filteredImage;
+	delete convexHullImage;
+	delete bigObjectsImage;
+	delete thresholdImage;
 	particleCount = reports->size();
 	
 	//printf("\nParticles: %d\n", reports->size());
@@ -79,15 +84,17 @@ Camera::AngleData Camera::GetAngleData(){
 	
 	ParticleAnalysisReport *keeper = NULL;
 	for (unsigned int i = 0; i < reports->size(); i++){
+		printf("Testing: Image:%d Width:%d Height:%d State:",i,reports->at(i).boundingRect.width,reports->at(i).boundingRect.height);
 		if(reports->at(i).boundingRect.height >= 80 && 
 		  reports->at(i).boundingRect.width >= 90 && 
 		  reports->at(i).boundingRect.height <= 300 && 
-		  reports->at(i).boundingRect.width >= 350
+		  reports->at(i).boundingRect.width <= 350
 		  //reports->at(i).center_mass_y > 320 && 
 		  //reports->at(i).center_mass_y < 540 &&
 		  //reports->at(i).center_mass_x > 140 && 
 		  //reports->at(i).center_mass_x < 340
 		  ){
+			printf("PASS");
 			if(keeper == NULL){
 				keeper = &reports->at(i);
 			} else if (//particle is better than last
@@ -95,6 +102,8 @@ Camera::AngleData Camera::GetAngleData(){
 					   (absolute2(reports->at(i).center_mass_x_normalized) < absolute2(keeper->center_mass_x_normalized ))){
 				keeper = &reports->at(i);
 			}
+		} else {
+			printf("FAIL ");
 		}
 	}
 	if(keeper == NULL){
@@ -110,10 +119,6 @@ Camera::AngleData Camera::GetAngleData(){
 	float x = keeper->center_mass_x_normalized * halfViewX;
 	float y = keeper->center_mass_y_normalized * halfViewY;
 	delete reports;
-	delete filteredImage;
-	delete convexHullImage;
-	delete bigObjectsImage;
-	delete thresholdImage;
 	delete image;
 	AngleData a = {x,y};
 	return a;
