@@ -5,6 +5,14 @@ OI::OI():
 	js2(2)
 {
 	// Process operator interface input here.
+	if((fp = fopen("/PROGRAMLOG.TXT","w"))==NULL){
+		if((fp = fopen("/PROGRAMLOG.TXT","r"))==NULL){
+			fprintf(stderr,"EROOROROOROROROROROROROROROROROR");
+		} else {
+		}
+	} else {
+		fprintf(fp,"HELLO!\n");
+	}
 }
 
 bool OI::GetRawButton(int num, UINT32 button){

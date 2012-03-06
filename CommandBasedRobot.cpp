@@ -22,6 +22,7 @@ private:
 	{
 		//Wait(.2);
 		printf("Start ");
+		
 		//SmartDashboard::init();
 		CommandBase::init();
 		//SmartDashboard sd = SmartDashboard::GetInstance();

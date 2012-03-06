@@ -47,6 +47,10 @@ void CommandBase::init() {
 	printf("End of CommandBase init\n");
 }
 
+OI* CommandBase::GetOIInstance(){
+	return oi;
+}
+
 OI* CommandBase::GetIOInstance(){
 	return oi;
 }

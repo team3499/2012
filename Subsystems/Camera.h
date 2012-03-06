@@ -40,7 +40,7 @@ public:
 	void InitDefaultCommand();
 	AngleData GetAngleData();
 	void FixThreshold(Camera::Thresh *thresh);
-	ParticleAnalysisReport* FindBottomRectangle(ParticleAnalysisReport *reports, unsigned int reportCount);
+	ParticleAnalysisReport* FindBottomRectangle(ParticleAnalysisReport *reports[], unsigned int reportCount);
 };
 
 #endif /*CAMERA_SUBSYSTEM_H*/
