@@ -51,7 +51,3 @@ OI* CommandBase::GetOIInstance(){
 	return oi;
 }
 
-OI* CommandBase::GetIOInstance(){
-	return oi;
-}
-

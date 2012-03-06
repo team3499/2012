@@ -37,7 +37,6 @@ public:
 	static SmartDashboard *smartDashboard;
 	static OI *oi;
 	static OI *GetOIInstance();
-	static OI *GetIOInstance();
 };
 
 #endif

@@ -45,34 +45,34 @@ private:
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
-		if (CommandBase::GetIOInstance()->GetRawButton(1,3) && !armLevel->IsRunning()){
+		if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !armLevel->IsRunning()){
 			armLevel = new ArmLevel((float)45.0);
 			armLevel->Start();
-		} else if (CommandBase::GetIOInstance()->GetRawButton(1,2) && !armLevel->IsRunning()){
+		} else if (CommandBase::GetOIInstance()->GetRawButton(1,2) && !armLevel->IsRunning()){
 			armLevel = new ArmLevel((float)-45.0);
 			armLevel->Start();
 		}
-		if (CommandBase::GetIOInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
+		if (CommandBase::GetOIInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
 			armLevel->Cancel();
 			delete(armLevel);
 		}
-		if (CommandBase::GetIOInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
+		if (CommandBase::GetOIInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
 			armLevel->Cancel();
 			delete(armLevel);
 		}
 		
-		if (CommandBase::GetIOInstance()->GetRawButton(1,4)){// && !turn->IsRunning()){
+		if (CommandBase::GetOIInstance()->GetRawButton(1,4)){// && !turn->IsRunning()){
 			printf("hit thing\n");
 			new ShootGroup();
 			//turn = new Turn();
 			//turn->Start();
-		} else if (CommandBase::GetIOInstance()->GetRawButton(1,5)){// && !turn->IsRunning()){
+		} else if (CommandBase::GetOIInstance()->GetRawButton(1,5)){// && !turn->IsRunning()){
 			printf("hit thing\n");
 			new ShootGroup();
 			//turn = new Turn();
 			//turn->Start();
 		}
-		if (CommandBase::GetIOInstance()->GetRawButton(2,1)){// && turn->IsRunning()){
+		if (CommandBase::GetOIInstance()->GetRawButton(2,1)){// && turn->IsRunning()){
 			//turn->Cancel();
 			//delete(turn);
 		}
