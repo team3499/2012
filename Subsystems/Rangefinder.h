@@ -19,7 +19,7 @@ public:
 
   void InitDefaultCommand();
 
-  double GetDistance(int smoothCount = 0);   // Get distance in inches
+  double GetDistance(int smoothCount = 0);   // Get distance in meters
 };
 
 #endif /* __SUBSYSTEM_RANGEFINDER_H__ */
