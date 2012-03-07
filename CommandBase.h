@@ -9,6 +9,7 @@
 #include "Subsystems/Chassis.h"
 #include "Subsystems/ChassisGyro.h"
 #include "Subsystems/ArmAccelerometer.h"
+#include "Subsystems/Rangefinder.h"
 #include "Subsystems/Shooter.h"
 #include "Subsystems/Magazine.h"
 #include "Subsystems/Camera.h"
@@ -33,6 +34,7 @@ public:
 	static ChassisGyro *chassisGyro;
 	static Lights *lights;
 	static Magazine *magazine;
+  static Rangefinder *rangefinder;
 	static Shooter *shooter;
 	static SmartDashboard *smartDashboard;
 	static OI *oi;
