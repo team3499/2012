@@ -1,15 +1,14 @@
 
 #include "Commands/AutoGroup.h"
-//#include "Commands/Forward.h"
-#include "Commands/Turn.h"
-#include "Commands/ArmLevel.h"
-#include "Commands/ShootBalls.h"
-#include "WPILib.h"
 
 AutoGroup::AutoGroup()
 {
+	SmartDashboard::Log("Turning", "Shooting Status");
 //	AddSequential(new Forward(100));
-	AddParallel(new Turn());
-	AddParallel(new ArmLevel(AUTONOMUS_DEGREE));
+	AddSequential(new Turn());
+	SmartDashboard::Log("Calculating arm level and balancing", "Shooting Status");
+	AddSequential(new ArmAim());
+	SmartDashboard::Log("Shooting", "Shooting Status");
 	AddSequential(new ShootBalls());
+	SmartDashboard::Log("Done/Ready", "Shooting Status");
 }

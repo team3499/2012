@@ -17,7 +17,7 @@ Camera::Camera() : Subsystem("Camera"){
 
 void Camera::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
-	SetDefaultCommand(new CameraDefault());
+	// SetDefaultCommand(new CameraDefault());
 }
 
 Camera::AngleData Camera::GetAngleData(){
@@ -32,46 +32,45 @@ Camera::AngleData Camera::GetAngleData(){
 			         new Threshold(10,  5,   10,  5,   10,  5),//change by this much
 			         new Threshold(180, 255, 60,  255, 60,  255),//not more/less than this
 			         0};
+
+	ParticleFilterCriteria2 criteria[] = {
+		{IMAQ_MT_BOUNDING_RECT_WIDTH, 30, 400, false, false},
+		{IMAQ_MT_BOUNDING_RECT_HEIGHT, 40, 400, false, false}
+	};
 	
-	Threshold threshold2(130, 180, 170, 225, 240, 255);
+	//Threshold threshold2(130, 180, 170, 225, 240, 255);
 	//Threshold threshold3(255, 255, 0, 0, 0, 0);
 	ColorImage *image;
 	image = camera.GetImage();
 	image->Write("/img/picture.png");
 	ThresholdRedo:
 	
-	ParticleFilterCriteria2 criteria[] = {
-		{IMAQ_MT_BOUNDING_RECT_WIDTH, 30, 400, false, false},
-		{IMAQ_MT_BOUNDING_RECT_HEIGHT, 40, 400, false, false}
-	};
-	char filenames[5][16];
+	char filenames[4][16];
 	sprintf(filenames[0],"/img/%dimg1.png",thresh.counter);
 	sprintf(filenames[1],"/img/%dimg2.png",thresh.counter);
 	sprintf(filenames[2],"/img/%dimg3.png",thresh.counter);
 	sprintf(filenames[3],"/img/%dimg4.png",thresh.counter);
-	sprintf(filenames[4],"/img/%dimg5.png",thresh.counter);
 	
 	/*new RGBImage("/img/testImage2.bmp")*/;	// get the sample image from the cRIO flash
 
 	printf("Start Image Loaded\n");
 	BinaryImage *thresholdImage = image->ThresholdRGB(*(thresh.threshold));	// get just the red target pixels
-	thresholdImage -> Write(filenames[1]);
+	thresholdImage -> Write(filenames[0]);
 	printf("Threshold Written\n");
 	BinaryImage *bigObjectsImage = thresholdImage->RemoveSmallObjects(false, 4);  // remove small objects (noise)
-	bigObjectsImage -> Write(filenames[2]);
+	bigObjectsImage -> Write(filenames[1]);
 	printf("Big Objects Written\n");
 	BinaryImage *convexHullImage = bigObjectsImage->ConvexHull(false);  // fill in partial and full rectangles
-	convexHullImage -> Write(filenames[3]);
+	convexHullImage -> Write(filenames[2]);
 	printf("Convex Hull Written\n");
 	BinaryImage *filteredImage = convexHullImage->ParticleFilter(criteria, 2);  // find the rectangles
-	filteredImage -> Write(filenames[4]);
+	filteredImage -> Write(filenames[3]);
 	printf("Filtered Image Written\n");
 	vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
 	delete filteredImage;
 	delete convexHullImage;
 	delete bigObjectsImage;
 	delete thresholdImage;
-	particleCount = reports->size();
 	
 	//printf("\nParticles: %d\n", reports->size());
 	
@@ -126,6 +125,10 @@ Camera::AngleData Camera::GetAngleData(){
 			return a;
 		}
 	}
+	
+	//The image passed with thresholds, dont need image anymore
+	delete image;
+	
 	ParticleAnalysisReport *keeps[count];
 	count = 0;
 	for (unsigned int i = 0; i < reports->size(); i++){
@@ -134,8 +137,16 @@ Camera::AngleData Camera::GetAngleData(){
 			count++;
 		}
 	}
-	TEST_MSG("\nFindBottomRectangle(reports)\n");
+	
+	//No Longer need reports
+	delete reports;
+	
+	
+	printf("Finding Bottom Rectangle\n");
+	
+	//reset keeper to NULL for reuse
 	keeper = NULL;
+	
 	for (unsigned int i = 0; i < count; i++ ) {
 	    ParticleAnalysisReport *report = keeps[i];
 	    double xNorm = report->center_mass_x_normalized;
@@ -167,9 +178,13 @@ Camera::AngleData Camera::GetAngleData(){
 	        keeper = report;
 	    }
 	}
+	
+	//print out data about the rectangle that was found
 	printf("\nCamera Coords:\n\t\tParticle:Bottom\n\t\tx:%f\n\t\ty:%f\n",
 			halfViewX * keeper->center_mass_x_normalized,
 			halfViewY * keeper->center_mass_y_normalized);
+	
+	
 	ParticleAnalysisReport *bottom = keeper;
 	ParticleAnalysisReport *middle1 = 0;
 	ParticleAnalysisReport *middle2 = 0;
@@ -225,8 +240,6 @@ Camera::AngleData Camera::GetAngleData(){
 	FILE *fp2 = CommandBase::GetOIInstance()->fp;
 	fprintf(fp2,"X:%f\n Y:%f\n",x,y);
 	printf("PARTICLE: X:%f, Y:%f                        ",x,y);
-	delete reports;
-	delete image;
 	AngleData a = {x,y};
 	return a;
 }

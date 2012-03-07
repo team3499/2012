@@ -14,7 +14,7 @@ ArmAim::ArmAim(Target *target) {
   angle     = 0.0;
   margin    = 1.0;
 
-  if (target == NULL) { target = new Target(Target::Middle); }
+  if (target == NULL) { this->target = new Target(Target::Middle); }
 }
 
 ArmAim::~ArmAim() {
@@ -26,15 +26,18 @@ ArmAim::~ArmAim() {
 // measure the current arm angle, and then start the motors moving
 // in the right direction.
 void ArmAim::Initialize() {
+	printf("ArmAim init.\n");
   iteration = 0;
   angle = FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
   MeasureAndMove();
+  printf("Angle for shooting:%f\n",angle);
 }
 
 
 // Checks if we've reached the target angle.  If so, stop, wait a bit
 // and then check if we are still there.  If not, start moving again.
 void ArmAim::Execute() {
+	printf("Accelerometer:%f\n",accelerometer->GetArmDegree());
   if (IsAtTargetAngle()) {
     ++iteration;
     StopAndQuiet();
@@ -49,6 +52,7 @@ bool ArmAim::IsFinished() {
 }
 
 void ArmAim::End() {
+	printf("AimArm Finished");
   arm->Stop();
 }
 

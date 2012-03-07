@@ -15,6 +15,7 @@ Camera *CommandBase::camera = NULL;
 Chassis *CommandBase::chassis = NULL;
 ChassisGyro *CommandBase::chassisGyro = NULL;
 Lights *CommandBase::lights = NULL;
+Rangefinder *CommandBase::rangefinder = NULL;
 Magazine *CommandBase::magazine = NULL;
 Shooter *CommandBase::shooter = NULL;
 OI *CommandBase::oi = NULL;
@@ -37,6 +38,8 @@ void CommandBase::init() {
 	printf("Gyro\n");
 	lights = new Lights();
 	printf("Lights\n");
+    rangefinder = new Rangefinder();
+    printf("Rangefinder\n");
 	magazine = new Magazine();
 	printf("Mag\n");
 	shooter = new Shooter();

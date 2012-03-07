@@ -8,6 +8,7 @@
 class ShootBalls: public CommandBase {
 private:
 	int stat;
+	Timer *timer;
 public:
 	ShootBalls();
 	virtual void Initialize();

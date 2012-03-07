@@ -1,10 +1,12 @@
 #ifndef __AUTO_GROUP_H__
 #define __AUTO_GROUP_H__
 
+#include "WPILib.h"
 #include "Commands/CommandGroup.h"
-#include "Subsystems/ArmAccelerometer.h"
+#include "Commands/Turn.h"
+#include "Commands/ArmAim.h"
+#include "Commands/ShootBalls.h"
 
-#define AUTONOMUS_DEGREE 45
 
 class AutoGroup: public CommandGroup {
 private:

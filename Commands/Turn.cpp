@@ -39,6 +39,7 @@ void Turn::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Turn::Execute() {
+	printf("Executing Turn. Gyro: %f\n",chassisGyro->GetAngle());
 	turnAngle = camera->GetAngleData().xAxisTurn;
 	if(absolute(turnAngle-turnTo) >= 15){
 		turnSpeed = 0.75;
@@ -58,6 +59,7 @@ void Turn::Execute() {
 // Make this return true when this Command no longer needs to run execute()
 bool Turn::IsFinished() {
 	if(chassisGyro->IsAtAngle(turnTo, 1.0)){
+		printf("Finished Turn.\n");
 		chassis->TankDrive(0.0,0.0);
 		return true;
 	}

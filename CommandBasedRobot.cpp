@@ -10,12 +10,14 @@ using namespace std;
 //#include "Commands/Rotation.h"
 //#include "Commands/ExampleCommand.h"
 //#include "Commands/ShootGroup.h"
+#include "Commands/AutoGroup.h"
 #include "Commands/ArmLevel.h"
+#include "FiringSolution.h"
 #include "Commands/ShootGroup.h"
 class Robot : public IterativeRobot {
 	private:
 	CommandBase *armLevel;
-	//CommandBase *turn;
+	Command *autonomousCommand;
 private:
 	
 	virtual void RobotInit()
@@ -25,12 +27,15 @@ private:
 		
 		//SmartDashboard::init();
 		CommandBase::init();
+		autonomousCommand = new AutoGroup();
 		//SmartDashboard sd = SmartDashboard::GetInstance();
 		printf("End");
 	}
 	
 	virtual void AutonomousInit() {
-		//autonomousCommand->Start();
+		printf("Autonomous Init Begin");
+		autonomousCommand->Start();
+		printf("Autonomous Init End");
 	}
 	
 	virtual void AutonomousPeriodic() {
@@ -39,8 +44,8 @@ private:
 	
 	virtual void TeleopInit() {
 		printf("Teleop init.\n");
-		//autonomousCommand->Cancel();
-		//rotation->Start();
+		autonomousCommand->Cancel();
+		printf("Autonomous Command disabled.\n");
 	}
 	
 	virtual void TeleopPeriodic(){
@@ -72,9 +77,8 @@ private:
 			//turn = new Turn();
 			//turn->Start();
 		}
-		if (CommandBase::GetOIInstance()->GetRawButton(2,1)){// && turn->IsRunning()){
-			//turn->Cancel();
-			//delete(turn);
+		if (CommandBase::GetOIInstance()->GetRawButton(1,2)){// && turn->IsRunning()){
+			//ADD THE AUTOGROUP HERE
 		}
 		
 		

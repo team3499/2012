@@ -34,7 +34,7 @@ public:
 	static ChassisGyro *chassisGyro;
 	static Lights *lights;
 	static Magazine *magazine;
-  static Rangefinder *rangefinder;
+    static Rangefinder *rangefinder;
 	static Shooter *shooter;
 	static SmartDashboard *smartDashboard;
 	static OI *oi;

@@ -18,7 +18,6 @@ FiringSolution::FiringSolution(float distance, Target target) {
 }
 
 FiringSolution::~FiringSolution() {
-
 }
 
 void FiringSolution::SetDistance(float distance) {
