@@ -50,6 +50,7 @@ private:
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
+/*
 		if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !armLevel->IsRunning()){
 			armLevel = new ArmLevel((float)45.0);
 			armLevel->Start();
@@ -74,14 +75,11 @@ private:
 		} else if (CommandBase::GetOIInstance()->GetRawButton(1,5)){// && !turn->IsRunning()){
 			printf("hit thing\n");
 			new ShootGroup();
-			//turn = new Turn();
-			//turn->Start();
 		}
-		if (CommandBase::GetOIInstance()->GetRawButton(1,2)){// && turn->IsRunning()){
-			//ADD THE AUTOGROUP HERE
+*/
+		if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+			autonomousCommand->Start();
 		}
-		
-		
 	}
 };
 
