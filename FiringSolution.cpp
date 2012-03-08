@@ -90,8 +90,8 @@ void FiringSolution::Recalculate() {
 
 void FiringSolution::Init() {
   angle         = 0.0;
-  velocity      = 6.0;  // TODO - GUESSING! Measure this!
-  shooterHeight = 1.0;  // TODO - GUESSING! Measure this!
+  velocity      = 5.6;  // TODO - GUESSING! Measure this!
+  shooterHeight = .9;   // TODO - GUESSING! Measure this!
   distance      = 0.0;
   height        = 0.0;
   dirty         = true;
