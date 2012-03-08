@@ -1,5 +1,6 @@
 #include "Chassis.h"
 #include "Robotmap.h"
+#include "math.h"
 #include "Commands/UserDrive.h"
 #include "SmartDashboard/SmartDashboard.h"
 
