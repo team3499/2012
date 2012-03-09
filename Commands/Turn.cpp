@@ -31,6 +31,8 @@ void Turn::Initialize() {
 	if(turnAngle == 0){
 		turnAngle = camera->GetAngleData().xAxisTurn;
 	}
+	SmartDashboard::Log(turnAngle,"Turn angle");
+	SmartDashboard::Log(turnTo, "Turn to angle");
 	turnTo = chassisGyro->GetDesiredAngle(turnAngle);
 	if(absolute(turnAngle-turnTo) >= 15){
 		turnSpeed = 0.95;

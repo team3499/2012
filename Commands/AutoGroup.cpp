@@ -3,7 +3,7 @@
 
 AutoGroup::AutoGroup(bool isAuto)
 {
-	if(isAuto == 1){
+	if(isAuto){
 		SmartDashboard::Log(true,"AutoEnabled");
 		AddSequential(new DriveForward(2,1.0,false));
 	}

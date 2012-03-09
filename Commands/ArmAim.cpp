@@ -14,7 +14,9 @@ ArmAim::ArmAim(Target *target) {
   angle     = 0.0;
   margin    = 1.0;
 
-  if (target == NULL) { this->target = new Target(Target::Middle); }
+  if (target == NULL) {
+    this->target = new Target(camera->LastTargetFound());
+  }
 }
 
 ArmAim::~ArmAim() {
