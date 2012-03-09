@@ -28,7 +28,8 @@ ArmAim::~ArmAim() {
 void ArmAim::Initialize() {
 	printf("ArmAim init.\n");
   iteration = 0;
-  angle = FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
+  angle = -FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
+  SmartDashboard::Log(angle,"Target firing angle");
   MeasureAndMove();
   printf("Angle for shooting:%f\n",angle);
 }
@@ -42,7 +43,7 @@ void ArmAim::Execute() {
     ++iteration;
     StopAndQuiet();
     if (!IsAtTargetAngle()) { MeasureAndMove(); }
-  }
+  } else { MeasureAndMove(); }
 }
 
 // Bail out once we are at the target angle or if we've tried 3 times
@@ -67,17 +68,23 @@ void ArmAim::Interrupted() {
 void ArmAim::MeasureAndMove() {
   StopAndQuiet();
   if (!IsAtTargetAngle()) { arm->Move(GetDesiredDirection()); }
+  else {arm->Stop();}
 }
 
 // Stop the arm and wait for it to cease bouncing
 void ArmAim::StopAndQuiet() {
   arm->Stop();
-  Wait(0.5);
 }
 
 // Returns true if the arm needs to move forward, false if backward
 // (see Subsystems/Arm.cpp)
 bool ArmAim::GetDesiredDirection() {
+/*	if(accelerometer->GetArmDegree() < 0.0 && accelerometer->GetArmDegree() < angle){
+		return 1;
+	} else if(accelerometer->GetArmDegree() <= 0.0){return 0;}
+	if(accelerometer->GetArmDegree() > 0.0 && accelerometer->GetArmDegree() < angle){
+		return 1;
+	} else {return 0;}*/
   return (accelerometer->GetArmDegree() > angle);
 }
 
@@ -85,6 +92,6 @@ bool ArmAim::GetDesiredDirection() {
 // it's going to hit the robot
 bool ArmAim::IsAtTargetAngle() {
   float currentAngle = accelerometer->GetArmDegree();
-  return (currentAngle < -75 || currentAngle > 90.0 || (currentAngle + margin > angle && currentAngle - margin < angle));
+  return (currentAngle < -85 || currentAngle > 70.0 || (currentAngle + margin > angle && currentAngle - margin < angle));
 }
 

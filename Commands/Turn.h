@@ -12,6 +12,7 @@ public:
 	float turnLimit;
 	float turnSpeed;
 	Turn();
+	Turn(float angle);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

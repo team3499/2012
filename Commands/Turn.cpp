@@ -13,14 +13,24 @@ Turn::Turn()
 	Requires(chassis);
 	Requires(chassisGyro);
 	Requires(camera);
+	turnAngle = 0;
 	//Requires(CHARLIES_VISION_ANGLE);
 	// Use requires() here to declare subsystem dependencies
 	// eg. requires(chassis);
 }
 
+Turn::Turn(float angle)
+{
+	Requires(chassis);
+	Requires(chassisGyro);
+	turnAngle = angle;
+}
+
 // Called just before this Command runs the first time
 void Turn::Initialize() {
-	turnAngle = camera->GetAngleData().xAxisTurn;
+	if(turnAngle == 0){
+		turnAngle = camera->GetAngleData().xAxisTurn;
+	}
 	turnTo = chassisGyro->GetDesiredAngle(turnAngle);
 	if(absolute(turnAngle-turnTo) >= 15){
 		turnSpeed = 0.95;
@@ -31,7 +41,7 @@ void Turn::Initialize() {
 	} else {
 		turnSpeed = 0.40;
 	}
-	if(turnTo < turnAngle){
+	if(turnTo > turnAngle){
 		turnSpeed *= -1;
 	}
 	chassis->TankDrive(turnSpeed,turnSpeed);
@@ -40,20 +50,20 @@ void Turn::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void Turn::Execute() {
 	printf("Executing Turn. Gyro: %f\n",chassisGyro->GetAngle());
-	turnAngle = camera->GetAngleData().xAxisTurn;
-	if(absolute(turnAngle-turnTo) >= 15){
+	//turnAngle = camera->GetAngleData().xAxisTurn;
+	if(absolute(chassisGyro->GetAngle()-turnTo) >= 15){
 		turnSpeed = 0.95;
-	} else if(absolute(turnAngle-turnTo) >= 10){
+	} else if(absolute(chassisGyro->GetAngle()-turnTo) >= 10){
 		turnSpeed = 0.70;
-	} else if(absolute(turnAngle-turnTo) >= 5){
+	} else if(absolute(chassisGyro->GetAngle()-turnTo) >= 5){
 		turnSpeed = 0.55;
 	} else {
 		turnSpeed = 0.40;
 	}
-	if(turnTo < turnAngle){
+	if(turnTo > chassisGyro->GetAngle()){
 		turnSpeed *= -1;
 	}
-	chassis->TankDrive(turnSpeed,-turnSpeed);
+	chassis->TankDrive(turnSpeed,turnSpeed);
 }
 
 // Make this return true when this Command no longer needs to run execute()

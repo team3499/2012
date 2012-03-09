@@ -11,6 +11,7 @@ using namespace std;
 //#include "Commands/ExampleCommand.h"
 //#include "Commands/ShootGroup.h"
 #include "Commands/AutoGroup.h"
+#include "Commands/DAG.h"
 #include "Commands/ArmLevel.h"
 #include "FiringSolution.h"
 #include "Commands/ShootGroup.h"
@@ -78,6 +79,11 @@ private:
 		}
 */
 		if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+			autonomousCommand = new AutoGroup();
+			autonomousCommand->Start();
+		}
+		if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+			autonomousCommand = new DAG();
 			autonomousCommand->Start();
 		}
 	}
