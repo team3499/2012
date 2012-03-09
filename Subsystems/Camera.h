@@ -4,6 +4,7 @@
 #include "Vision/RGBImage.h"
 #include "Vision/BinaryImage.h"
 #include "WPILib.h"
+#include "Target.h"
 
 #define ASPECT_RATIO (24.0/18.0)
 #define ASPECT_RATIO_TOLERANCE 0.15
@@ -25,22 +26,28 @@ public:
 		Threshold *changeBy;
 		Threshold *limits;
 		int counter;
+
 	};
 	struct AngleData{
 		float xAxisTurn;
 		float yAxisTurn;
 	};
 	
+  Target::ID lastTarget;
+
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
 	//AxisCamera *camera;
+  Target::ID GuessTarget(ParticleAnalysisReport *);
+
 public:
 	Camera();
 	void InitDefaultCommand();
 	AngleData GetAngleData();
 	void FixThreshold(Camera::Thresh *thresh);
 	ParticleAnalysisReport* FindBottomRectangle(ParticleAnalysisReport *reports[], unsigned int reportCount);
+  Target::ID LastTargetFound();
 };
 
 #endif /*CAMERA_SUBSYSTEM_H*/
