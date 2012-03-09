@@ -28,7 +28,7 @@ private:
 		
 		//SmartDashboard::init();
 		CommandBase::init();
-		autonomousCommand = new AutoGroup();
+		autonomousCommand = new AutoGroup(true);
 		//SmartDashboard sd = SmartDashboard::GetInstance();
 		printf("End");
 	}

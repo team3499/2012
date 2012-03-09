@@ -6,12 +6,13 @@
 #include "Commands/Turn.h"
 #include "Commands/ArmAim.h"
 #include "Commands/ShootBalls.h"
+#include "Commands/DriveForward.h"
 
 
 class AutoGroup: public CommandGroup {
 private:
 public:
-	AutoGroup();
+	AutoGroup(bool isAuto = false);
 };
 
 #endif

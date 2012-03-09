@@ -16,7 +16,7 @@ void DriveForward::Initialize() {
 }
 
 void DriveForward::Execute() {
-
+  SmartDashboard::Log(timer->Get(),"Timer duration for the DriveForward");
 }
 
 bool DriveForward::IsFinished() {
