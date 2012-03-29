@@ -105,6 +105,7 @@ Camera::AngleData Camera::GetAngleData(){
         }
     }
     
+    ParticleAnalysisReport *keeper;
     bool good[reports->size()];
     for (unsigned int i = 0; i < reports->size(); i++){
         printf("Testing: Image:%d Width:%d Height:%d State:",i,reports->at(i).boundingRect.width,reports->at(i).boundingRect.height);

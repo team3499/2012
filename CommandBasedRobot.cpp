@@ -19,6 +19,7 @@ class Robot : public IterativeRobot {
 	private:
 	CommandBase *armLevel;
 	Command *autonomousCommand;
+	bool disabled;
 private:
 	
 	virtual void RobotInit()
@@ -52,42 +53,21 @@ private:
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
-/*
-		if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !armLevel->IsRunning()){
-			armLevel = new ArmLevel((float)45.0);
-			armLevel->Start();
-		} else if (CommandBase::GetOIInstance()->GetRawButton(1,2) && !armLevel->IsRunning()){
-			armLevel = new ArmLevel((float)-45.0);
-			armLevel->Start();
+		if (CommandBase::GetOIInstance()->GetRawButton(1,6) || CommandBase::GetOIInstance()->GetRawButton(1,11) || CommandBase::GetOIInstance()->GetRawButton(2,6) || CommandBase::GetOIInstance()->GetRawButton(2, 11)){
+			disabled = true;
 		}
-		if (CommandBase::GetOIInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
-			armLevel->Cancel();
-			delete(armLevel);
+		if (!disabled){
+			if (CommandBase::GetOIInstance()->GetRawButton(1,3) && autonomousCommand->IsRunning()){
+				autonomousCommand->Cancel();
+			}
+			if ((CommandBase::GetOIInstance()->GetRawButton(1,1) || CommandBase::GetOIInstance()->GetRawButton(2,1)) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+				autonomousCommand = new DAG();
+				autonomousCommand->Start();
+			}
+		} else if(CommandBase::GetOIInstance()->GetRawButton(1,8) || CommandBase::GetOIInstance()->GetRawButton(1,9) || CommandBase::GetOIInstance()->GetRawButton(2,8) || CommandBase::GetOIInstance()->GetRawButton(2,9)){
+			disabled = false;
 		}
-		if (CommandBase::GetOIInstance()->GetRawButton(2,3) && armLevel->IsRunning()){
-			armLevel->Cancel();
-			delete(armLevel);
-		}
-		
-		if (CommandBase::GetOIInstance()->GetRawButton(1,4)){// && !turn->IsRunning()){
-			printf("hit thing\n");
-			new ShootGroup();
-			//turn = new Turn();
-			//turn->Start();
-		} else if (CommandBase::GetOIInstance()->GetRawButton(1,5)){// && !turn->IsRunning()){
-			printf("hit thing\n");
-			new ShootGroup();
-		}
-
-		if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-			autonomousCommand = new AutoGroup();
-			autonomousCommand->Start();
-		}
-		if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-			autonomousCommand = new DAG();
-			autonomousCommand->Start();
-		}
-*/	}
+	}
 };
 
 START_ROBOT_CLASS(Robot);

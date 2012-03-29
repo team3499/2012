@@ -4,8 +4,8 @@
 #include "WPILib.h"
 #include "Commands/CommandGroup.h"
 #include "Commands/Turn.h"
-#include "Commands/ArmAim.h"
-#include "Commands/ShootBalls.h"
+#include "Commands/Delay.h"
+#include "Commands/AutoGroup.h"
 
 
 class DAG: public CommandGroup {
