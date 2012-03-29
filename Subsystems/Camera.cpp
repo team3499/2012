@@ -86,40 +86,33 @@ Camera::AngleData Camera::GetAngleData(){
         }
     }
     
-    ParticleAnalysisReport *keeper = NULL;
     bool good[reports->size()];
     for (unsigned int i = 0; i < reports->size(); i++){
         printf("Testing: Image:%d Width:%d Height:%d State:",i,reports->at(i).boundingRect.width,reports->at(i).boundingRect.height);
         if(reports->at(i).boundingRect.height >= 80 && 
-          reports->at(i).boundingRect.width >= 90 && 
+          reports->at(i).boundingRect.width >= 90   && 
           reports->at(i).boundingRect.height <= 300 && 
-          reports->at(i).boundingRect.width <= 350
-          //reports->at(i).center_mass_y > 320 && 
-          //reports->at(i).center_mass_y < 540 &&
-          //reports->at(i).center_mass_x > 140 && 
-          //reports->at(i).center_mass_x < 340
-          ){
-            printf("PASS");
-            if (//particle is better than last
-                       (absolute2(reports->at(i).center_mass_y_normalized) < absolute2(keeper->center_mass_y_normalized )) &&
-                       (absolute2(reports->at(i).center_mass_x_normalized) < absolute2(keeper->center_mass_x_normalized ))){
-                keeper = &reports->at(i);
-            }
+          reports->at(i).boundingRect.width <= 350  ){
+            printf("PASS.\n");
             good[i] = true;
         } else {
             good[i] = false;
-            printf("FAIL ");
+            printf("FAIL.\n");
         }
         
     }
+    
+    //make a total count
     unsigned int count = 0;
     for (unsigned int i = 0; i < reports->size(); i++){
         count += good[i];
     }
+    printf("There are %d rectangles that passed.",count);
+    
     if(!count){
         if(thresh.counter < 5){
             FixThreshold(&thresh);
-            printf("message1\n");
+            printf("The Threshold is being redone(2)\n");
             goto ThresholdRedo;
             //rerun filtering with different specs.
         } else {
@@ -131,6 +124,7 @@ Camera::AngleData Camera::GetAngleData(){
     //The image passed with thresholds, dont need image anymore
     delete image;
     
+    //get an array of which ones are good
     ParticleAnalysisReport *keeps[count];
     count = 0;
     for (unsigned int i = 0; i < reports->size(); i++){
@@ -152,18 +146,15 @@ Camera::AngleData Camera::GetAngleData(){
         // WARNING - This is an ugly hack
         GuessTarget(keeps[0]);
 
-        printf("PARTICLE (SINGLE): X:%f, Y:%f                        ",x,y);
+        printf("There was one particle found. (center): X:%f, Y:%f\n",x,y);
         AngleData a = {x,y};
         return a;
     }
 
-    
+    //Find Bottom rectangle
     printf("Finding Bottom Rectangle\n");
-    
-    //reset keeper to NULL for reuse
-    keeper = NULL;
-    
-    for (unsigned int i = 0; i < count; i++ ) {
+    ParticleAnalysisReport *keeper = NULL;
+    for (unsigned int i = 0; i < count ; i++ ) {
         ParticleAnalysisReport *report = keeps[i];
         double xNorm = report->center_mass_x_normalized;
         double yNorm = report->center_mass_y_normalized;
@@ -184,7 +175,7 @@ Camera::AngleData Camera::GetAngleData(){
             continue;
         }
         // the center of the rectangle must be in the bottom of the image
-        //SHOULD HAVE TO BE
+        //SHOULD HAVE TO BE b
       //  if ( yNorm >= 0 ) {
       //      TEST_MSG("             center of rectangle is in top of image\n");
       //      continue;
@@ -192,6 +183,7 @@ Camera::AngleData Camera::GetAngleData(){
         // the center of the rectangle is lower than any before
         if ( keeper == NULL || yNorm > keeper->center_mass_y_normalized ) {
             keeper = report;
+            printf("Hit the lower one");
         }
     }
     
@@ -202,8 +194,8 @@ Camera::AngleData Camera::GetAngleData(){
     
     
     ParticleAnalysisReport *bottom = keeper;
-    ParticleAnalysisReport *middle1 = 0;
-    ParticleAnalysisReport *middle2 = 0;
+    ParticleAnalysisReport *middle1 = NULL;
+    ParticleAnalysisReport *middle2 = NULL;
     double bottomWidth  = 2.0*bottom->boundingRect.width/bottom->imageHeight;
     double bottomHeight = 2.0*bottom->boundingRect.height/bottom->imageWidth;
     TEST_MSG("bottom: width = %3g; height = %3g\n",bottomWidth,bottomHeight);
@@ -227,22 +219,24 @@ Camera::AngleData Camera::GetAngleData(){
             TEST_MSG("             center of rectangle is too centered\n");
             continue;
         }
-        if ( middle1 == 0 ) {
+        if ( middle1 == NULL ) {
             middle1 = &report;
-        } else if ( middle2 == 0 ) {
+        } else if ( middle2 == NULL ) {
             middle2 = &report;
         }
     }
-    if ( middle1 ) {
+    
+    
+    if ( middle1 != NULL) {
         printf("\nCamera Coords:\n\t\tParticle:Middle1\n\t\tx:%f\n\t\ty:%f\n",
                 halfViewX * middle1->center_mass_x_normalized,
                 halfViewY * middle1->center_mass_y_normalized);
-        if ( middle2 ) {
+        if ( middle2  != NULL) {
             printf("\nCamera Coords:\n\t\tParticle:Middle2\n\t\tx:%f\n\t\ty:%f\n",
                     halfViewX * middle2->center_mass_x_normalized,
                     halfViewY * middle2->center_mass_y_normalized);
             // pick the larger of the two because it's closer
-            if ( middle2->boundingRect.width > middle1->boundingRect.width ) {
+            if ( middle2->particleArea > middle1->particleArea ) {
                 middle1 = middle2;
             }
         }
@@ -256,7 +250,7 @@ Camera::AngleData Camera::GetAngleData(){
     float y = middle1->center_mass_y_normalized * halfViewY;
     FILE *fp2 = CommandBase::GetOIInstance()->fp;
     fprintf(fp2,"X:%f\n Y:%f\n",x,y);
-    printf("PARTICLE: X:%f, Y:%f                        ",x,y);
+    printf("Selected Particle Turning: X:%f, Y:%f\n",x,y);
     AngleData a = {x,y};
     return a;
 }

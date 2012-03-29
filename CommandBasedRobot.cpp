@@ -34,6 +34,7 @@ private:
 	}
 	
 	virtual void AutonomousInit() {
+		CommandBase::chassisGyro->Reset();
 		printf("Autonomous Init Begin");
 		autonomousCommand->Start();
 		printf("Autonomous Init End");
@@ -77,7 +78,7 @@ private:
 			printf("hit thing\n");
 			new ShootGroup();
 		}
-*/
+
 		if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
 			autonomousCommand = new AutoGroup();
 			autonomousCommand->Start();
@@ -86,7 +87,7 @@ private:
 			autonomousCommand = new DAG();
 			autonomousCommand->Start();
 		}
-	}
+*/	}
 };
 
 START_ROBOT_CLASS(Robot);

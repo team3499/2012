@@ -41,7 +41,7 @@ void Turn::Initialize() {
 	} else if(absolute(turnAngle-turnTo) >= 5){
 		turnSpeed = 0.55;
 	} else {
-		turnSpeed = 0.40;
+		turnSpeed = 0.50;
 	}
 	if(turnTo > turnAngle){
 		turnSpeed *= -1;

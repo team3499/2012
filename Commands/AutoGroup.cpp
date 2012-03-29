@@ -5,7 +5,7 @@ AutoGroup::AutoGroup(bool isAuto)
 {
 	if(isAuto){
 		SmartDashboard::Log(true,"AutoEnabled");
-		AddSequential(new DriveForward(2,1.0,false));
+		AddSequential(new DriveForward(1.0,1.0,false));
 	}
 	SmartDashboard::Log("Turning", "Shooting Status");
 	AddSequential(new Turn());

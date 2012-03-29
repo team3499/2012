@@ -36,7 +36,6 @@ float ChassisGyro::GetHeading() {
 float ChassisGyro::GetAngle() {
   float angle = gyro->GetAngle();
   SmartDashboard::Log(angle, "Chassis Gyro");
-
   return angle;
 }
 
