@@ -15,8 +15,8 @@ Camera *CommandBase::camera = NULL;
 Chassis *CommandBase::chassis = NULL;
 ChassisGyro *CommandBase::chassisGyro = NULL;
 Lights *CommandBase::lights = NULL;
-Rangefinder *CommandBase::rangefinder = NULL;
 Magazine *CommandBase::magazine = NULL;
+Rangefinder *CommandBase::rangefinder = NULL;
 Shooter *CommandBase::shooter = NULL;
 OI *CommandBase::oi = NULL;
 

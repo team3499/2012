@@ -13,6 +13,7 @@ public:
 	void InitDefaultCommand();
 	void ArcadeDrive(Joystick &joystick);
 	void TankDrive(float leftOut, float rightOut);
+	void Stop();
 private:
 	void Drive(float moveValue,float rotateValue);
 };
