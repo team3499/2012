@@ -159,6 +159,7 @@ Camera::AngleData Camera::GetAngleData(){
     
     //The image passed with thresholds, dont need image anymore
     delete image;
+    image = 0x00;
     
     //get an array of which ones are good
     ParticleAnalysisReport *keeps[count];

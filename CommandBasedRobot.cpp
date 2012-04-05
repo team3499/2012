@@ -33,7 +33,9 @@ private:
 		//SmartDashboard::init();
 		CommandBase::init();
 		autonomousCommand = new DAG();
+		printf("DAG made\n");
 		stopCommand = new StopAll();
+		printf("StopAll made\n");
 		//SmartDashboard sd = SmartDashboard::GetInstance();
 		printf("End");
 	}
@@ -53,11 +55,15 @@ private:
 		printf("Teleop init.\n");
 		autonomousCommand->Cancel();
 		printf("Autonomous Command disabled.\n");
+		disabled = false;
 	}
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
-		if (CommandBase::GetOIInstance()->GetRawButton(1,6) || CommandBase::GetOIInstance()->GetRawButton(1,11) || CommandBase::GetOIInstance()->GetRawButton(2,6) || CommandBase::GetOIInstance()->GetRawButton(2, 11)){
+		if (CommandBase::GetOIInstance()->GetRawButton(1,6)
+				|| CommandBase::GetOIInstance()->GetRawButton(1,11)
+				|| CommandBase::GetOIInstance()->GetRawButton(2,6)
+				|| CommandBase::GetOIInstance()->GetRawButton(2, 11)){
 		//Check to see if you should disable stuff
 			if(autonomousCommand->IsRunning()){//if the command is running, log that
 				autonomousCommand->Cancel();
@@ -67,19 +73,35 @@ private:
 			disabled = true;
 		}
 		if (!disabled){//if it is not disabled, check to see the to stop running the DAG command
-			if (CommandBase::GetOIInstance()->GetRawButton(1,3) && autonomousCommand->IsRunning()){
+			if (CommandBase::GetOIInstance()->GetRawButton(1,3)
+					&& autonomousCommand->IsRunning()){
 				autonomousCommand->Cancel();
 			}
-			if ((CommandBase::GetOIInstance()->GetRawButton(1,1) || CommandBase::GetOIInstance()->GetRawButton(2,1)) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+			if ((CommandBase::GetOIInstance()->GetRawButton(1,1)
+					|| CommandBase::GetOIInstance()->GetRawButton(2,1))
+					&& !autonomousCommand->IsRunning()){
 				autonomousCommand->Start();
 			}
-		} else if((CommandBase::GetOIInstance()->GetRawButton(1,8) && CommandBase::GetOIInstance()->GetRawButton(1,9)) || (CommandBase::GetOIInstance()->GetRawButton(2,8) && CommandBase::GetOIInstance()->GetRawButton(2,9))){
+		} else if((CommandBase::GetOIInstance()->GetRawButton(1,8)
+				&& CommandBase::GetOIInstance()->GetRawButton(1,9))
+				|| (CommandBase::GetOIInstance()->GetRawButton(2,8)
+				&& CommandBase::GetOIInstance()->GetRawButton(2,9))){
 			//otherwise check to enable everything again
 			disabled = false;
 			stopCommand->Cancel();
 			if(wasAcRunning){
 				autonomousCommand->Start();
 			}
+		}
+		if (autonomousCommand->IsRunning()){
+			SmartDashboard::Log("Running DAG","Demo Status");
+			printf("Running DAG\n");
+		} else if (stopCommand->IsRunning()){
+			SmartDashboard::Log("STOPPED","Demo Status");
+			printf("STOPPED\n");
+		} else {
+			SmartDashboard::Log("User Control","Demo Status");
+			printf("User Control\n");
 		}
 	}
 };
