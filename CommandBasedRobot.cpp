@@ -15,10 +15,13 @@ using namespace std;
 #include "Commands/ArmLevel.h"
 #include "FiringSolution.h"
 #include "Commands/ShootGroup.h"
+#include "Commands/StopAll.h"
 class Robot : public IterativeRobot {
 	private:
+	bool wasAcRunning;
 	CommandBase *armLevel;
 	Command *autonomousCommand;
+	Command *stopCommand;
 	bool disabled;
 private:
 	
@@ -29,7 +32,8 @@ private:
 		
 		//SmartDashboard::init();
 		CommandBase::init();
-		autonomousCommand = new AutoGroup(true);
+		autonomousCommand = new DAG();
+		stopCommand = new StopAll();
 		//SmartDashboard sd = SmartDashboard::GetInstance();
 		printf("End");
 	}
@@ -54,18 +58,28 @@ private:
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
 		if (CommandBase::GetOIInstance()->GetRawButton(1,6) || CommandBase::GetOIInstance()->GetRawButton(1,11) || CommandBase::GetOIInstance()->GetRawButton(2,6) || CommandBase::GetOIInstance()->GetRawButton(2, 11)){
+		//Check to see if you should disable stuff
+			if(autonomousCommand->IsRunning()){//if the command is running, log that
+				autonomousCommand->Cancel();
+				wasAcRunning = true;
+			}
+			stopCommand->Start();//stop EVERYTHING
 			disabled = true;
 		}
-		if (!disabled){
+		if (!disabled){//if it is not disabled, check to see the to stop running the DAG command
 			if (CommandBase::GetOIInstance()->GetRawButton(1,3) && autonomousCommand->IsRunning()){
 				autonomousCommand->Cancel();
 			}
 			if ((CommandBase::GetOIInstance()->GetRawButton(1,1) || CommandBase::GetOIInstance()->GetRawButton(2,1)) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-				autonomousCommand = new DAG();
 				autonomousCommand->Start();
 			}
-		} else if(CommandBase::GetOIInstance()->GetRawButton(1,8) || CommandBase::GetOIInstance()->GetRawButton(1,9) || CommandBase::GetOIInstance()->GetRawButton(2,8) || CommandBase::GetOIInstance()->GetRawButton(2,9)){
+		} else if((CommandBase::GetOIInstance()->GetRawButton(1,8) && CommandBase::GetOIInstance()->GetRawButton(1,9)) || (CommandBase::GetOIInstance()->GetRawButton(2,8) && CommandBase::GetOIInstance()->GetRawButton(2,9))){
+			//otherwise check to enable everything again
 			disabled = false;
+			stopCommand->Cancel();
+			if(wasAcRunning){
+				autonomousCommand->Start();
+			}
 		}
 	}
 };
