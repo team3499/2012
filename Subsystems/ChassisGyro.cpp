@@ -1,12 +1,14 @@
 #include "Subsystems/ChassisGyro.h"
 #include "Robotmap.h"
-#include "SmartDashboard/SmartDashboard.h"
+#include "Commands/ChassisGyroDefault.h"
 
 ChassisGyro::ChassisGyro() : Subsystem("ChassisGyro") {
   gyro = new Gyro(CHASSIS_GYRO_CHANNEL);
+  gyro->Reset();
 }
 
 void ChassisGyro::InitDefaultCommand() {
+	SetDefaultCommand(new ChassisGyroDefault());
 }
 
 //

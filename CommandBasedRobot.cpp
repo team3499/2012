@@ -7,14 +7,7 @@ using namespace std;
 #include "CommandBase.h"
 /* Include Custom Commands */
 #include "Commands/Command.h"
-//#include "Commands/Rotation.h"
-//#include "Commands/ExampleCommand.h"
-//#include "Commands/ShootGroup.h"
-#include "Commands/AutoGroup.h"
 #include "Commands/DAG.h"
-#include "Commands/ArmLevel.h"
-#include "FiringSolution.h"
-#include "Commands/ShootGroup.h"
 #include "Commands/StopAll.h"
 class Robot : public IterativeRobot {
 	private:
@@ -58,10 +51,10 @@ private:
 	
 	virtual void TeleopPeriodic(){
 		Scheduler::GetInstance()->Run();
-		if (CommandBase::GetOIInstance()->GetRawButton(1,6)
+		if ((CommandBase::GetOIInstance()->GetRawButton(1,6)
 				|| CommandBase::GetOIInstance()->GetRawButton(1,11)
 				|| CommandBase::GetOIInstance()->GetRawButton(2,6)
-				|| CommandBase::GetOIInstance()->GetRawButton(2, 11)){
+				|| CommandBase::GetOIInstance()->GetRawButton(2, 11)) && !disabled){
 		//Check to see if you should disable stuff
 			printf("Disabled");
 			if(autonomousCommand->IsRunning()){//if the command is running, log that
@@ -75,8 +68,7 @@ private:
 			stopCommand->Start();//stop EVERYTHING
 			disabled = true;
 			printf("\n");
-		}
-		if (!disabled){//if it is not disabled, check to see the to stop running the DAG command
+		} else if (!disabled){//if it is not disabled, check to see the to stop running the DAG command
 			printf("Is Not Disabled:");
 			if (CommandBase::GetOIInstance()->GetRawButton(1,3)
 					&& autonomousCommand->IsRunning()){
