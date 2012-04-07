@@ -16,6 +16,11 @@ StopAll::StopAll() {
 
 // Called just before this Command runs the first time
 void StopAll::Initialize() {
+	arm->Stop();
+	chassis->Stop();
+	magazine->Stop();
+	shooter->Stop();
+	lights->All(true);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -25,20 +30,14 @@ void StopAll::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool StopAll::IsFinished() {
-	return true;
+	return false;
 }
 
 // Called once after isFinished returns true
 void StopAll::End() {
-	this->Interrupted();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void StopAll::Interrupted() {
-	arm->Stop();
-	chassis->Stop();
-	magazine->Stop();
-	shooter->Stop();
-	lights->All(true);
 }

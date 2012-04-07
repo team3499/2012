@@ -53,8 +53,6 @@ private:
 	
 	virtual void TeleopInit() {
 		printf("Teleop init.\n");
-		autonomousCommand->Cancel();
-		printf("Autonomous Command disabled.\n");
 		disabled = false;
 	}
 	
@@ -65,33 +63,50 @@ private:
 				|| CommandBase::GetOIInstance()->GetRawButton(2,6)
 				|| CommandBase::GetOIInstance()->GetRawButton(2, 11)){
 		//Check to see if you should disable stuff
+			printf("Disabled");
 			if(autonomousCommand->IsRunning()){//if the command is running, log that
 				autonomousCommand->Cancel();
 				wasAcRunning = true;
+				printf(":and canceled.");
 			}
+			delete stopCommand;
+			stopCommand = 0x00;
+			stopCommand = new StopAll();
 			stopCommand->Start();//stop EVERYTHING
 			disabled = true;
+			printf("\n");
 		}
 		if (!disabled){//if it is not disabled, check to see the to stop running the DAG command
+			printf("Is Not Disabled:");
 			if (CommandBase::GetOIInstance()->GetRawButton(1,3)
 					&& autonomousCommand->IsRunning()){
 				autonomousCommand->Cancel();
+				printf("DAG canceled\n");
 			}
 			if ((CommandBase::GetOIInstance()->GetRawButton(1,1)
 					|| CommandBase::GetOIInstance()->GetRawButton(2,1))
 					&& !autonomousCommand->IsRunning()){
+				delete autonomousCommand;
+				autonomousCommand = 0x00;
+				autonomousCommand = new DAG();
 				autonomousCommand->Start();
+				printf("DAG started\n");
 			}
 		} else if((CommandBase::GetOIInstance()->GetRawButton(1,8)
 				&& CommandBase::GetOIInstance()->GetRawButton(1,9))
 				|| (CommandBase::GetOIInstance()->GetRawButton(2,8)
 				&& CommandBase::GetOIInstance()->GetRawButton(2,9))){
 			//otherwise check to enable everything again
+			printf("Robot Reenabled");
 			disabled = false;
 			stopCommand->Cancel();
 			if(wasAcRunning){
+				delete autonomousCommand;
+				autonomousCommand = new DAG();
 				autonomousCommand->Start();
+				printf("DAG Restarted.");
 			}
+			printf("\n");
 		}
 		if (autonomousCommand->IsRunning()){
 			SmartDashboard::Log("Running DAG","Demo Status");
