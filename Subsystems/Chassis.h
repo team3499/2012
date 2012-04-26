@@ -10,6 +10,7 @@ private:
 	Jaguar left_front, left_rear, right;
 public:
 	Chassis();
+	void Stop();
 	void InitDefaultCommand();
 	void ArcadeDrive(Joystick &joystick);
 	void TankDrive(float leftOut, float rightOut);

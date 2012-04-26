@@ -73,3 +73,10 @@ void Chassis::Drive(float moveValue, float rotateValue)
 	left_front.Set(leftOut, 0x80);
 	right.Set(-rightOut, 0x80);
 }
+
+void Chassis::Stop(){
+  left_rear.StopMotor();
+  left_front.StopMotor();
+  right.StopMotor();
+}
+
