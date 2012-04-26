@@ -20,12 +20,8 @@
 class Camera: public Subsystem {
 public:
 	unsigned int particleCount;
-	struct Thresh{
-		Threshold *threshold;
-		Threshold *changeBy;
-		Threshold *limits;
-		int counter;
-	};
+	Threshold *thresholds[];
+	
 	struct AngleData{
 		float xAxisTurn;
 		float yAxisTurn;
@@ -39,8 +35,8 @@ public:
 	Camera();
 	void InitDefaultCommand();
 	AngleData GetAngleData();
-	void FixThreshold(Camera::Thresh *thresh);
 	ParticleAnalysisReport* FindBottomRectangle(ParticleAnalysisReport *reports[], unsigned int reportCount);
+	vector<ParticleAnalysisReport> *ProcessImageForReport(ColorImage *image,int whatThreshold);
 };
 
 #endif /*CAMERA_SUBSYSTEM_H*/
