@@ -8,7 +8,6 @@ StopAll::StopAll() {
 	Requires(camera);
 	Requires(chassis);
 	Requires(chassisGyro);
-	Requires(lights);
 	Requires(magazine);
 	Requires(rangefinder);
 	Requires(shooter);
@@ -23,7 +22,6 @@ StopAll::StopAll(bool stop) {
 	Requires(camera);
 	Requires(chassis);
 	Requires(chassisGyro);
-	Requires(lights);
 	Requires(magazine);
 	Requires(rangefinder);
 	Requires(shooter);
@@ -36,7 +34,6 @@ void StopAll::Initialize() {
 	chassis->Stop();
 	magazine->Stop();
 	shooter->Stop();
-	lights->All(true);
 }
 
 // Called repeatedly when this Command is scheduled to run
