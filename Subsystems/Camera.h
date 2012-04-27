@@ -3,6 +3,7 @@
 #include "Commands/Subsystem.h"
 #include "Vision/RGBImage.h"
 #include "Vision/BinaryImage.h"
+#include "Target.h"
 #include "WPILib.h"
 
 #define ASPECT_RATIO (24.0/18.0)
@@ -18,25 +19,21 @@
 #endif
 
 class Camera: public Subsystem {
+
 public:
-	unsigned int particleCount;
-	Threshold *thresholds[];
-	
-	struct AngleData{
-		float xAxisTurn;
-		float yAxisTurn;
-	};
-	
+  Camera();
+  void InitDefaultCommand() {}
+
+  Target * GetTarget();
+
+  ColorImage * CaptureImage();
+  vector<ParticleAnalysisReport> * GetPotentialParticles(ColorImage *image, Threshold *thresholds[]);
+  Target * SelectPreferredTarget(vector<ParticleAnalysisReport> *particles);
+
 private:
-	// It's desirable that everything possible under private except
-	// for methods that implement subsystem capabilities
-	//AxisCamera *camera;
-public:
-	Camera();
-	void InitDefaultCommand();
-	AngleData GetAngleData();
-	ParticleAnalysisReport* FindBottomRectangle(ParticleAnalysisReport *reports[], unsigned int reportCount);
-	vector<ParticleAnalysisReport> *ProcessImageForReport(ColorImage *image,int whatThreshold);
+  Threshold *thresholds[];
+
+  vector<ParticleAnalysisReport> * ProcessImageForReport(ColorImage *image, Threshold *threshold, int index);
 };
 
 #endif /*CAMERA_SUBSYSTEM_H*/

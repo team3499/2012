@@ -19,7 +19,7 @@ void CameraDefault::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void CameraDefault::Execute() {
 	if(!(counter%50)){
-		printf("<>>%f<<>",camera->GetAngleData().xAxisTurn);
+		printf("<>>%f<<>",camera->GetTarget()->GetHorizontalAngle());
 		printf("\nOn 50th time\n");
 		counter = 1;
 	}

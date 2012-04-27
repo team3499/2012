@@ -29,7 +29,7 @@ Turn::Turn(float angle)
 // Called just before this Command runs the first time
 void Turn::Initialize() {
 	if(turnAngle == 0){
-		turnAngle = camera->GetAngleData().xAxisTurn;
+		turnAngle = camera->GetTarget()->GetHorizontalAngle();
 	}
 	turnTo = chassisGyro->GetDesiredAngle(turnAngle);
 	if(absolute(turnAngle-turnTo) >= 15){

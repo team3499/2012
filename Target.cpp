@@ -2,6 +2,12 @@
 
 Target::Target(ID id) {
   this->id = id;
+  SetHorizontalAngle(0.0);
+}
+
+Target::Target(ID id, float angle) {
+  this->id = id;
+  SetHorizontalAngle(angle);
 }
 
 Target::~Target() {
@@ -58,4 +64,19 @@ int Target::GetPointValue() {
 //
 Target::ID Target::GetIdentifier() {
   return id;
+}
+
+
+//
+// Returns the horizontal angle necessary to turn to center the target
+//
+float Target::GetHorizontalAngle() {
+  return hAngle;
+}
+
+//
+// Set the horizontal angle necessary to tern to center the target
+//
+void Target::SetHorizontalAngle(float angle) {
+  hAngle = angle;
 }

@@ -6,6 +6,7 @@
 //   * Rim height
 //   * Location
 //   * Point Value
+//   * Horizontal Angle
 //
 class Target {
 
@@ -20,6 +21,7 @@ public:
   };
 
   Target(ID id);
+  Target(ID id, float angle);
   virtual ~Target();
 
   float GetRimHeight();   // Rim height in meters
@@ -27,8 +29,12 @@ public:
   int GetPointValue();    // Point value for scoring on this target
   ID GetIdentifier();     // The target
 
+  float GetHorizontalAngle();  // The amount to turn to center the target
+  void SetHorizontalAngle(float angle);
+
 private:
   ID id;
+  float hAngle;
 
   Target() {};
 

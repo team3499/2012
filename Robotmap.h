@@ -44,5 +44,7 @@
 #define LEDS_RED_CHANNEL 4
 #define LEDS_WHITE_1_CHANNEL 1
 #define LEDS_WHITE_2_CHANNEL 2
+// camera
+#define CAMERA_IP_ADDR "10.34.99.90"
 
 #endif
