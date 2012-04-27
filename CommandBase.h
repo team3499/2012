@@ -13,7 +13,6 @@
 #include "Subsystems/Shooter.h"
 #include "Subsystems/Magazine.h"
 #include "Subsystems/Camera.h"
-#include "Subsystems/Lights.h"
 
 
 /**
@@ -32,7 +31,6 @@ public:
 	static Camera *camera;
 	static Chassis *chassis;
 	static ChassisGyro *chassisGyro;
-	static Lights *lights;
 	static Magazine *magazine;
     static Rangefinder *rangefinder;
 	static Shooter *shooter;
