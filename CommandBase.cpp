@@ -10,10 +10,11 @@ CommandBase::CommandBase() : Command() {
 // Initialize a single static instance of all of your subsystems to NULL
 //ExampleSubsystem* CommandBase::examplesubsystem = NULL;
 Arm *CommandBase::arm = NULL;
-ArmAccelerometer *CommandBase::accelerometer;
+ArmAccelerometer *CommandBase::accelerometer = NULL;
 Camera *CommandBase::camera = NULL;
 Chassis *CommandBase::chassis = NULL;
 ChassisGyro *CommandBase::chassisGyro = NULL;
+Lights *CommandBase::lights = NULL;
 Rangefinder *CommandBase::rangefinder = NULL;
 Magazine *CommandBase::magazine = NULL;
 Shooter *CommandBase::shooter = NULL;
@@ -32,6 +33,8 @@ void CommandBase::init() {
 	camera = new Camera();
 	printf("Camera\n");
 	chassis = new Chassis();
+	printf("Lights\n");
+	lights = new Lights();
 	printf("Chas\n");
 	chassisGyro = new ChassisGyro();
 	printf("Gyro\n");
