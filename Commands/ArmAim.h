@@ -10,12 +10,16 @@ private:
   Target *target;      // The target we're shooting at
   float   angle;       // Arm angle in degrees with horizontal = 0
   float   margin;      // Margin of "close enough" for target angle
+  float   movePeriod;  // Time to move arm before taking another measurement
   int     iteration;   // Number of iteration attempted to set arm angle
+  Timer   timer;
 
-  void MeasureAndMove();      // Take an angle measurement and start moving
-  void StopAndQuiet();        // Stop and wait for bounding to settle
-  bool GetDesiredDirection(); // Determine which direction to go
-  bool IsAtTargetAngle();     // Are we there yet?
+  enum Mode {
+    QUIETING,
+    MEASURING,
+    MOVING,
+    FINISHED
+  } mode;
 
 public:
   ArmAim(Target *target = NULL);  // Defaults to middle target
