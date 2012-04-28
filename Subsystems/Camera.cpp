@@ -160,7 +160,7 @@ Target * Camera::SelectPreferredTarget(vector<ParticleAnalysisReport> *particles
   if (lowestParticle.particleIndex == largestParticle.particleIndex) { targetID = Target::Bottom; }
 
   Target *target = new Target(targetID, hAngle);
-  if (IS_DEBUG_MODE) {
+  if (true) {
     printf("#### Selected ");
     OutputParticle(&largestParticle);
     printf("#### Selected ");
@@ -216,7 +216,7 @@ void OutputThreshold(Threshold *threshold) {
 }
 
 void OutputParticle(ParticleAnalysisReport *particle) {
-  printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f\%\n", particle->particleIndex,
+  printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f%%\n", particle->particleIndex,
          particle->imageWidth, particle->imageHeight, particle->particleArea,
          particle->center_mass_x, particle->center_mass_y, particle->particleToImagePercent);
 }
