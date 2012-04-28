@@ -18,8 +18,10 @@ void Rangefinder::InitDefaultCommand() {
 
 // Returns the distance in meters
 double Rangefinder::GetDistance(int smoothCount) {
-  double distance = (GetVoltage(smoothCount) / 0.0098)/ 39.37;
-  printf("Distance:%f\nVoltage:%f\n",distance,GetVoltage(smoothCount));
+  double voltage  = GetVoltage(smoothCount);
+  double distance = voltage / 0.0098 / 39.37;  // 0.0098V/inch convert to meters
+
+  if (IS_DEBUG_MODE) { printf("Rangefinder: %0.3fm (%0.2fV)\n", distance, voltage); }
   SmartDashboard::Log((float)distance, "Rangefinder");
 
   return distance;
