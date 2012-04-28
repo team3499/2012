@@ -48,6 +48,7 @@ Target * Camera::GetTarget() {
   delete image;
 
   if (particles == NULL) {  // Total Failure!  Bail out returning 0, 0 for angle data
+    if (IS_DEBUG_MODE) { printf("#### Total Failure!  No target acquired!\n"); }
     return NULL;
   }
 
@@ -68,7 +69,10 @@ ColorImage * Camera::CaptureImage() {
   camera.WriteCompression(0);
 
   ColorImage *image = camera.GetImage();
-  if (IS_DEBUG_MODE) { image->Write("/img/picture.png"); }
+  if (IS_DEBUG_MODE) {
+    printf("#### Captured camera image to /img/picture.png");
+    image->Write("/img/picture.png");
+  }
 
   return image;
 }
@@ -87,13 +91,20 @@ vector<ParticleAnalysisReport> * Camera::GetPotentialParticles(ColorImage *image
   // Loop over thresholds applying each in turn to the camera image.  If successful,
   // will return a non-NULL pointer for the particle list.
   while (thresholds[thresholdIndex] != NULL) {
+    if (IS_DEBUG_MODE) { printf("#### Evaluating "); }
+    if (IS_DEBUG_MODE) { OutputThreshold(thresholds[thresholdIndex]); }
+
     // Process captured image to produce an ordered list of particles
     particles = ProcessImageForReport(image, thresholds[thresholdIndex], thresholdIndex++);
+    if (IS_DEBUG_MODE) { printf("#### %d Potential Particles\n", particles->size()); }
+    if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
     // Reject particles that are too small, too large, or taller than they are wide
     particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
     particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
     particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
+    if (IS_DEBUG_MODE) { printf("#### %d Filtered Particles\n", particles->size()); }
+    if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
     // Try again with the next threshold in the list
     // if no "good" particles left in the list
@@ -116,21 +127,47 @@ Target * Camera::SelectPreferredTarget(vector<ParticleAnalysisReport> *particles
   // Select the largest particle
   ParticleAnalysisReport largestParticle = particles->at(0);
   ParticleAnalysisReport lowestParticle  = particles->at(0);
+  if (IS_DEBUG_MODE) {
+    printf("#### Initial Largest ");
+    OutputParticle(&largestParticle);
+    printf("#### Initial Lowest ");
+    OutputParticle(&lowestParticle);
+  }
   for (vector<ParticleAnalysisReport>::iterator iter = particles->begin(); iter != particles->end(); ++iter ) {
-    if (iter->particleArea > largestParticle.particleArea) { largestParticle = *iter; }
-    if (iter->center_mass_y > lowestParticle.center_mass_y) { lowestParticle = *iter; }
+    if (iter->particleArea > largestParticle.particleArea) {
+      largestParticle = *iter;
+      if (IS_DEBUG_MODE) {
+        printf("#### New Largest ");
+        OutputParticle(&largestParticle);
+      }
+    }
+    if (iter->center_mass_y > lowestParticle.center_mass_y) {
+      lowestParticle = *iter;
+      if (IS_DEBUG_MODE) {
+        printf("#### New Lowest ");
+        OutputParticle(&lowestParticle);
+      }
+    }
   }
 
   // We're going to shoot at the largest target.  Get the horizontal angle
   // and assume it's a middle height target.
   float hAngle = largestParticle.center_mass_x_normalized * 22.5;
-  Target::ID target = Target::Middle;
+  Target::ID targetID = Target::Middle;
 
   // If lowest and largest particle are the same, then we are probably
   // right in front of the bottom target.  Adjust the target ID.
-  if (lowestParticle.particleIndex == largestParticle.particleIndex) { target = Target::Bottom; }
+  if (lowestParticle.particleIndex == largestParticle.particleIndex) { targetID = Target::Bottom; }
 
-  return (new Target(target, hAngle));
+  Target *target = new Target(targetID, hAngle);
+  if (IS_DEBUG_MODE) {
+    printf("#### Selected ");
+    OutputParticle(&largestParticle);
+    printf("#### Selected ");
+    OutputTarget(target);
+  }
+
+  return target;
 }
 
 /* *\ 
@@ -139,41 +176,58 @@ Target * Camera::SelectPreferredTarget(vector<ParticleAnalysisReport> *particles
 \* */
 vector<ParticleAnalysisReport> *Camera::ProcessImageForReport(ColorImage *image, Threshold *threshold, int index) {
 
-  printf("Analizing the image with threshold %d\n", index);
-  
   BinaryImage *thresholdImage = image->ThresholdRGB(*threshold); // get just the red target pixels
-  printf("Threshold Written\n");
-  
   BinaryImage *bigObjectsImage = thresholdImage->RemoveSmallObjects(false, 4); // remove small objects (noise)
-  printf("Big Objects Written\n");
-  
   BinaryImage *convexHullImage = bigObjectsImage->ConvexHull(false); // fill in partial and full rectangles
-  printf("Convex Hull Written\n");
-  
-  ParticleFilterCriteria2 criteria[] = { { IMAQ_MT_BOUNDING_RECT_WIDTH, 30,
-      400, false, false }, { IMAQ_MT_BOUNDING_RECT_HEIGHT, 40, 400,
-      false, false } };
-  
+  ParticleFilterCriteria2 criteria[] = { { IMAQ_MT_BOUNDING_RECT_WIDTH, 30, 400, false, false },
+                                         { IMAQ_MT_BOUNDING_RECT_HEIGHT, 40, 400, false, false } };
   BinaryImage *filteredImage = convexHullImage->ParticleFilter(criteria, 2); // find the rectangles
-  printf("Filtered Image Written\n");
-  
+  vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
+
   if(IS_DEBUG_MODE){
     char filenames[4][16];
     sprintf(filenames[0], "/img/%dimg1.png", index);
     sprintf(filenames[1], "/img/%dimg2.png", index);
     sprintf(filenames[2], "/img/%dimg3.png", index);
     sprintf(filenames[3], "/img/%dimg4.png", index);
+    printf("#### Threshold image written to %s\n", filenames[0]);
     thresholdImage->Write(filenames[0]);
+    printf("#### Big objects image written to %s\n", filenames[1]);
     bigObjectsImage->Write(filenames[1]);
+    printf("#### Convex hull image written to %s\n", filenames[2]);
     convexHullImage->Write(filenames[2]);
+    printf("#### Filtered image written to %s\n", filenames[3]);
     filteredImage->Write(filenames[3]);
   }
-  
+
   delete convexHullImage;
   delete bigObjectsImage;
   delete thresholdImage;
-  vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
   delete filteredImage;
-  /* Returning the finalized reports */
+
   return reports;
 }
+
+
+
+void OutputThreshold(Threshold *threshold) {
+  printf("Threshold: %03d/%03d %03d/%03d %03d/%03d\n", threshold->plane1Low, threshold->plane1High,
+         threshold->plane2Low, threshold->plane2High, threshold->plane3Low, threshold->plane3High);
+}
+
+void OutputParticle(ParticleAnalysisReport *particle) {
+  printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f\%\n", particle->particleIndex,
+         particle->imageWidth, particle->imageHeight, particle->particleArea,
+         particle->center_mass_x, particle->center_mass_y, particle->particleToImagePercent);
+}
+
+void OutputParticles(vector<ParticleAnalysisReport> *particles) {
+  for (vector<ParticleAnalysisReport>::iterator iter = particles->begin(); iter != particles->end() ; ++iter) {
+    OutputParticle(&(*iter));
+  }
+}
+
+void OutputTarget(Target *target) {
+  printf("Target: %s\n", target->AsString());
+}
+

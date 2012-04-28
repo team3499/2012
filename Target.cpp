@@ -1,3 +1,5 @@
+#include <string.h>
+#include <stdio.h>
 #include "target.h"
 
 Target::Target(ID id) {
@@ -79,4 +81,22 @@ float Target::GetHorizontalAngle() {
 //
 void Target::SetHorizontalAngle(float angle) {
   hAngle = angle;
+}
+
+//
+// Return string prepresentation of the target.  Do not free char * returned.
+//
+const char * Target::AsString() {
+  char buffer[64];
+  switch (id) {
+    case Bottom : strcpy("Bottom", buffer);
+    case Left   : strcpy("Left",   buffer);
+    case Right  : strcpy("Right",  buffer);
+    case Middle : strcpy("Middle", buffer);
+    case Top    : strcpy("Top",    buffer);
+  }
+  sprintf(stringRep, "%s Rim:%0.3f Arc:%0.3f hAngle:%0.1f", buffer, GetRimHeight(),
+          GetArcHeight(), GetHorizontalAngle());
+
+  return stringRep;
 }
