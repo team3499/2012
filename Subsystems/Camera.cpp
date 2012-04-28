@@ -1,7 +1,6 @@
 #include "Camera.h"
 #include "WPILib.h"
 #include "Robotmap.h"
-#include "Commands/CameraDefault.h"
 
 float absolute2(float x) {
   if (x < 0) {
