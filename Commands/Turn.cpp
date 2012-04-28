@@ -61,6 +61,9 @@ float Turn::TurnSpeedForAngle(float angle) {
   float offsetAngle = absolute(angle - turnTo);
   float speed = 0.40;
 
+  SmartDashboard::Log(offsetAngle, "Turn Remaining");
+  SmartDashboard::Log(speed, "Turn Speed");
+
   if (offsetAngle >= 15.0) { speed = 0.95; }
   else if (offsetAngle >= 10.0) { speed = 0.70; }
   else if (offsetAngle >= 5.0) { speed = 0.55; }
