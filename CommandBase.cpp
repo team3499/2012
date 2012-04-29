@@ -1,10 +1,14 @@
 #include "CommandBase.h"
 #include "Commands/Scheduler.h"
 
-CommandBase::CommandBase(const char *name) : Command(name) {
+CommandBase::CommandBase(const char *name):
+  Command(name)
+{
 }
 
-CommandBase::CommandBase() : Command() {
+CommandBase::CommandBase():
+  Command()
+{
 }
 
 // Initialize a single static instance of all of your subsystems to NULL

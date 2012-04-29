@@ -16,7 +16,7 @@ void UserDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void UserDrive::Execute() {
-	chassis->ArcadeDrive(oi->js1);
+	chassis->ArcadeDrive(oi->GetDriveJS());
 }
 
 // Make this return true when this Command no longer needs to run execute()

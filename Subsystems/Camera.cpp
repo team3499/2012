@@ -34,7 +34,7 @@ Camera::Camera() :
   thresholds[1] = new Threshold(180, 255, 65, 255, 65, 255);
   thresholds[2] = new Threshold(170, 255, 60, 255, 60, 255);
   thresholds[3] = new Threshold(160, 255, 55, 255, 55, 255);
-  thresholds[4] = NULL;   // MUST have a NULL at the end!
+  thresholds[4] = NULL;   // MUST have a NULL at the end! (so we dont run a marathon through the memory)
 }
 
 // Get the preferred target to shoot at.  Caller is responsible for freeing
@@ -106,7 +106,7 @@ vector<ParticleAnalysisReport> * Camera::GetPotentialParticles(ColorImage *image
     }
   }
 
-  return particles;
+  return particles;  // Will return NULL if there is no good particles.
 }
 
 // Given a list of particles, return the preferred target to shoot at.  Caller
