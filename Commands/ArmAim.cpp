@@ -2,19 +2,20 @@
 #include "FiringSolution.h"
 
 //
-// Aim the arm at the passed target.  Note!  ArmAim "owns" the
-// Target object passed and will destroy it when finished.
+// Aim the arm at the passed target.
 //
 ArmAim::ArmAim(Target *target) {
   Requires(arm);
   Requires(accelerometer);
   Requires(rangefinder);
 
-  iteration = 0;
-  angle     = 0.0;
-  margin    = 1.0;
+  iteration  = 0;
+  angle      = 0.0;
+  margin     = 1.0;
+  movePeriod = 0.0;
 
   if (target == NULL) { this->target = new Target(Target::Middle); }
+  else { this->target = new Target(target->GetIdentifier()); }
 }
 
 ArmAim::~ArmAim() {
@@ -26,72 +27,66 @@ ArmAim::~ArmAim() {
 // measure the current arm angle, and then start the motors moving
 // in the right direction.
 void ArmAim::Initialize() {
-	printf("ArmAim init.\n");
   iteration = 0;
+
   angle = -FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
-  SmartDashboard::Log(angle,"Target firing angle");
-  MeasureAndMove();
-  printf("Angle for shooting:%f\n",angle);
+  SmartDashboard::Log(angle, "Angle (Target)");
+  SmartDashboard::Log("QUIETING", "Arm State");
+  mode = QUIETING;
+  timer.Reset();
+  timer.Start();
 }
 
-
-// Checks if we've reached the target angle.  If so, stop, wait a bit
-// and then check if we are still there.  If not, start moving again.
+// Moves through a simple state machine:
+//  START -> QUIETING for 5 seconds
+//  QUIETING -> MEASURING
+//  At target angle?  MEASURING -> FINISHED
+//  Not at target angle?  MEASURING -> MOVING for period to reach angle
+//  MOVING -> QUIETING
 void ArmAim::Execute() {
-	printf("Accelerometer:%f\n",accelerometer->GetArmDegree());
-  if (IsAtTargetAngle()) {
-    ++iteration;
-    StopAndQuiet();
-    if (!IsAtTargetAngle()) { MeasureAndMove(); }
-  } else { MeasureAndMove(); }
+  if (mode == QUIETING) {
+    if (timer.HasPeriodPassed(5.0)) {
+      mode = MEASURING;
+      SmartDashboard::Log("MEASURING", "Arm State");
+    }
+  } else if (mode == MEASURING) {
+    float currentAngle = accelerometer->GetArmDegree();
+    SmartDashboard::Log(angle, "Angle (Arm)");
+    if (currentAngle < -85.0 || currentAngle > 70.0 || (currentAngle + margin > angle && currentAngle - margin < angle)) {
+      mode = FINISHED;
+      SmartDashboard::Log("FINISHED", "Arm State");
+    } else if (currentAngle > angle) { // move forward
+      movePeriod = (currentAngle - angle) / 20.0;     // GUESS 20 degrees per second when aiming up
+      arm->Move(true);
+    } else {  // move backward
+      movePeriod = (angle - currentAngle) / 20.0;     // GUESS 20 degrees per second when aiming up
+      arm->Move(false);
+    }
+    mode = MOVING;
+    SmartDashboard::Log("MOVING", "Arm State");
+    timer.Reset();
+    timer.Start();
+  } else if (mode == MOVING) {
+    if (timer.HasPeriodPassed(movePeriod)) {
+      arm->Stop();
+      mode = QUIETING;
+      timer.Reset();
+      timer.Start();
+    }
+  }
 }
 
-// Bail out once we are at the target angle or if we've tried 3 times
+// Bail out once we are FINISHED or if we've tried 3 times
 // TODO - is 3 times enough?
 bool ArmAim::IsFinished() {
-  return (IsAtTargetAngle() || iteration > 3 );
+  return (mode == FINISHED || iteration > 3);
 }
 
 void ArmAim::End() {
-	printf("AimArm Finished");
   arm->Stop();
 }
 
 void ArmAim::Interrupted() {
   End();
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-// Stop the arm and wait for it to cease bouncing, take an angle measurement,
-// and then start moving again.
-void ArmAim::MeasureAndMove() {
-  StopAndQuiet();
-  if (!IsAtTargetAngle()) { arm->Move(GetDesiredDirection()); }
-  else {arm->Stop();}
-}
-
-// Stop the arm and wait for it to cease bouncing
-void ArmAim::StopAndQuiet() {
-  arm->Stop();
-}
-
-// Returns true if the arm needs to move forward, false if backward
-// (see Subsystems/Arm.cpp)
-bool ArmAim::GetDesiredDirection() {
-/*	if(accelerometer->GetArmDegree() < 0.0 && accelerometer->GetArmDegree() < angle){
-		return 1;
-	} else if(accelerometer->GetArmDegree() <= 0.0){return 0;}
-	if(accelerometer->GetArmDegree() > 0.0 && accelerometer->GetArmDegree() < angle){
-		return 1;
-	} else {return 0;}*/
-  return (accelerometer->GetArmDegree() > angle);
-}
-
-// Returns true if the arm is close to the desired target angle or if
-// it's going to hit the robot
-bool ArmAim::IsAtTargetAngle() {
-  float currentAngle = accelerometer->GetArmDegree();
-  return (currentAngle < -85 || currentAngle > 70.0 || (currentAngle + margin > angle && currentAngle - margin < angle));
 }
 

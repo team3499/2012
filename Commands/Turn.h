@@ -6,18 +6,19 @@
 
 class Turn: public CommandBase {
 private:
+  float TurnSpeedForAngle(float angle);
+
 public:
-	float turnAngle;
-	float turnTo;
-	float turnLimit;
-	float turnSpeed;
-	Turn();
-	Turn(float angle);
-	virtual void Initialize();
-	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
-	virtual void Interrupted();
+  float turnAngle;
+  float turnTo;
+  float turnSpeed;
+  Turn();
+  Turn(float angle);
+  virtual void Initialize();
+  virtual void Execute();
+  virtual bool IsFinished();
+  virtual void End();
+  virtual void Interrupted();
 };
 
 #endif

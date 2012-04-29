@@ -32,9 +32,12 @@ public:
   float GetHorizontalAngle();  // The amount to turn to center the target
   void SetHorizontalAngle(float angle);
 
+  const char * AsString();     // String rep of Target
+
 private:
   ID id;
   float hAngle;
+  char stringRep[64];
 
   Target() {};
 

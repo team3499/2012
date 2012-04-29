@@ -34,6 +34,10 @@ private:
   Threshold *thresholds[];
 
   vector<ParticleAnalysisReport> * ProcessImageForReport(ColorImage *image, Threshold *threshold, int index);
+  void OutputThreshold(Threshold *threshold);
+  void OutputParticle(ParticleAnalysisReport *particle);
+  void OutputParticles(vector<ParticleAnalysisReport> *particles);
+  void OutputTarget(Target *target);
 };
 
 #endif /*CAMERA_SUBSYSTEM_H*/

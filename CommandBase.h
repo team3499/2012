@@ -9,6 +9,7 @@
 #include "Subsystems/Chassis.h"
 #include "Subsystems/ChassisGyro.h"
 #include "Subsystems/ArmAccelerometer.h"
+#include "Subsystems/Lights.h"
 #include "Subsystems/Rangefinder.h"
 #include "Subsystems/Shooter.h"
 #include "Subsystems/Magazine.h"
@@ -22,21 +23,22 @@
  */
 class CommandBase: public Command {
 public:
-	CommandBase(const char *name);
-	CommandBase();
-	static void init();
-	// Create a single static instance of all of your subsystems
-	static Arm *arm;
-	static ArmAccelerometer *accelerometer;
-	static Camera *camera;
-	static Chassis *chassis;
-	static ChassisGyro *chassisGyro;
-	static Magazine *magazine;
-    static Rangefinder *rangefinder;
-	static Shooter *shooter;
-	static SmartDashboard *smartDashboard;
-	static OI *oi;
-	static OI *GetOIInstance();
+  CommandBase(const char *name);
+  CommandBase();
+  static void init();
+  // Create a single static instance of all of your subsystems
+  static Arm *arm;
+  static ArmAccelerometer *accelerometer;
+  static Camera *camera;
+  static Chassis *chassis;
+  static ChassisGyro *chassisGyro;
+  static Magazine *magazine;
+  static Lights *lights;
+  static Rangefinder *rangefinder;
+  static Shooter *shooter;
+  static SmartDashboard *smartDashboard;
+  static OI *oi;
+  static OI *GetOIInstance();
 };
 
 #endif
