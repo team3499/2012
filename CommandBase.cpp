@@ -18,7 +18,6 @@ ArmAccelerometer *CommandBase::accelerometer = NULL;
 Camera *CommandBase::camera = NULL;
 Chassis *CommandBase::chassis = NULL;
 ChassisGyro *CommandBase::chassisGyro = NULL;
-Lights *CommandBase::lights = NULL;
 Rangefinder *CommandBase::rangefinder = NULL;
 Magazine *CommandBase::magazine = NULL;
 Shooter *CommandBase::shooter = NULL;
@@ -35,12 +34,10 @@ void CommandBase::init() {
   camera = new Camera();
   if (IS_DEBUG_MODE) { printf("Camera\n"); }
   chassis = new Chassis();
-  if (IS_DEBUG_MODE) { printf("Lights\n"); }
-  lights = new Lights();
   if (IS_DEBUG_MODE) { printf("Chas\n"); }
   chassisGyro = new ChassisGyro();
   if (IS_DEBUG_MODE) { printf("Gyro\n"); }
-    rangefinder = new Rangefinder();
+  rangefinder = new Rangefinder();
   if (IS_DEBUG_MODE) { printf("Rangefinder\n"); }
   magazine = new Magazine();
   if (IS_DEBUG_MODE) { printf("Mag\n"); }

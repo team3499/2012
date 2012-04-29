@@ -51,6 +51,7 @@
 #define JOYSTICK_DRIVE                 1
 #define JOYSTICK_ACCESSORY             2
 // NOTE: use these ^ two UNLESS Talking DIRECTLY to the Array, or initializing.
+// on a side note, this is probably a really bad way to do this...
 #define JOYSTICK_INIT_DRIVE            JOYSTICK_DRIVE
 #define JOYSTICK_INIT_ACCESSORY        JOYSTICK_ACCESSORY
 #define JOYSTICK_ARRAY_DRIVE           JOYSTICK_DRIVE-1
