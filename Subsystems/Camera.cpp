@@ -34,6 +34,7 @@ Camera::Camera() :
   thresholds[2] = new Threshold(170, 255, 60, 255, 60, 255);
   thresholds[3] = new Threshold(160, 255, 55, 255, 55, 255);
   thresholds[4] = NULL;   // MUST have a NULL at the end! (so we dont run a marathon through the memory)
+  lastGoodTarget = NULL;  // to test if it is there or not
 }
 
 // Get the preferred target to shoot at.  Caller is responsible for freeing
@@ -47,14 +48,16 @@ Target * Camera::GetTarget() {
   delete image;
 
   if (particles == NULL) {  // Total Failure!  Bail out returning 0, 0 for angle data
-    if (IS_DEBUG_MODE) { printf("#### Total Failure!  No target acquired!\n"); }
+    if (IS_DEBUG_MODE) { printf("#### Total Failure!  No target acquired! Did not set lastGoodTarget to anything new.\n"); }
     return NULL;
   }
 
   // Select a target to shoot at
   Target *target = SelectPreferredTarget(particles);
   delete particles;
-
+  
+  SetLastGoodTarget(target);
+  
   return target;
 }
 
@@ -230,3 +233,17 @@ void OutputTarget(Target *target) {
   printf("Target: %s\n", target->AsString());
 }
 
+/***************************\
+*   Last-Good-Target stuff  *
+\***************************/
+
+void Camera::SetLastGoodTarget(Target *target){
+  lastGoodTarget = target;
+  if(IS_DEBUG_MODE){
+	  printf("Set lastGoodTarget\n");
+  }
+}
+
+Target * Camera::GetLastGoodTarget(){
+  return lastGoodTarget; // if not lastGoodTarget is not used, it will return NULL
+}

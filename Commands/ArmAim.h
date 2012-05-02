@@ -22,7 +22,7 @@ private:
   } mode;
 
 public:
-  ArmAim(Target *target = NULL);  // Defaults to middle target
+  ArmAim();
   ~ArmAim();
 
   void Initialize();

@@ -4,7 +4,7 @@
 //
 // Aim the arm at the passed target.
 //
-ArmAim::ArmAim(Target *target) {
+ArmAim::ArmAim() {
   Requires(arm);
   Requires(accelerometer);
   Requires(rangefinder);
@@ -13,9 +13,11 @@ ArmAim::ArmAim(Target *target) {
   angle      = 0.0;
   margin     = 1.0;
   movePeriod = 0.0;
-
-  if (target == NULL) { this->target = new Target(Target::Middle); }
-  else { this->target = new Target(target->GetIdentifier()); }
+  if (camera->GetLastGoodTarget() == NULL) {
+    target = new Target(Target::Middle);
+  } else {
+    target = new Target(camera->GetLastGoodTarget()->GetIdentifier());
+  }
 }
 
 ArmAim::~ArmAim() {

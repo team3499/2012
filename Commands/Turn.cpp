@@ -3,10 +3,7 @@
 #include "Subsystems/Camera.h"
 #include "Commands/ShootBalls.h"
 
-static float absolute(float x){
-  if(x < 0){return -x;}
-  else return x;
-}
+#define absolute(A) (A<0)?(-A):(A)
 
 Turn::Turn()
 {
