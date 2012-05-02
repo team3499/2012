@@ -68,13 +68,15 @@ private:
     }
 */
     if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+      delete autonomousCommand;
+      autonomousCommand = NULL; //useless, but good practice anyway
       autonomousCommand = new AutoGroup();
       autonomousCommand->Start();
     }
-    if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-      autonomousCommand = new DAG();
-      autonomousCommand->Start();
-    }
+    //if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+    //  autonomousCommand = new DAG();
+    //  autonomousCommand->Start();
+    //}
   }
 };
 

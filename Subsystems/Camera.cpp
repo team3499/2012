@@ -212,24 +212,24 @@ vector<ParticleAnalysisReport> *Camera::ProcessImageForReport(ColorImage *image,
 
 
 
-void OutputThreshold(Threshold *threshold) {
+void Camera::OutputThreshold(Threshold *threshold) {
   printf("Threshold: %03d/%03d %03d/%03d %03d/%03d\n", threshold->plane1Low, threshold->plane1High,
          threshold->plane2Low, threshold->plane2High, threshold->plane3Low, threshold->plane3High);
 }
 
-void OutputParticle(ParticleAnalysisReport *particle) {
+void Camera::OutputParticle(ParticleAnalysisReport *particle) {
   printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f%%\n", particle->particleIndex,
          particle->imageWidth, particle->imageHeight, particle->particleArea,
          particle->center_mass_x, particle->center_mass_y, particle->particleToImagePercent);
 }
 
-void OutputParticles(vector<ParticleAnalysisReport> *particles) {
+void Camera::OutputParticles(vector<ParticleAnalysisReport> *particles) {
   for (vector<ParticleAnalysisReport>::iterator iter = particles->begin(); iter != particles->end() ; ++iter) {
     OutputParticle(&(*iter));
   }
 }
 
-void OutputTarget(Target *target) {
+void Camera::OutputTarget(Target *target) {
   printf("Target: %s\n", target->AsString());
 }
 
