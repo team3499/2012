@@ -8,6 +8,11 @@
 class ArmLevel: public CommandBase {
 private:
 	float target;
+	enum Moving {
+		forward = -1,
+		stopped =  0,
+		reverse =  1
+	} direction;
 public:
 	ArmLevel(float targ);
 	virtual void Initialize();

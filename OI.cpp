@@ -9,7 +9,7 @@ OI::OI()
   //should use the JOYSTICK_COUNT here
   js[2] = ( 2+1>JOYSTICK_COUNT ? NULL : new Joystick(2+1)); //new Joystick(1); We dont have a third joystick
   js[3] = ( 3+1>JOYSTICK_COUNT ? NULL : new Joystick(3+1)); //new Joystick(1); We dont have a fourth joystick
-  preferences = Preferences::GetInstance();
+  //preferences = Preferences::GetInstance();
 }
 
 // For now, maybe it will change, These numbers START AT 1

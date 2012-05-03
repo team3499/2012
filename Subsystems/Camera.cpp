@@ -192,14 +192,14 @@ vector<ParticleAnalysisReport> *Camera::ProcessImageForReport(ColorImage *image,
     sprintf(filenames[1], "/img/%dimg2.png", index);
     sprintf(filenames[2], "/img/%dimg3.png", index);
     sprintf(filenames[3], "/img/%dimg4.png", index);
-    printf("#### Threshold image written to %s\n", filenames[0]);
-    thresholdImage->Write(filenames[0]);
-    printf("#### Big objects image written to %s\n", filenames[1]);
-    bigObjectsImage->Write(filenames[1]);
-    printf("#### Convex hull image written to %s\n", filenames[2]);
-    convexHullImage->Write(filenames[2]);
-    printf("#### Filtered image written to %s\n", filenames[3]);
-    filteredImage->Write(filenames[3]);
+    printf("#### Threshold NOT image written to %s\n", filenames[0]);
+    //thresholdImage->Write(filenames[0]);
+    printf("#### Big objects NOT image written to %s\n", filenames[1]);
+    //bigObjectsImage->Write(filenames[1]);
+    printf("#### Convex hull NOT image written to %s\n", filenames[2]);
+    //convexHullImage->Write(filenames[2]);
+    printf("#### Filtered image NOT written to %s\n", filenames[3]);
+    //filteredImage->Write(filenames[3]);
   }
 
   delete convexHullImage;
