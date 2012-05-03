@@ -35,6 +35,13 @@ Camera::Camera() :
   thresholds[3] = new Threshold(160, 255, 55, 255, 55, 255);
   thresholds[4] = NULL;   // MUST have a NULL at the end! (so we dont run a marathon through the memory)
   lastGoodTarget = NULL;  // to test if it is there or not
+  
+  AxisCamera &camera = AxisCamera::GetInstance(CAMERA_IP_ADDR);
+  camera.WriteResolution(AxisCamera::kResolution_640x480);
+  camera.WriteCompression(0);
+
+  ColorImage *image = camera.GetImage();
+  delete image;
 }
 
 // Get the preferred target to shoot at.  Caller is responsible for freeing
@@ -102,9 +109,9 @@ vector<ParticleAnalysisReport> * Camera::GetPotentialParticles(ColorImage *image
     if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
     // Reject particles that are too small, too large, or taller than they are wide
-    particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
-    particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
-    particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
+    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
+    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
+    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
     if (IS_DEBUG_MODE) { printf("#### %d Filtered Particles\n", particles->size()); }
     if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
@@ -192,14 +199,14 @@ vector<ParticleAnalysisReport> *Camera::ProcessImageForReport(ColorImage *image,
     sprintf(filenames[1], "/img/%dimg2.png", index);
     sprintf(filenames[2], "/img/%dimg3.png", index);
     sprintf(filenames[3], "/img/%dimg4.png", index);
-    printf("#### Threshold NOT image written to %s\n", filenames[0]);
-    //thresholdImage->Write(filenames[0]);
-    printf("#### Big objects NOT image written to %s\n", filenames[1]);
-    //bigObjectsImage->Write(filenames[1]);
-    printf("#### Convex hull NOT image written to %s\n", filenames[2]);
-    //convexHullImage->Write(filenames[2]);
-    printf("#### Filtered image NOT written to %s\n", filenames[3]);
-    //filteredImage->Write(filenames[3]);
+    printf("#### Threshold image written to %s\n", filenames[0]);
+    thresholdImage->Write(filenames[0]);
+    printf("#### Big objects image written to %s\n", filenames[1]);
+    bigObjectsImage->Write(filenames[1]);
+    printf("#### Convex hull image written to %s\n", filenames[2]);
+    convexHullImage->Write(filenames[2]);
+    printf("#### Filtered image written to %s\n", filenames[3]);
+    filteredImage->Write(filenames[3]);
   }
 
   delete convexHullImage;

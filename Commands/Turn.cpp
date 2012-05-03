@@ -25,20 +25,33 @@ void Turn::Initialize() {
   if (turnAngle != 0.0) {
     turnTo = chassisGyro->GetDesiredAngle(turnAngle);
   } else {
-    turnTo = chassisGyro->GetDesiredAngle(camera->GetTarget()->GetHorizontalAngle());
+	Target *target = camera->GetTarget();
+	//if we dont have a target, bail out
+	if (target != NULL){
+		turnTo = chassisGyro->GetDesiredAngle(target->GetHorizontalAngle());
+	} else {
+		nullTarget = true;
+		return ;
+	}
   }
+  nullTarget = false;
+  SmartDashboard::Log(turnTo,"Turn to Angle");
   turnSpeed = TurnSpeedForAngle(chassisGyro->GetAngle());
   chassis->TankDrive(turnSpeed,turnSpeed);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Turn::Execute() {
+  if (nullTarget) return ;
   turnSpeed = TurnSpeedForAngle(chassisGyro->GetAngle());
   chassis->TankDrive(turnSpeed,turnSpeed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool Turn::IsFinished() {
+  if (nullTarget){
+	  return true;
+  }
   return chassisGyro->IsAtAngle(turnTo, 1.0);
 }
 
@@ -65,7 +78,7 @@ float Turn::TurnSpeedForAngle(float angle) {
   else if (offsetAngle >= 10.0) { speed = 0.70; }
   else if (offsetAngle >= 5.0) { speed = 0.55; }
 
-  if (angle > turnTo) { speed = -speed; }
+  if (angle < turnTo) { speed = -speed; }
 
   return speed;
 }

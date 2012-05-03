@@ -46,8 +46,6 @@ bool ArmLevel::IsFinished() {
 		// should also change this function to take a directional enum
 		break;
 	case stopped:
-		arm->Stop(); // for some reason, when there were the right circumstaces, 
-		             // it didnt stop the arm from moving.
 		return true;
 	default:// big problem, so just stop;
 		//could restart here but for now...
@@ -58,10 +56,11 @@ bool ArmLevel::IsFinished() {
 
 // Called once after isFinished returns true
 void ArmLevel::End() {
-	
+	arm->Stop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void ArmLevel::Interrupted() {
+	End();
 }
