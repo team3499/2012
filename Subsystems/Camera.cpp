@@ -109,9 +109,9 @@ vector<ParticleAnalysisReport> * Camera::GetPotentialParticles(ColorImage *image
     if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
     // Reject particles that are too small, too large, or taller than they are wide
-    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
-    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
-    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
+    particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
+    particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
+    particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
     if (IS_DEBUG_MODE) { printf("#### %d Filtered Particles\n", particles->size()); }
     if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
