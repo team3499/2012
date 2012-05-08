@@ -7,7 +7,7 @@
 Chassis::Chassis() : Subsystem("Chassis"),
 	left_front(DRIVE_LEFT_FRONT),
 	left_rear(DRIVE_LEFT_REAR),
-	right(3)
+	right(DRIVE_RIGHT_MOTORS)
 {
 }
     
@@ -20,6 +20,11 @@ void Chassis::InitDefaultCommand() {
 void Chassis::ArcadeDrive(Joystick &joystick){
   SmartDashboard::Log("Arcade", "Chassis Control");
 	Drive(joystick.GetY(),joystick.GetX());
+}
+
+void Chassis::ArcadeDrive(Joystick *joystick){
+  SmartDashboard::Log("Arcade", "Chassis Control");
+	Drive(joystick->GetY(),joystick->GetX());
 }
 
 void Chassis::TankDrive(float leftOut, float rightOut){

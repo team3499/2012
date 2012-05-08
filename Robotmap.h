@@ -28,8 +28,8 @@
 //pwm
 #define DRIVE_LEFT_FRONT               1,1
 #define DRIVE_LEFT_REAR                1,2
-#define DRIVE_RIGHT_FRONT              1,3
-#define DRIVE_RIGHT_REAR               1,4
+#define DRIVE_RIGHT_MOTORS             1,3
+/*There is NOT two connections for the right motors*/
 #define MAGAZINE_BELT_CHANNEL          1,5
 #define SHOOTER_BELT_TOP_CHANNEL       1,7
 #define SHOOTER_BELT_BOTTOM_CHANNEL    1,6
@@ -46,5 +46,15 @@
 #define LEDS_WHITE_2_CHANNEL           2
 // camera
 #define CAMERA_IP_ADDR                 "10.34.99.90"
+// joystick
+#define JOYSTICK_COUNT                 2
+#define JOYSTICK_DRIVE                 1
+#define JOYSTICK_ACCESSORY             2
+// NOTE: use these ^ two UNLESS Talking DIRECTLY to the Array, or initializing.
+// on a side note, this is probably a really bad way to do this...
+#define JOYSTICK_INIT_DRIVE            JOYSTICK_DRIVE
+#define JOYSTICK_INIT_ACCESSORY        JOYSTICK_ACCESSORY
+#define JOYSTICK_ARRAY_DRIVE           JOYSTICK_DRIVE-1
+#define JOYSTICK_ARRAY_ACCESSORY       JOYSTICK_ACCESSORY-1
 
 #endif

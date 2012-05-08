@@ -4,7 +4,7 @@
 //
 // Aim the arm at the passed target.
 //
-ArmAim::ArmAim(Target *target) {
+ArmAim::ArmAim() {
   Requires(arm);
   Requires(accelerometer);
   Requires(rangefinder);
@@ -13,9 +13,11 @@ ArmAim::ArmAim(Target *target) {
   angle      = 0.0;
   margin     = 1.0;
   movePeriod = 0.0;
-
-  if (target == NULL) { this->target = new Target(Target::Middle); }
-  else { this->target = new Target(target->GetIdentifier()); }
+  if (camera->GetLastGoodTarget() == NULL) {
+    target = new Target(Target::Middle);
+  } else {
+    target = new Target(camera->GetLastGoodTarget()->GetIdentifier());
+  }
 }
 
 ArmAim::~ArmAim() {
@@ -45,18 +47,19 @@ void ArmAim::Initialize() {
 //  MOVING -> QUIETING
 void ArmAim::Execute() {
   if (mode == QUIETING) {
-    if (timer.HasPeriodPassed(5.0)) {
+    if (timer.HasPeriodPassed(3.5)) {
       mode = MEASURING;
       SmartDashboard::Log("MEASURING", "Arm State");
     }
   } else if (mode == MEASURING) {
+	iteration++;
     float currentAngle = accelerometer->GetArmDegree();
     SmartDashboard::Log(angle, "Angle (Arm)");
     if (currentAngle < -85.0 || currentAngle > 70.0 || (currentAngle + margin > angle && currentAngle - margin < angle)) {
       mode = FINISHED;
       SmartDashboard::Log("FINISHED", "Arm State");
     } else if (currentAngle > angle) { // move forward
-      movePeriod = (currentAngle - angle) / 20.0;     // GUESS 20 degrees per second when aiming up
+      movePeriod = (currentAngle - angle) / 65.0;     // GUESS 20 degrees per second when aiming up
       arm->Move(true);
     } else {  // move backward
       movePeriod = (angle - currentAngle) / 20.0;     // GUESS 20 degrees per second when aiming up
@@ -70,6 +73,7 @@ void ArmAim::Execute() {
     if (timer.HasPeriodPassed(movePeriod)) {
       arm->Stop();
       mode = QUIETING;
+      SmartDashboard::Log("QUIETING", "Arm State");
       timer.Reset();
       timer.Start();
     }

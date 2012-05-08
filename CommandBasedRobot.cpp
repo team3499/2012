@@ -7,9 +7,6 @@ using namespace std;
 #include "CommandBase.h"
 /* Include Custom Commands */
 #include "Commands/Command.h"
-//#include "Commands/Rotation.h"
-//#include "Commands/ExampleCommand.h"
-//#include "Commands/ShootGroup.h"
 #include "Commands/AutoGroup.h"
 #include "Commands/DAG.h"
 #include "Commands/ArmLevel.h"
@@ -71,13 +68,15 @@ private:
     }
 */
     if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+      delete autonomousCommand;
+      autonomousCommand = NULL; //useless, but good practice anyway
       autonomousCommand = new AutoGroup();
       autonomousCommand->Start();
     }
-    if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-      autonomousCommand = new DAG();
-      autonomousCommand->Start();
-    }
+    //if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+    //  autonomousCommand = new DAG();
+    //  autonomousCommand->Start();
+    //}
   }
 };
 

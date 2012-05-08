@@ -24,6 +24,8 @@ public:
   Camera();
   void InitDefaultCommand() {}
 
+  Target *GetLastGoodTarget();
+  
   Target * GetTarget();
 
   ColorImage * CaptureImage();
@@ -31,6 +33,9 @@ public:
   Target * SelectPreferredTarget(vector<ParticleAnalysisReport> *particles);
 
 private:
+  Target *lastGoodTarget;
+  void SetLastGoodTarget(Target *target);
+  
   Threshold *thresholds[];
 
   vector<ParticleAnalysisReport> * ProcessImageForReport(ColorImage *image, Threshold *threshold, int index);

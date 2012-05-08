@@ -33,7 +33,15 @@ Camera::Camera() :
   thresholds[1] = new Threshold(180, 255, 65, 255, 65, 255);
   thresholds[2] = new Threshold(170, 255, 60, 255, 60, 255);
   thresholds[3] = new Threshold(160, 255, 55, 255, 55, 255);
-  thresholds[4] = NULL;   // MUST have a NULL at the end!
+  thresholds[4] = NULL;   // MUST have a NULL at the end! (so we dont run a marathon through the memory)
+  lastGoodTarget = NULL;  // to test if it is there or not
+  
+  AxisCamera &camera = AxisCamera::GetInstance(CAMERA_IP_ADDR);
+  camera.WriteResolution(AxisCamera::kResolution_640x480);
+  camera.WriteCompression(0);
+
+  ColorImage *image = camera.GetImage();
+  delete image;
 }
 
 // Get the preferred target to shoot at.  Caller is responsible for freeing
@@ -47,14 +55,16 @@ Target * Camera::GetTarget() {
   delete image;
 
   if (particles == NULL) {  // Total Failure!  Bail out returning 0, 0 for angle data
-    if (IS_DEBUG_MODE) { printf("#### Total Failure!  No target acquired!\n"); }
+    if (IS_DEBUG_MODE) { printf("#### Total Failure!  No target acquired! Did not set lastGoodTarget to anything new.\n"); }
     return NULL;
   }
 
   // Select a target to shoot at
   Target *target = SelectPreferredTarget(particles);
   delete particles;
-
+  
+  SetLastGoodTarget(target);
+  
   return target;
 }
 
@@ -99,9 +109,9 @@ vector<ParticleAnalysisReport> * Camera::GetPotentialParticles(ColorImage *image
     if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
     // Reject particles that are too small, too large, or taller than they are wide
-    particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
-    particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
-    particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
+    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isSmallParticle), particles->end());
+    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isHugeParticle), particles->end());
+    //      particles->erase(std::remove_if(particles->begin(), particles->end(), isTallParticle), particles->end());
     if (IS_DEBUG_MODE) { printf("#### %d Filtered Particles\n", particles->size()); }
     if (IS_DEBUG_MODE) { OutputParticles(particles); }
 
@@ -116,7 +126,7 @@ vector<ParticleAnalysisReport> * Camera::GetPotentialParticles(ColorImage *image
     }
   }
 
-  return particles;
+  return particles;  // Will return NULL if there is no good particles.
 }
 
 // Given a list of particles, return the preferred target to shoot at.  Caller
@@ -209,24 +219,38 @@ vector<ParticleAnalysisReport> *Camera::ProcessImageForReport(ColorImage *image,
 
 
 
-void OutputThreshold(Threshold *threshold) {
+void Camera::OutputThreshold(Threshold *threshold) {
   printf("Threshold: %03d/%03d %03d/%03d %03d/%03d\n", threshold->plane1Low, threshold->plane1High,
          threshold->plane2Low, threshold->plane2High, threshold->plane3Low, threshold->plane3High);
 }
 
-void OutputParticle(ParticleAnalysisReport *particle) {
+void Camera::OutputParticle(ParticleAnalysisReport *particle) {
   printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f%%\n", particle->particleIndex,
          particle->boundingRect.width, particle->boundingRect.height, particle->particleArea,
          particle->center_mass_x, particle->center_mass_y, particle->particleToImagePercent);
 }
 
-void OutputParticles(vector<ParticleAnalysisReport> *particles) {
+void Camera::OutputParticles(vector<ParticleAnalysisReport> *particles) {
   for (vector<ParticleAnalysisReport>::iterator iter = particles->begin(); iter != particles->end() ; ++iter) {
     OutputParticle(&(*iter));
   }
 }
 
-void OutputTarget(Target *target) {
+void Camera::OutputTarget(Target *target) {
   printf("Target: %s\n", target->AsString());
 }
 
+/***************************\
+*   Last-Good-Target stuff  *
+\***************************/
+
+void Camera::SetLastGoodTarget(Target *target){
+  lastGoodTarget = target;
+  if(IS_DEBUG_MODE){
+	  printf("Set lastGoodTarget\n");
+  }
+}
+
+Target * Camera::GetLastGoodTarget(){
+  return lastGoodTarget; // if not lastGoodTarget is not used, it will return NULL
+}

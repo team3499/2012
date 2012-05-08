@@ -30,10 +30,10 @@ StopAll::StopAll(bool stop) {
 
 // Called just before this Command runs the first time
 void StopAll::Initialize() {
-	arm->Stop();
-	chassis->Stop();
-	magazine->Stop();
-	shooter->Stop();
+	arm->Stop();		// Stop the arm
+	chassis->Stop();	// Stop the drive system
+	magazine->Stop();	// Stop the launcher (1)
+	shooter->Stop();	// Stop the launcher (2)
 }
 
 // Called repeatedly when this Command is scheduled to run

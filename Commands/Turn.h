@@ -7,7 +7,7 @@
 class Turn: public CommandBase {
 private:
   float TurnSpeedForAngle(float angle);
-
+  bool nullTarget;
 public:
   float turnAngle;
   float turnTo;
