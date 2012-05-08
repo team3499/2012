@@ -16,7 +16,7 @@ static bool isSmallParticle(ParticleAnalysisReport particle) {
 
 // predicate used to detect huge particles
 static bool isHugeParticle(ParticleAnalysisReport particle) {
-  return (particle.boundingRect.height > 300 || particle.boundingRect.width < 350);
+  return (particle.boundingRect.height > 300 || particle.boundingRect.width > 350);
 }
 
 // predicate used to detect height>width particles
@@ -216,7 +216,7 @@ void OutputThreshold(Threshold *threshold) {
 
 void OutputParticle(ParticleAnalysisReport *particle) {
   printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f%%\n", particle->particleIndex,
-         particle->imageWidth, particle->imageHeight, particle->particleArea,
+         particle->boundingRect.width, particle->boundingRect.height, particle->particleArea,
          particle->center_mass_x, particle->center_mass_y, particle->particleToImagePercent);
 }
 
