@@ -1,21 +1,43 @@
 #include "ArmLevel.h"
 #include "WPILib.h"
+#include "FiringSolution.h"
 
 ArmLevel::ArmLevel(float targ)
 {
 	// Use requires() here to declare subsystem dependencies
 	Requires(arm);
 	Requires(accelerometer);
-	target = targ;
-	direction = (accelerometer->GetArmDegree() > target)? reverse : forward ;
+	angle = targ;
+	direction = (accelerometer->GetArmDegree() > angle)? reverse : forward ;
+}
+
+ArmLevel::ArmLevel()
+{
+	// Use requires() here to declare subsystem dependencies
+	Requires(arm);
+	Requires(accelerometer);
+	Requires(camera);
+	if (camera->GetLastGoodTarget() == NULL) {
+	  target = new Target(Target::Middle);
+	} else {
+	  target = new Target(camera->GetLastGoodTarget()->GetIdentifier());
+	}
+	angle = -FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
+	  
+	direction = (accelerometer->GetArmDegree() > angle)? reverse : forward ;
+}
+
+ArmLevel::~ArmLevel(){
+	  delete target;
+	  target = NULL;
 }
 
 // Called just before this Command runs the first time
 void ArmLevel::Initialize() {
 	float angle = accelerometer->GetArmDegree();
-	if((angle < target && angle > -75)){
+	if((angle < angle && angle > -75)){
 		direction = forward;
-	}else if(angle > target && angle < 90 ){
+	}else if(angle > angle && angle < 90 ){
 		direction = reverse;
 	} else {
 		arm->Stop();
@@ -32,15 +54,15 @@ bool ArmLevel::IsFinished() {
 	
 	switch(direction){
 	case forward: // current angle < target
-		if((angle - target) > 2) {direction = (ArmLevel::Moving)-direction;}
+		if((angle - angle) > 2) {direction = (ArmLevel::Moving)-direction;}
 		// If the arm has gone by the target, switch directions
-		else if(angle > target) {direction = stopped;}
+		else if(angle > angle) {direction = stopped;}
 		else arm->Move(true); // dont care if it is already set. set it anyway
 		// should also change this function to take a directional enum
 		break;
 	case reverse: // current angle > target
-		if((angle - target) < 2) {direction = (ArmLevel::Moving)-direction;}
-		else if(angle < target) {direction = stopped;}
+		if((angle - angle) < 2) {direction = (ArmLevel::Moving)-direction;}
+		else if(angle < angle) {direction = stopped;}
 		// if the arm has gone by the target, switch directions
 		else arm->Move(false); // dont care if it is already set. set it anyway
 		// should also change this function to take a directional enum

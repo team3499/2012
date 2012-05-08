@@ -4,10 +4,12 @@
 #include "CommandBase.h"
 #include "Subsystems/Arm.h"
 #include "Subsystems/ArmAccelerometer.h"
+#include "Target.h"
 
 class ArmLevel: public CommandBase {
 private:
-	float target;
+	float angle;
+	Target *target;
 	enum Moving {
 		forward = -1,
 		stopped =  0,
@@ -15,6 +17,8 @@ private:
 	} direction;
 public:
 	ArmLevel(float targ);
+	ArmLevel();
+	~ArmLevel();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

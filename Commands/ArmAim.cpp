@@ -47,7 +47,7 @@ void ArmAim::Initialize() {
 //  MOVING -> QUIETING
 void ArmAim::Execute() {
   if (mode == QUIETING) {
-    if (timer.HasPeriodPassed(3.5)) {
+    if (timer.HasPeriodPassed(1.5)) {
       mode = MEASURING;
       SmartDashboard::Log("MEASURING", "Arm State");
     }
@@ -59,10 +59,10 @@ void ArmAim::Execute() {
       mode = FINISHED;
       SmartDashboard::Log("FINISHED", "Arm State");
     } else if (currentAngle > angle) { // move forward
-      movePeriod = (currentAngle - angle) / 65.0;     // GUESS 20 degrees per second when aiming up
+      movePeriod = (currentAngle - angle) / 60.0;     // GUESS 20 degrees per second when aiming up
       arm->Move(true);
     } else {  // move backward
-      movePeriod = (angle - currentAngle) / 20.0;     // GUESS 20 degrees per second when aiming up
+      movePeriod = (angle - currentAngle) / 60.0;     // GUESS 20 degrees per second when aiming up
       arm->Move(false);
     }
     mode = MOVING;
@@ -88,6 +88,7 @@ bool ArmAim::IsFinished() {
 
 void ArmAim::End() {
   arm->Stop();
+  printf("Timer for ArmAim:%f\n",timer.Get());//not accurite, timer gets reset.
 }
 
 void ArmAim::Interrupted() {
