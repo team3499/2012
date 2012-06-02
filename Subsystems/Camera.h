@@ -24,6 +24,8 @@ public:
   Camera();
   void InitDefaultCommand() {}
 
+  bool status;//true = good. false = BAIL ON EVERYTHING
+  
   Target *GetLastGoodTarget();
   
   Target * GetTarget();

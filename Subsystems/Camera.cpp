@@ -27,7 +27,7 @@ static bool isTallParticle(ParticleAnalysisReport particle) {
 // predicate used to detect height>width particles
 static bool isNotWideRectParticle(ParticleAnalysisReport particle) {
   return ((particle.boundingRect.height < (particle.boundingRect.width / 2.4)) ||
-		  (particle.boundingRect.height > (particle.boundingRect.width / 1.7)));
+		  (particle.boundingRect.height > (particle.boundingRect.width / 1.4)));//THIS WAS 1.7
 }
 
 Camera::Camera() :
@@ -40,18 +40,32 @@ Camera::Camera() :
   thresholds[3] = new Threshold(160, 255, 55, 255, 55, 255);
   thresholds[4] = NULL;   // MUST have a NULL at the end! (so we dont run a marathon through the memory)
   lastGoodTarget = NULL;  // to test if it is there or not
-  
-  AxisCamera &camera = AxisCamera::GetInstance(CAMERA_IP_ADDR);
+  status = false;
+/*AxisCamera &camera = AxisCamera::GetInstance(CAMERA_IP_ADDR);
   camera.WriteResolution(AxisCamera::kResolution_640x480);
   camera.WriteCompression(0);
-
-  ColorImage *image = camera.GetImage();
-  delete image;
+  if(camera.StatusIsFatal()){
+	  printf("No good. No camera.\n");
+	  camera.DeleteInstance();
+	  status = false;
+	  camera.
+	  camera.~AxisCamera();
+  } else {
+	  printf("Got the camera\n");
+    ColorImage *image = camera.GetImage();
+    delete image;
+    status = true;
+  }
+  */
 }
 
 // Get the preferred target to shoot at.  Caller is responsible for freeing
 // the returned Target object.
 Target * Camera::GetTarget() {
+  if (status == false){
+	  SetLastGoodTarget(NULL);
+	  return NULL;
+  }
   // Capture image
   ColorImage *image = CaptureImage();
 
@@ -61,6 +75,7 @@ Target * Camera::GetTarget() {
 
   if (particles == NULL) {  // Total Failure!  Bail out returning 0, 0 for angle data
     if (IS_DEBUG_MODE) { printf("#### Total Failure!  No target acquired! Did not set lastGoodTarget to anything new.\n"); }
+    SetLastGoodTarget(NULL);
     return NULL;
   }
 
@@ -69,7 +84,8 @@ Target * Camera::GetTarget() {
   delete particles;
   
   SetLastGoodTarget(target);
-  
+  SmartDashboard::Log(target->GetHorizontalAngle(),"Target Offset");
+  printf("Target Offset:%f\n",target->GetHorizontalAngle());
   return target;
 }
 
@@ -231,9 +247,15 @@ void Camera::OutputThreshold(Threshold *threshold) {
 }
 
 void Camera::OutputParticle(ParticleAnalysisReport *particle) {
-  printf("Particle: #%d W:%d H:%d Area:%0.1f Center:%dx%d %0.1f%%\n", particle->particleIndex,
-         particle->boundingRect.width, particle->boundingRect.height, particle->particleArea,
-         particle->center_mass_x, particle->center_mass_y, particle->particleToImagePercent);
+  printf("Particle: #%d W:%d H:%d (Aspect Ratio:%0.1f) Area:%0.1f Center:%dx%d %0.1f%%\n",
+		 particle->particleIndex,
+         particle->boundingRect.width,
+         particle->boundingRect.height,
+         (float)((float)particle->boundingRect.width/(float)particle->boundingRect.height),
+         particle->particleArea,
+         particle->center_mass_x,
+         particle->center_mass_y,
+         particle->particleToImagePercent);
 }
 
 void Camera::OutputParticles(vector<ParticleAnalysisReport> *particles) {
@@ -258,5 +280,6 @@ void Camera::SetLastGoodTarget(Target *target){
 }
 
 Target * Camera::GetLastGoodTarget(){
+  if(status == NULL) return NULL;
   return lastGoodTarget; // if not lastGoodTarget is not used, it will return NULL
 }

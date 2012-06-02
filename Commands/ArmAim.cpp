@@ -32,6 +32,13 @@ void ArmAim::Initialize() {
   iteration = 0;
 
   angle = -FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
+  
+                          //if the angle is 0.0 or -0.0, set it to -45
+                          //we only now use this for autonomous, so -45 is ok
+  if(angle == 0.0 || angle == -0.0){
+	  angle = -45.0;
+  }
+  
   SmartDashboard::Log(angle, "Angle (Target)");
   SmartDashboard::Log("QUIETING", "Arm State");
   mode = QUIETING;
@@ -54,8 +61,8 @@ void ArmAim::Execute() {
   } else if (mode == MEASURING) {
 	iteration++;
     float currentAngle = accelerometer->GetArmDegree();
-    SmartDashboard::Log(angle, "Angle (Arm)");
-    if (currentAngle < -85.0 || currentAngle > 70.0 || (currentAngle + margin > angle && currentAngle - margin < angle)) {
+    SmartDashboard::Log(currentAngle, "Angle (Arm)");
+    if (currentAngle < -90.0 || currentAngle > 70.0 || (currentAngle + margin > angle && currentAngle - margin < angle)) {
       mode = FINISHED;
       SmartDashboard::Log("FINISHED", "Arm State");
     } else if (currentAngle > angle) { // move forward

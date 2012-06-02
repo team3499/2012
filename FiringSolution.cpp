@@ -62,7 +62,6 @@ float FiringSolution::GetVelocity() {
 void FiringSolution::Recalculate() {
   if (IsValid() && dirty) {
     float g = 9.81;         // gravitational acceleration
-
     //
     // The math is really hard to isolate shooter angle.  Instead, iterate down
     // from 80 degrees until the desired distance is achieved.  The equation:

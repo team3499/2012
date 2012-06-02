@@ -27,8 +27,11 @@ void Turn::Initialize() {
   } else {
 	Target *target = camera->GetTarget();
 	//if we dont have a target, bail out
+	SmartDashboard::Log(target->GetHorizontalAngle(),"Turning offset 2");
 	if (target != NULL){
 		turnTo = chassisGyro->GetDesiredAngle(target->GetHorizontalAngle());
+		SmartDashboard::Log(turnTo,"TurnToAngle init");
+		printf("angle to trn to:%f\n",turnTo);
 	} else {
 		nullTarget = true;
 		return ;
@@ -74,7 +77,7 @@ float Turn::TurnSpeedForAngle(float angle) {
   SmartDashboard::Log(offsetAngle, "Turn Remaining");
   SmartDashboard::Log(speed, "Turn Speed");
 
-  if (offsetAngle >= 15.0) { speed = 0.95; }
+  if (offsetAngle >= 15.0) { speed = 0.85; }
   else if (offsetAngle >= 10.0) { speed = 0.70; }
   else if (offsetAngle >= 5.0) { speed = 0.55; }
 

@@ -1,7 +1,7 @@
 #ifndef ROBOTMAP_H
 #define ROBOTMAP_H
 
-#define IS_DEBUG_MODE   true
+#define IS_DEBUG_MODE   false
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into

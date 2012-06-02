@@ -35,9 +35,9 @@ ArmLevel::~ArmLevel(){
 // Called just before this Command runs the first time
 void ArmLevel::Initialize() {
 	float angle = accelerometer->GetArmDegree();
-	if((angle < angle && angle > -75)){
+	if(angle < this->angle && angle < 80){
 		direction = forward;
-	}else if(angle > angle && angle < 90 ){
+	}else if(this->angle > angle && angle > -75 ){
 		direction = reverse;
 	} else {
 		arm->Stop();
@@ -54,15 +54,15 @@ bool ArmLevel::IsFinished() {
 	
 	switch(direction){
 	case forward: // current angle < target
-		if((angle - angle) > 2) {direction = (ArmLevel::Moving)-direction;}
+		if((this->angle - angle) > 2) {direction = (ArmLevel::Moving)-direction;}
 		// If the arm has gone by the target, switch directions
-		else if(angle > angle) {direction = stopped;}
+		else if(angle > this->angle) {direction = stopped;}
 		else arm->Move(true); // dont care if it is already set. set it anyway
 		// should also change this function to take a directional enum
 		break;
 	case reverse: // current angle > target
-		if((angle - angle) < 2) {direction = (ArmLevel::Moving)-direction;}
-		else if(angle < angle) {direction = stopped;}
+		if((this->angle - angle) < 2) {direction = (ArmLevel::Moving)-direction;}
+		else if(angle < this->angle) {direction = stopped;}
 		// if the arm has gone by the target, switch directions
 		else arm->Move(false); // dont care if it is already set. set it anyway
 		// should also change this function to take a directional enum
