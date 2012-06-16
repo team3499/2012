@@ -24,7 +24,7 @@ private:
     
     //SmartDashboard::init();
     CommandBase::init();
-    autonomousCommand = new AutoGroup();
+    //autonomousCommand = new AutoGroup();
     //SmartDashboard sd = SmartDashboard::GetInstance();
   }
   
@@ -37,7 +37,7 @@ private:
   }
   
   virtual void TeleopInit() {
-    autonomousCommand->Cancel();
+    //autonomousCommand->Cancel();
   }
   
   virtual void TeleopPeriodic(){

@@ -33,6 +33,7 @@ public:
   Target * SelectPreferredTarget(vector<ParticleAnalysisReport> *particles);
 
 private:
+  bool isGood;
   Target *lastGoodTarget;
   void SetLastGoodTarget(Target *target);
   
