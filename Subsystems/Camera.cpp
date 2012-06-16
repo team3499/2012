@@ -280,6 +280,6 @@ void Camera::SetLastGoodTarget(Target *target){
 }
 
 Target * Camera::GetLastGoodTarget(){
-  if(status == NULL) return NULL;
+  if(status == false) return NULL;
   return lastGoodTarget; // if not lastGoodTarget is not used, it will return NULL
 }

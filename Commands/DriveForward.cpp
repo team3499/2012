@@ -12,7 +12,7 @@ DriveForward::DriveForward(double duration, float speed, bool keepGoing) {
 
 void DriveForward::Initialize() {
   timer->Start();
-  chassis->TankDrive(speed, speed);
+  chassis->TankDrive(-speed, speed);
 }
 
 void DriveForward::Execute() {
