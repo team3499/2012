@@ -1,21 +1,50 @@
 #include "ArmLevel.h"
 #include "WPILib.h"
+#include "FiringSolution.h"
+
+#define max(a,b) ((a > b) ? (a) : (b))
+#define min(a,b) ((a < b) ? (a) : (b))
 
 ArmLevel::ArmLevel(float targ)
 {
 	// Use requires() here to declare subsystem dependencies
 	Requires(arm);
 	Requires(accelerometer);
-	target = targ;
-	direction = (accelerometer->GetArmDegree() > target)? reverse : forward ;
+	this->angle = targ;
+	target = NULL;
+	direction = (accelerometer->GetArmDegree() > this->angle)? reverse : forward ;
+}
+
+
+ArmLevel::ArmLevel()
+{
+	// Use requires() here to declare subsystem dependencies
+	Requires(arm);
+	Requires(accelerometer);
+	Requires(camera);
+	if (camera->GetLastGoodTarget() == NULL) {
+	  target = new Target(Target::Middle);
+	} else {
+	  target = new Target(camera->GetLastGoodTarget()->GetIdentifier());
+	}
+	angle = -FiringSolution((float)(rangefinder->GetDistance()), *target).GetAngle();
+	  
+	direction = (accelerometer->GetArmDegree() > angle)? reverse : forward ;
+}
+
+ArmLevel::~ArmLevel(){
+	  delete target;
+	  target = NULL;
 }
 
 // Called just before this Command runs the first time
 void ArmLevel::Initialize() {
+	this->angle = min(80, this->angle);
+	this->angle = max(-75, this->angle);
 	float angle = accelerometer->GetArmDegree();
-	if((angle < target && angle > -75)){
+	if((angle < this->angle && angle < 80)){
 		direction = forward;
-	}else if(angle > target && angle < 90 ){
+	}else if(angle < this->angle && angle > -75 ){
 		direction = reverse;
 	} else {
 		arm->Stop();
@@ -32,17 +61,17 @@ bool ArmLevel::IsFinished() {
 	
 	switch(direction){
 	case forward: // current angle < target
-		if((angle - target) > 2) {direction = (ArmLevel::Moving)-direction;}
+		if((angle - this->angle) > 2) {direction = (ArmLevel::Moving)-direction;}
 		// If the arm has gone by the target, switch directions
-		else if(angle > target) {direction = stopped;}
-		else arm->Move(true); // dont care if it is already set. set it anyway
+		else if(angle > this->angle) {direction = stopped;}
+		else arm->Move(false); // dont care if it is already set. set it anyway
 		// should also change this function to take a directional enum
 		break;
 	case reverse: // current angle > target
-		if((angle - target) < 2) {direction = (ArmLevel::Moving)-direction;}
-		else if(angle < target) {direction = stopped;}
+		if((angle - this->angle) < 2) {direction = (ArmLevel::Moving)-direction;}
+		else if(angle < this->angle) {direction = stopped;}
 		// if the arm has gone by the target, switch directions
-		else arm->Move(false); // dont care if it is already set. set it anyway
+		else arm->Move(true); // dont care if it is already set. set it anyway
 		// should also change this function to take a directional enum
 		break;
 	case stopped:
@@ -64,3 +93,16 @@ void ArmLevel::End() {
 void ArmLevel::Interrupted() {
 	End();
 }
+
+
+//
+//move(false)
+//
+//     +===+
+//     |   | ->
+//     +===+
+//       |
+//       |
+//  +=========+
+//  |R       F|
+//  +=========+
