@@ -28,7 +28,8 @@ static bool isTallParticle(ParticleAnalysisReport particle) {
 Camera::Camera() :
   Subsystem("Camera")
 {
-  isGood = false;
+  lastGoodTarget = NULL;
+  isGood = true;
   if(!isGood){
 	  return;
   }

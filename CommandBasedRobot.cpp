@@ -1,6 +1,6 @@
 /* Include Standerd C Libs */
-/* Include WPILib Headers */
 using namespace std;
+/* Include WPILib Headers */
 #include "WPILib.h"
 #include "DigitalOutput.h"
 /* Include Custom Headers */
@@ -23,8 +23,8 @@ private:
     //Wait(.2);
     
     //SmartDashboard::init();
-    CommandBase::init();
-    //autonomousCommand = new AutoGroup();
+    CommandBase::init();	
+    autonomousCommand = new AutoGroup();
     //SmartDashboard sd = SmartDashboard::GetInstance();
   }
   
@@ -68,8 +68,7 @@ private:
     }
 */
     if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-      delete autonomousCommand;
-      autonomousCommand = NULL; //useless, but good practice anyway
+      delete autonomousCommand; autonomousCommand = NULL;
       autonomousCommand = new AutoGroup();
       autonomousCommand->Start();
     }

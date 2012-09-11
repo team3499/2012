@@ -18,7 +18,7 @@
 #define TEST_MSG(S,...)
 #endif
 
-class Camera: public Subsystem {
+class Camera: public Subsystem { 
 
 public:
   Camera();

@@ -27,7 +27,7 @@ public:
   float GetRimHeight();   // Rim height in meters
   float GetArcHeight();   // Recommended shooting arc height in meters
   int GetPointValue();    // Point value for scoring on this target
-  ID GetIdentifier();     // The target
+  Target::ID GetIdentifier();     // The target
 
   float GetHorizontalAngle();  // The amount to turn to center the target
   void SetHorizontalAngle(float angle);
