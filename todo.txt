@@ -1,0 +1,7 @@
+Todo/notes:
+
+Do we really need the cameraDefault, or is it there just to confuse people?
+
+should we make a Joystick array in OI?
+should we make the Joysticks private?
+really need 6 defines for the JSs? chop out the middle two?

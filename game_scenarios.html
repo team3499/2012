@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Game Scenarios</title>
+ </head>
+ <body style="margin:2em; font-family:sans-serif;">
+  <h3 style="text-align:center;">Game Scenarios</h3>
+  <h4>Hybrid Phase Shooting</h4>
+  <ol>
+   <li>The robot performs the autonomous shooting operation.</li>
+   <li>If there is a ball in the magazine, the robot loads it into the shooter, and then performs the hybrid phase, shooting operation again.</li>
+  </ol>
+  <h4>Loading a Ball into the Shooter</h4>
+  <ol>
+   <li>There's a ball in the magazine and no ball in the shooter.</li>
+   <li>The robot runs both the magazine belts and the shooter belts outward at the same time and at the same speed until the ball closes a switch at the magazine end of the shooter.</li>
+  </ol>
+  <h4>Storing a Ball in the Magazine</h4>
+  <ol>
+   <li>There's a ball at the magazine end of the shooter holding a switch there closed.</li>
+   <li>The robot runs both the magazine belts and the shooter belts inward at the same time and at the same speed for a duration predetermined to be enough to move a ball from the end of the shooter into the magazine. Note that any balls already in the magazine will be moved away from the shooter as the ball from the shooter is moved into the magazine.</li>
+  </ol>
+  <h4>Picking Up a Ball</h4>
+  <ol>
+   <li>The operator positions the robot so that a ball is in front of it.</li>
+   <li>If there is a ball in the shooter, the operator presses a button on the shooter joystick commanding the robot to store the ball in the magazine.</li>
+   <li>Using the shooter joystick, the operator lowers the shooter so that the end captures the ball.</li>
+   <li>The operator presses a button on the shooter joystick to command the robot to pick up the ball.</li>
+   <li>The robot runs the shooter belts inward until the ball closes the switch at the magazine end of the shooter. The operator can reposition the shooter while its belts are running if needed to grab the ball.</li>
+  </ol>
+  <h4>Teleoperation Phase Shooting</h4>
+  <ol>
+   <li>The operator drives the robot to a place in range of the baskets and aims the shooter at the targets well enough that the entire bottom rectangle is in the camera's view.</li>
+   <li>The operator presses a button, for one of the baskets, on the shooter joystick commanding the robot to aim and shoot.</li>
+   <li>The robot performs its autonomous shooting operation.</li>
+  </ol>
+  <h4>Autonomous Shooting</h4>
+  <ol>
+   <li>There is a ball in the shooter.</li>
+   <li>The entire bottom target rectangle is in the camera's view.</li>
+   <li>An image is captured from the camera and processed to locate the bottom rectangle within the image.</li>
+   <li>The distance to the backstop is determined from the rangefinder. Rangefinder measurements that are too far from a distance determined by the size of the bottom rectangle in the image are rejected.</li>
+   <li>Using the target location and distance, the robot turns the calculated angle required to aim the shooter at the basket, during which, the gyro provides feedback for the controlled turning. Gyro readings that give relative angles unrealistically different from the last known valid azimuth are rejected.</li>
+   <li>The distance to the backstop is measured again.</li>
+   <li>Using the distance to the backstop and the height of the target basket, the robot moves the shooter to the calculated elevation, during which the accelerometer provides feedback for the controlled arm movement, then shoots the ball by running the shooter's motors at the calculated speed and duration. Accelerometer readings that give shooter elevations unrealistically different from the last known valid angle are rejected.</li>
+  </ol>
+  <h4>Operator Shooting</h4>
+  <ol>
+   <li>There is a ball in the shooter.</li>
+   <li>The operator drives the robot to some distance from the target, aims the robot at the target, and adjusts the shooter's elevation with the shooter joystick.</li>
+   <li>The operator commands the robot to shoot at one of a few pre-selected speeds by pressing the associated button on the joystick.</li>
+   <li>The robot shoots the ball by running the shooter's motors at the pre-selected speed and duration.</li>
+  </ol>
+  <h4>Driving onto a Bridge</h4>
+  <ol>
+   <li>The operator drives the robot up to an end of a bridge.</li>
+   <li>Using the shooter joystick, the operator lowers the shooter to push down on the end of the bridge.</li>
+   <li>The operator drives the robot forward onto the bridge raising the shooter as the robot climbs onto the end of the bridge.</li>
+  </ol>
+  <hr>
+  <p style="text-align:right"><i>2012 FIRST Robotics Competition Team 3499</i></p>
+ </body>
+</html>
