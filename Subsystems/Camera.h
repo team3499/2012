@@ -18,7 +18,7 @@
 #define TEST_MSG(S,...)
 #endif
 
-class Camera: public Subsystem {
+class Camera: public Subsystem { 
 
 public:
   Camera();
@@ -35,6 +35,7 @@ public:
   Target * SelectPreferredTarget(vector<ParticleAnalysisReport> *particles);
 
 private:
+  bool isGood;
   Target *lastGoodTarget;
   void SetLastGoodTarget(Target *target);
   

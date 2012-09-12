@@ -1,6 +1,6 @@
 /* Include Standerd C Libs */
-/* Include WPILib Headers */
 using namespace std;
+/* Include WPILib Headers */
 #include "WPILib.h"
 #include "DigitalOutput.h"
 /* Include Custom Headers */
@@ -24,7 +24,7 @@ private:
     //Wait(.2);
     
     //SmartDashboard::init();
-    CommandBase::init();
+    CommandBase::init();	
     autonomousCommand = new AutoGroup();
 //delete autonomousCommand;
 //autonomousCommand = new ArmLevel(0.0);
@@ -40,9 +40,7 @@ private:
   }
   
   virtual void TeleopInit() {
-    autonomousCommand->Cancel();
-    delete autonomousCommand;
-    autonomousCommand = NULL;
+    //autonomousCommand->Cancel();
   }
   
   virtual void TeleopPeriodic(){
@@ -72,34 +70,11 @@ private:
       new ShootGroup();
     }
 */
-/*    if (CommandBase::GetOIInstance()->GetRawButton(1,8) || CommandBase::GetOIInstance()->GetRawButton(1,9) ||  
-    		CommandBase::GetOIInstance()->GetRawButton(2,8) || CommandBase::GetOIInstance()->GetRawButton(2,9)){
-    	autonomousCommand->Cancel();
-    	delete autonomousCommand;
-    	autonomousCommand = NULL;
-    	autonomousCommand = new AutoGroup();
-    }
-    */
- /*   if (CommandBase::GetOIInstance()->GetRawButton(1,6) || CommandBase::GetOIInstance()->GetRawButton(1,7) || CommandBase::GetOIInstance()->GetRawButton(1,11) || CommandBase::GetOIInstance()->GetRawButton(1,10) || 
-    		CommandBase::GetOIInstance()->GetRawButton(2,6) || CommandBase::GetOIInstance()->GetRawButton(2,7) || CommandBase::GetOIInstance()->GetRawButton(2,11) || CommandBase::GetOIInstance()->GetRawButton(2,10)){
-    	if(autonomousCommand != NULL && autonomousCommand->IsRunning()){
-    		autonomousCommand->Cancel();
-    	}
-    	if(autonomousCommand!= NULL){
-    		delete autonomousCommand;
-    		autonomousCommand = NULL;
-    	}
-    	autonomousCommand = new StopAll(false);//dont stop. CHECK THIS
-    	autonomousCommand->Start();
-    }
-*/
-/*    if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
-      delete autonomousCommand;
-      autonomousCommand = NULL; //useless, but good practice anyway
+    if (CommandBase::GetOIInstance()->GetRawButton(1,1) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
+      delete autonomousCommand; autonomousCommand = NULL;
       autonomousCommand = new AutoGroup();
       autonomousCommand->Start();
     }
-    */
     //if (CommandBase::GetOIInstance()->GetRawButton(1,3) && !autonomousCommand->IsRunning()){// && turn->IsRunning()){
     //  autonomousCommand = new DAG();
     //  autonomousCommand->Start();

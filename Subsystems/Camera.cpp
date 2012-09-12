@@ -33,6 +33,11 @@ static bool isNotWideRectParticle(ParticleAnalysisReport particle) {
 Camera::Camera() :
   Subsystem("Camera")
 {
+  lastGoodTarget = NULL;
+  isGood = true;
+  if(!isGood){
+	  return;
+  }
   // Set adaptive thresholds.
   thresholds[0] = new Threshold(190, 255, 70, 255, 70, 255);
   thresholds[1] = new Threshold(180, 255, 65, 255, 65, 255);
@@ -62,9 +67,9 @@ Camera::Camera() :
 // Get the preferred target to shoot at.  Caller is responsible for freeing
 // the returned Target object.
 Target * Camera::GetTarget() {
-  if (status == false){
-	  SetLastGoodTarget(NULL);
-	  return NULL;
+  if(!isGood){
+	SetLastGoodTarget(NULL);
+    return NULL;
   }
   // Capture image
   ColorImage *image = CaptureImage();
